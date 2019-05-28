@@ -13,6 +13,10 @@ namespace WebApp.Persistence.UnitOfWork
         IPricelistItemRepository PricelistItems { get; set; }
         ITicketRepository Tickets { get; set; }
 
+        IStationRepository Stations { get; set; }
+        IDrivelineRepository Drivelines { get; set; }
+        IDrivingPlanRepository DrivingPlans { get; set; }
+
         int Complete();
     }
 }
