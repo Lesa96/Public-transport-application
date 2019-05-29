@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -16,6 +17,8 @@ namespace WebApp.Models
     public class ApplicationUser : IdentityUser
     {
         public PassengerType PassengerType { get; set; }
+        [ForeignKey("TicketId")]
+        public IEnumerable<Ticket> Tickets { get; set; }
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager, string authenticationType)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
