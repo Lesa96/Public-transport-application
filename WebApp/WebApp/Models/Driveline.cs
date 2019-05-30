@@ -11,8 +11,7 @@ namespace WebApp.Models
         public int Id { get; set; }
         public int Number { get; set; }
 
-        [ForeignKey("Id")]
-        public List<Station> Stations { get; set; }
+        public virtual List<Station> Stations { get; set; }
 
         public Driveline()
         {

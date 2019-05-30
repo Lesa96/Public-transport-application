@@ -8,7 +8,7 @@ namespace WebApp.Models.Enums
     public enum DriveType
     {
         City = 1,
-        AroundCity
+        Suburban
         
     }
 }

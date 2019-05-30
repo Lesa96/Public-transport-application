@@ -13,8 +13,8 @@ namespace WebApp.Models
         public WeekDays Day { get; set; }
         public DriveType Type { get; set; }
 
-        [ForeignKey("Id")]
-        public List<Driveline> Line { get; set; }
+        //[ForeignKey("Id")]
+        public virtual List<Driveline> Line { get; set; }
         
 
         public DrivingPlan()

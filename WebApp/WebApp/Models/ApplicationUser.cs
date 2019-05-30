@@ -17,7 +17,6 @@ namespace WebApp.Models
     public class ApplicationUser : IdentityUser
     {
         public PassengerType PassengerType { get; set; }
-        [ForeignKey("TicketId")]
         public IEnumerable<Ticket> Tickets { get; set; }
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager, string authenticationType)
         {

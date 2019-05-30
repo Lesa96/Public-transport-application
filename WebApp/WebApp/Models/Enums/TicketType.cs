@@ -7,7 +7,7 @@ namespace WebApp.Models.Enums
 {
     public enum TicketType
     {
-        Time,
+        OneHourTicket,
         Daily,
         Monthly,
         Annual

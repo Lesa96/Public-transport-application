@@ -11,10 +11,12 @@ namespace WebApp.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Address { get; set; }
-        public string Coordinates { get; set; }         //ovo promeniti
+        public int CoordinatesId { get; set; }
 
-        [ForeignKey("Id")]
-        public List<Driveline> Drivelines { get; set; }
+        [ForeignKey("CoordinatesId")]
+        public Coordinates Coordinates { get; set; }
+
+        public virtual List<Driveline> Drivelines { get; set; }
 
         public Station()
         {
