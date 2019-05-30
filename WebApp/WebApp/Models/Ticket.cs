@@ -12,8 +12,8 @@ namespace WebApp.Models
         public DateTime TimeOfPurchase { get; set; }
 
         public int TicketInfoId { get; set; }
-        public int PassengerId { get; set; }
-        public int ControllerId { get; set; }
+        public string PassengerId { get; set; }
+        public string ControllerId { get; set; }
   
         [ForeignKey("TicketInfoId")]
         public  PricelistItem TicketInfo { get; set; }
