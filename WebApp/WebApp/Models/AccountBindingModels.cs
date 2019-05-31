@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
+using WebApp.Models.Enums;
 
 namespace WebApp.Models
 {
@@ -86,14 +87,14 @@ namespace WebApp.Models
     {
         [Required]
         [Display(Name ="Drive plan type")]
-        public string DrivePlanType { get; set; }
+        public DriveType DrivePlanType { get; set; }
 
         [Required]
         [Display(Name = "Drive plan day")]
-        public string DrivePlanDay { get; set; }
+        public WeekDays DrivePlanDay { get; set; }
 
         [Required]
         [Display(Name = "Drive line number")]
-        public string DriveLineNumber { get; set; }
+        public int DriveLineNumber { get; set; }
     }
 }
