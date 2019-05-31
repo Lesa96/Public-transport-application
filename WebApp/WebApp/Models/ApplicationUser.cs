@@ -18,7 +18,11 @@ namespace WebApp.Models
     {
         public PassengerType PassengerType { get; set; }
         public IEnumerable<Ticket> Tickets { get; set; }
+        public bool IsVerified { get; set; }
+        public List<string> ImageDocument { get; set; }
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager, string authenticationType)
+        
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, authenticationType);

@@ -259,16 +259,22 @@
     <Compile Include="Migrations\201905222056072_InitialMigration.Designer.cs">
       <DependentUpon>201905222056072_InitialMigration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905311617571_Added Models.cs" />
+    <Compile Include="Migrations\201905311617571_Added Models.Designer.cs">
+      <DependentUpon>201905311617571_Added Models.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
+    <Compile Include="Models\Coordinates.cs" />
     <Compile Include="Models\Driveline.cs" />
     <Compile Include="Models\DrivingPlan.cs" />
     <Compile Include="Models\Enums\DriveTypeEnum.cs" />
     <Compile Include="Models\Enums\PassengerType.cs" />
     <Compile Include="Models\Enums\TicketType.cs" />
     <Compile Include="Models\Enums\WeekDaysEnum.cs" />
+    <Compile Include="Models\PassengerTypeCoefficient.cs" />
     <Compile Include="Models\Pricelist.cs" />
     <Compile Include="Models\PricelistItem.cs" />
     <Compile Include="Models\Station.cs" />
@@ -390,6 +396,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201905222056072_InitialMigration.resx">
       <DependentUpon>201905222056072_InitialMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905311617571_Added Models.resx">
+      <DependentUpon>201905311617571_Added Models.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

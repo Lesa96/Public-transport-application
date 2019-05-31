@@ -14,7 +14,8 @@ namespace WebApp.Models
         public int TicketInfoId { get; set; }
         public string PassengerId { get; set; }
         public string ControllerId { get; set; }
-  
+        public bool IsCanceled { get; set; }
+
         [ForeignKey("TicketInfoId")]
         public  PricelistItem TicketInfo { get; set; }
         [ForeignKey("PassengerId")]
