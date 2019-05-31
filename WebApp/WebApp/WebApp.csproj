@@ -263,12 +263,14 @@
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
+    <Compile Include="Models\Coordinates.cs" />
     <Compile Include="Models\Driveline.cs" />
     <Compile Include="Models\DrivingPlan.cs" />
     <Compile Include="Models\Enums\DriveTypeEnum.cs" />
     <Compile Include="Models\Enums\PassengerType.cs" />
     <Compile Include="Models\Enums\TicketType.cs" />
     <Compile Include="Models\Enums\WeekDaysEnum.cs" />
+    <Compile Include="Models\PassengerTypeCoefficient.cs" />
     <Compile Include="Models\Pricelist.cs" />
     <Compile Include="Models\PricelistItem.cs" />
     <Compile Include="Models\Station.cs" />
