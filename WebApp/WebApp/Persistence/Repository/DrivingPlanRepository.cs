@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using WebApp.Models;
+using WebApp.Models.Enums;
 
 namespace WebApp.Persistence.Repository
 {
@@ -14,5 +15,17 @@ namespace WebApp.Persistence.Repository
         public DrivingPlanRepository(DbContext context) : base(context)
         {
         }
+
+        public IEnumerable<DrivingPlan> GetAllDrivingPlans()
+        {
+           return AppDbContext.DrivingPlans;
+        }
+
+        public DrivingPlan GetSpecificDrivingPlan(DriveType driveType, WeekDays day, int lineNumber)
+        {
+            return AppDbContext.DrivingPlans.Where(x => x.Type == driveType && x.Day == day).FirstOrDefault(); //sve linije za odredjeni dan i tip
+        }
+
+
     }
 }

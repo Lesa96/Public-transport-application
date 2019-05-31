@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using WebApp.Models;
+using WebApp.Models.Enums;
 
 namespace WebApp.Persistence.Repository
 {
@@ -14,6 +15,9 @@ namespace WebApp.Persistence.Repository
 
         public DrivelineRepository(DbContext context) : base(context)
         {
+
         }
+
+        
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
+using WebApp.Models.Enums;
 
 namespace WebApp.Models
 {
@@ -80,5 +81,20 @@ namespace WebApp.Models
         [Display(Name = "Confirm new password")]
         [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+    }
+
+    public class GetDrivingPlanBindingModel
+    {
+        [Required]
+        [Display(Name ="Drive plan type")]
+        public DriveType DrivePlanType { get; set; }
+
+        [Required]
+        [Display(Name = "Drive plan day")]
+        public WeekDays DrivePlanDay { get; set; }
+
+        [Required]
+        [Display(Name = "Drive line number")]
+        public int DriveLineNumber { get; set; }
     }
 }
