@@ -9,5 +9,6 @@ namespace WebApp.Persistence.Repository
 {
     public interface IDrivingPlanRepository : IRepository<DrivingPlan,int>
     {
+        IEnumerable<DrivingPlan> GetAllDrivingPlans();
     }
 }

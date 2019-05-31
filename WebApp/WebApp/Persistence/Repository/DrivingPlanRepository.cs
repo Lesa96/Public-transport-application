@@ -14,5 +14,10 @@ namespace WebApp.Persistence.Repository
         public DrivingPlanRepository(DbContext context) : base(context)
         {
         }
+
+        public IEnumerable<DrivingPlan> GetAllDrivingPlans()
+        {
+           return AppDbContext.DrivingPlans;
+        }
     }
 }

@@ -81,4 +81,19 @@ namespace WebApp.Models
         [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
     }
+
+    public class GetDrivingPlanBindingModel
+    {
+        [Required]
+        [Display(Name ="Drive plan type")]
+        public string DrivePlanType { get; set; }
+
+        [Required]
+        [Display(Name = "Drive plan day")]
+        public string DrivePlanDay { get; set; }
+
+        [Required]
+        [Display(Name = "Drive line number")]
+        public string DriveLineNumber { get; set; }
+    }
 }
