@@ -15,7 +15,12 @@ namespace WebApp.Controllers
     {
         private readonly IUnitOfWork unitOfWork;
 
-        //GET / DrivingPlan / GetDrivingPlan?type=City&day=Monday&drivelineNumber=1
+        public DrivingPlanController(IUnitOfWork un)
+        {
+            unitOfWork = un;
+        }
+
+        //GET / DrivingPlan / GetDrivingPlan? ...
         [HttpGet]
         [Route("GetDrivingPlanLine")]
         public IHttpActionResult GetDrivingPlanLine (GetDrivingPlanBindingModel model)
