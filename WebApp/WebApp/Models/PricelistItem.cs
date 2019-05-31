@@ -19,6 +19,6 @@ namespace WebApp.Models
         [ForeignKey("PricelistId")]
         public Pricelist Pricelist { get; set; }
         [ForeignKey("PassengerTypeCoefficientId")]
-        public PassengerTypeCoefficient TicketTypeCoefficient { get; set; }
+        public PassengerTypeCoefficient PassengerTypeCoefficient { get; set; }
     }
 }

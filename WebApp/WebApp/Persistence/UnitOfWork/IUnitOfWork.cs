@@ -12,6 +12,8 @@ namespace WebApp.Persistence.UnitOfWork
         IPricelistRepository Pricelists { get; set; }
         IPricelistItemRepository PricelistItems { get; set; }
         ITicketRepository Tickets { get; set; }
+        IPassengerTypeCoefficientRepository PassengerTypeCoefficients { get; set; }
+        IApplicationUserRepository ApplicationUsers { get; set; }
 
         IStationRepository Stations { get; set; }
         IDrivelineRepository Drivelines { get; set; }

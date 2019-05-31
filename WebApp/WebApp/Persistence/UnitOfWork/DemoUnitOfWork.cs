@@ -29,6 +29,10 @@ namespace WebApp.Persistence.UnitOfWork
         public IDrivelineRepository Drivelines { get ; set ; }
         [Dependency]
         public IDrivingPlanRepository DrivingPlans { get ; set; }
+        [Dependency]
+        public IPassengerTypeCoefficientRepository PassengerTypeCoefficients { get; set; }
+        [Dependency]
+        public IApplicationUserRepository ApplicationUsers { get; set; }
 
         public int Complete()
         {
