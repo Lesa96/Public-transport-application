@@ -20,7 +20,7 @@ namespace WebApp.Models
 
         public Station()
         {
-
+            Drivelines = new List<Driveline>();
         }
     }
 }

@@ -18,6 +18,9 @@ namespace WebApp.Persistence
         public DbSet<DrivingPlan> DrivingPlans { get; set; }
         public DbSet<Driveline> DriveLines { get; set; }
         public DbSet<Station> Stations { get; set; }
+        public DbSet<PassengerTypeCoefficient> PassengerTypeCoefficients { get; set; }
+        public DbSet<Coordinates> Coordinates { get; set; }
+        
 
         public ApplicationDbContext()
             : base("name=DefaultConnection", throwIfV1Schema: false)
