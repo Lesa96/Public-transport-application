@@ -68,7 +68,7 @@ namespace WebApp.Migrations
             }
 
 
-            InitialDBAdding(context); //dodaje neke pocetne vrednosti u bazi
+            InitialDBAdding(context); //dodaje neke pocetne vrednosti u bazi 
         }
 
         private void InitialDBAdding(WebApp.Persistence.ApplicationDbContext context)
