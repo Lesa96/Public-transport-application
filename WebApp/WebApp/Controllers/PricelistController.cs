@@ -14,6 +14,7 @@ namespace WebApp.Controllers
     {
         private readonly IUnitOfWork unitOfWork;
 
+        
         public PricelistController(IUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
