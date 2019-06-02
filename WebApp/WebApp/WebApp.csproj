@@ -276,6 +276,7 @@
     <Compile Include="Models\Enums\DriveTypeEnum.cs" />
     <Compile Include="Models\Enums\PassengerType.cs" />
     <Compile Include="Models\Enums\TicketType.cs" />
+    <Compile Include="Models\Enums\VerificationStatus.cs" />
     <Compile Include="Models\Enums\WeekDaysEnum.cs" />
     <Compile Include="Models\PassengerTypeCoefficient.cs" />
     <Compile Include="Models\Pricelist.cs" />
@@ -286,9 +287,11 @@
     <Compile Include="Models\TicketBindingModels.cs" />
     <Compile Include="Persistence\ApplicationDbContext.cs" />
     <Compile Include="Persistence\Repository\ApplicationUserRepository.cs" />
+    <Compile Include="Persistence\Repository\CoordinatesRepository.cs" />
     <Compile Include="Persistence\Repository\DrivelineRepository.cs" />
     <Compile Include="Persistence\Repository\DrivingPlanRepository.cs" />
     <Compile Include="Persistence\Repository\IApplicationUserRepository.cs" />
+    <Compile Include="Persistence\Repository\ICoordinatesRepository.cs" />
     <Compile Include="Persistence\Repository\IDrivelineRepository.cs" />
     <Compile Include="Persistence\Repository\IDrivingPlanRepository.cs" />
     <Compile Include="Persistence\Repository\IPassengerTypeCoefficientRepository.cs" />

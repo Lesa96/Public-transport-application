@@ -25,7 +25,7 @@ namespace WebApp.Persistence.Repository
         { 
             var activePricelist = GetPricelistItemsFromActivePricelist(currentTime);
             return activePricelist.Where(item => item.TicketType == ticketType
-                                    && item.PassengerTypeCoefficient.PassengerType == passengerType)
+                                    && item.PassengerType == passengerType)
                                     .FirstOrDefault();
         }
 

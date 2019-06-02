@@ -12,13 +12,13 @@ namespace WebApp.Models
         public int PricelistItemId { get; set; }
 
         public TicketType TicketType { get; set; }
-        public int PassengerTypeCoefficientId { get; set; }
+        public PassengerType PassengerType { get; set; }
         public int Price { get; set; }
         public int PricelistId { get; set; }
 
         [ForeignKey("PricelistId")]
         public Pricelist Pricelist { get; set; }
-        [ForeignKey("PassengerTypeCoefficientId")]
-        public PassengerTypeCoefficient PassengerTypeCoefficient { get; set; }
+        //[ForeignKey("PassengerTypeCoefficientId")]
+        //public PassengerTypeCoefficient PassengerTypeCoefficient { get; set; }
     }
 }

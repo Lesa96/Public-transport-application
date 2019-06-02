@@ -33,6 +33,8 @@ namespace WebApp.Persistence.UnitOfWork
         public IPassengerTypeCoefficientRepository PassengerTypeCoefficients { get; set; }
         [Dependency]
         public IApplicationUserRepository ApplicationUsers { get; set; }
+        [Dependency]
+        public ICoordinatesRepository CoordinatesRepository { get; set; }
 
         public int Complete()
         {

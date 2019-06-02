@@ -84,9 +84,8 @@ namespace WebApp.Migrations
             drivingPlan.Line.Add(driveline);
 
             Pricelist pricelist = new Pricelist() {PricelistId = 1, ValidFrom = DateTime.Now, ValidUntil = DateTime.Now.AddDays(2) };
-            PricelistItem pricelistItem = new PricelistItem() {PricelistItemId = 1, TicketType = Models.Enums.TicketType.Daily, Price = 200, PricelistId = pricelist.PricelistId };
+            PricelistItem pricelistItem = new PricelistItem() {PricelistItemId = 1, TicketType = Models.Enums.TicketType.Daily, Price = 200, PricelistId = pricelist.PricelistId, PassengerType = Models.Enums.PassengerType.Regular };
             PassengerTypeCoefficient passengerTypeCoefficient = new PassengerTypeCoefficient() {PassengerTypeCoefficientId = 1, Coefficient = 0.9F, PassengerType = Models.Enums.PassengerType.Regular };
-            pricelistItem.PassengerTypeCoefficientId = passengerTypeCoefficient.PassengerTypeCoefficientId;
            // pricelist.PricelistItems.Add(pricelistItem);  //ovde je neki problem, treba ovo ispitati
 
             Ticket ticket = new Ticket() {TicketId = 1, IsCanceled = false, TicketInfoId = pricelistItem.PricelistItemId, TimeOfPurchase = DateTime.Now };

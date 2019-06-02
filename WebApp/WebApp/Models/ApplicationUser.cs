@@ -18,7 +18,7 @@ namespace WebApp.Models
     {
         public PassengerType PassengerType { get; set; }
         public IEnumerable<Ticket> Tickets { get; set; }
-        public bool IsVerified { get; set; }
+        public VerificationStatus VerificationStatus { get; set; }
         public List<string> ImageDocument { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager, string authenticationType)
