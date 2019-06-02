@@ -11,7 +11,7 @@ namespace WebApp.Persistence
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        //public DbSet<ApplicationUser> Users { get; set; }
         public DbSet<Coordinates> Coordinates { get; set; }
         public DbSet<Driveline> DriveLines { get; set; }
         public DbSet<DrivingPlan> DrivingPlans { get; set; }

@@ -16,11 +16,11 @@ namespace WebApp.Models
         [ForeignKey("CoordinatesId")]
         public Coordinates Coordinates { get; set; }
 
-        public virtual List<Driveline> Drivelines { get; set; }
+        public virtual ICollection<Driveline> Drivelines { get; set; }
 
         public Station()
         {
-            Drivelines = new List<Driveline>();
+            Drivelines = new HashSet<Driveline>();
         }
     }
 }

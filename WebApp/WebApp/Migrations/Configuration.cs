@@ -75,30 +75,29 @@ namespace WebApp.Migrations
         {
             Coordinates coordinates = new Coordinates() { CoordinatesId = 1,CoordX = 1, CoordY = 1 };
 
-            Station station = new Station() {Id = 1, Address = "Prva Adresa", CoordinatesId = coordinates.CoordinatesId, Name = "Prva stanica" };
-            Driveline driveline = new Driveline() {Id = 1, Number = 1 };
+            DrivingPlan drivingPlan = new DrivingPlan() {Id = 1, Day = Models.Enums.WeekDays.Monday, Type = Models.Enums.DriveType.City };
+            Station station = new Station() {Id = 1, Address = "TestAddress", CoordinatesId = 1, Name = "TestName" };
+            Driveline driveline = new Driveline() {Id = 1, Number = 1, DrivingPlanId = 1 };
             driveline.Stations.Add(station);
             station.Drivelines.Add(driveline);
 
-            DrivingPlan drivingPlan = new DrivingPlan() {Id = 1, Day = Models.Enums.WeekDays.Monday, Type = Models.Enums.DriveType.City };
-            drivingPlan.Line.Add(driveline);
 
             Pricelist pricelist = new Pricelist() {PricelistId = 1, ValidFrom = DateTime.Now, ValidUntil = DateTime.Now.AddDays(2) };
-            PricelistItem pricelistItem = new PricelistItem() {PricelistItemId = 1, TicketType = Models.Enums.TicketType.Daily, Price = 200, PricelistId = pricelist.PricelistId, PassengerType = Models.Enums.PassengerType.Regular };
+            PricelistItem pricelistItem = new PricelistItem() {PricelistItemId = 1, TicketType = Models.Enums.TicketType.Daily, Price = 200, PricelistId = 1, PassengerType = Models.Enums.PassengerType.Regular };
             PassengerTypeCoefficient passengerTypeCoefficient = new PassengerTypeCoefficient() {PassengerTypeCoefficientId = 1, Coefficient = 0.9F, PassengerType = Models.Enums.PassengerType.Regular };
            // pricelist.PricelistItems.Add(pricelistItem);  //ovde je neki problem, treba ovo ispitati
 
-            Ticket ticket = new Ticket() {TicketId = 1, IsCanceled = false, TicketInfoId = pricelistItem.PricelistItemId, TimeOfPurchase = DateTime.Now };
+            Ticket ticket = new Ticket() {TicketId = 1, IsCanceled = false, TicketInfoId = 1, TimeOfPurchase = DateTime.Now };
 
             context.Coordinates.AddOrUpdate(coordinates);
+            context.DrivingPlans.AddOrUpdate(drivingPlan);
             context.Stations.AddOrUpdate(station);
             context.DriveLines.AddOrUpdate(driveline);
-            context.DrivingPlans.AddOrUpdate(drivingPlan);
             
+            context.Pricelists.AddOrUpdate(pricelist);
             context.PricelistItems.AddOrUpdate(pricelistItem);
             
             context.PassengerTypeCoefficients.AddOrUpdate(passengerTypeCoefficient);
-            context.Pricelists.AddOrUpdate(pricelist);
             context.Tickets.AddOrUpdate(ticket);
 
             context.SaveChanges();

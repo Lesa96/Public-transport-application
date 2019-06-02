@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using WebApp.Models;
+using WebApp.Models.Enums;
 
 namespace WebApp.Persistence.Repository
 {
@@ -13,6 +14,11 @@ namespace WebApp.Persistence.Repository
 
         public PassengerTypeCoefficientRepository(DbContext context) : base(context)
         {
+        }
+
+        public float GetCoefficientForType(PassengerType passengerType)
+        {
+            return AppDbContext.PassengerTypeCoefficients.Where(c => c.PassengerType == passengerType).FirstOrDefault().Coefficient;
         }
     }
 }

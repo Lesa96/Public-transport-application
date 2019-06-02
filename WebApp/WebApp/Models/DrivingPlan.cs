@@ -12,14 +12,11 @@ namespace WebApp.Models
         public int Id { get; set; }
         public WeekDays Day { get; set; }
         public DriveType Type { get; set; }
-
-        //[ForeignKey("Id")]
-        public virtual List<Driveline> Line { get; set; }
+        public virtual ICollection<Driveline> Lines { get; set; }
         
-
         public DrivingPlan()
         {
-
+            Lines = new HashSet<Driveline>();
         }
     }
 }

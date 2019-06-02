@@ -24,7 +24,7 @@ namespace WebApp.Controllers
         {
             DateTime currentTime = DateTime.Now;
             var pricelistItem = unitOfWork.Pricelists.GetPricelistItemForSelectedTypes(bindingModel.TicketType, bindingModel.PassengerType, currentTime);
-            var passenger = unitOfWork.ApplicationUsers.Find(u => u.Id.Equals(bindingModel.UserId)).FirstOrDefault();
+            var passenger = unitOfWork.Users.Find(u => u.Id.Equals(bindingModel.UserId)).FirstOrDefault();
 
             Ticket ticket = new Ticket() {
                 TimeOfPurchase = currentTime,

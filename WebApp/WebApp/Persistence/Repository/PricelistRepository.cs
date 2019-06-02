@@ -29,7 +29,7 @@ namespace WebApp.Persistence.Repository
                                     .FirstOrDefault();
         }
 
-        public int GetTicketPrice(TicketType ticketType, PassengerType passengerType, DateTime currentTime)
+        public float GetTicketPrice(TicketType ticketType, PassengerType passengerType, DateTime currentTime)
         {
             return GetPricelistItemForSelectedTypes(ticketType, passengerType, currentTime).Price;
         }

@@ -17,9 +17,15 @@ namespace WebApp.Models
     public class ApplicationUser : IdentityUser
     {
         public PassengerType PassengerType { get; set; }
-        public IEnumerable<Ticket> Tickets { get; set; }
+        public virtual ICollection<Ticket> Tickets { get; set; }
         public VerificationStatus VerificationStatus { get; set; }
-        public List<string> ImageDocument { get; set; }
+        public virtual ICollection<string> ImageDocuments { get; set; }
+
+        public ApplicationUser()
+        {
+            Tickets = new HashSet<Ticket>();
+            ImageDocuments = new HashSet<string>();
+        }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager, string authenticationType)
         

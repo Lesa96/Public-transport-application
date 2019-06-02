@@ -13,12 +13,19 @@ namespace WebApp.Models
 
         public TicketType TicketType { get; set; }
         public PassengerType PassengerType { get; set; }
-        public int Price { get; set; }
+        public float Price { get; set; }
         public int PricelistId { get; set; }
 
         [ForeignKey("PricelistId")]
         public Pricelist Pricelist { get; set; }
+
+        public virtual ICollection<Ticket> Tickets { get; set; }
         //[ForeignKey("PassengerTypeCoefficientId")]
         //public PassengerTypeCoefficient PassengerTypeCoefficient { get; set; }
+
+        public PricelistItem()
+        {
+            Tickets = new HashSet<Ticket>();
+        }
     }
 }

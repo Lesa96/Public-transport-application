@@ -23,9 +23,10 @@ namespace WebApp.Controllers
         public IHttpActionResult GetTicketPrice(GetTicketPriceBindingModel bindingModel)
         {
             DateTime currentTime = DateTime.Now;
-            int price = unitOfWork.Pricelists.GetTicketPrice(bindingModel.TicketType, bindingModel.PassengerType, currentTime);
+            float regularPrice = unitOfWork.Pricelists.GetTicketPrice(bindingModel.TicketType, bindingModel.PassengerType, currentTime);
+            float coefficient = unitOfWork.PassengerTypeCoefficients.GetCoefficientForType(bindingModel.PassengerType);
 
-            return Ok(price);
+            return Ok(regularPrice * coefficient);
         }
     }
 }

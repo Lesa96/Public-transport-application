@@ -26,9 +26,9 @@ namespace WebApp.Controllers
         public IHttpActionResult GetDrivingPlanLine (GetDrivingPlanBindingModel model)
         {
 
-            var lines = unitOfWork.DrivingPlans.GetSpecificDrivingPlan(model.DrivePlanType, model.DrivePlanDay, model.DriveLineNumber).Line;
+            var lines = unitOfWork.DrivingPlans.GetSpecificDrivingPlan(model.DrivePlanType, model.DrivePlanDay, model.DriveLineNumber).Lines;
 
-            var drivingPlanLine = lines.Find(x => x.Number == model.DriveLineNumber); //tacno trazena linija
+            var drivingPlanLine = lines.Where(x => x.Number == model.DriveLineNumber).FirstOrDefault(); //tacno trazena linija
 
             return Ok(drivingPlanLine);
             

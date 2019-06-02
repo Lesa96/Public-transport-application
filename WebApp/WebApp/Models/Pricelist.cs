@@ -10,11 +10,11 @@ namespace WebApp.Models
         public int PricelistId { get; set; }
         public DateTime ValidFrom { get; set; }
         public DateTime ValidUntil { get; set; }
-        public virtual List<PricelistItem> PricelistItems {get; set;}
+        public virtual ICollection<PricelistItem> PricelistItems {get; set;}
 
         public Pricelist()
         {
-            PricelistItems = new List<PricelistItem>();
+            PricelistItems = new HashSet<PricelistItem>();
         }
     }
 }

@@ -10,12 +10,16 @@ namespace WebApp.Models
     {
         public int Id { get; set; }
         public int Number { get; set; }
+        public int DrivingPlanId { get; set; }
 
-        public virtual List<Station> Stations { get; set; }
+        [ForeignKey("DrivingPlanId")]
+        public DrivingPlan DrivingPlan { get; set; }
+
+        public virtual ICollection<Station> Stations { get; set; }
 
         public Driveline()
         {
-            Stations = new List<Station>();
+            Stations = new HashSet<Station>();
         }
     }
 }
