@@ -18,6 +18,9 @@ namespace WebApp.Persistence.Repository
 
         }
 
-        
+        public Driveline GetLineByNumber(int number)
+        {
+            return AppDbContext.DriveLines.Where(l => l.Number == number).FirstOrDefault();
+        }
     }
 }

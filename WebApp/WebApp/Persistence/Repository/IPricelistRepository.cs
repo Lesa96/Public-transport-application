@@ -13,5 +13,6 @@ namespace WebApp.Persistence.Repository
         IEnumerable<PricelistItem> GetPricelistItemsFromActivePricelist(DateTime currentTime);
         PricelistItem GetPricelistItemForSelectedTypes(TicketType ticketType, PassengerType passengerType, DateTime currentTime);
         float GetTicketPrice(TicketType ticketType, PassengerType passengerType, DateTime currentTime);
+        PricelistItem GetPricelistItemByIds(int pricelistId, int pricelistItemId);
     }
 }

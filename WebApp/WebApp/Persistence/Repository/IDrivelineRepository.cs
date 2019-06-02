@@ -9,6 +9,6 @@ namespace WebApp.Persistence.Repository
 {
     public interface IDrivelineRepository : IRepository<Driveline,int>
     {
-
+        Driveline GetLineByNumber(int number);
     }
 }

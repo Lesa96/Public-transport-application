@@ -33,5 +33,12 @@ namespace WebApp.Persistence.Repository
         {
             return GetPricelistItemForSelectedTypes(ticketType, passengerType, currentTime).Price;
         }
+
+        public PricelistItem GetPricelistItemByIds(int pricelistId, int pricelistItemId)
+        {
+            var pricelist = AppDbContext.Pricelists.Where(p => p.PricelistId == pricelistId).FirstOrDefault();
+
+            return pricelist.PricelistItems.Where(pi => pi.PricelistItemId == pricelistItemId).FirstOrDefault();
+        }
     }
 }

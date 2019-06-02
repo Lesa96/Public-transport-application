@@ -253,6 +253,7 @@
     <Compile Include="Controllers\DrivingPlanController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PricelistController.cs" />
+    <Compile Include="Controllers\StationController.cs" />
     <Compile Include="Controllers\TicketController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
@@ -287,6 +288,7 @@
     <Compile Include="Models\PricelistBindingModels.cs" />
     <Compile Include="Models\PricelistItem.cs" />
     <Compile Include="Models\Station.cs" />
+    <Compile Include="Models\StationBindingModels.cs" />
     <Compile Include="Models\Ticket.cs" />
     <Compile Include="Models\TicketBindingModels.cs" />
     <Compile Include="Persistence\ApplicationDbContext.cs" />

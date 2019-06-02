@@ -17,4 +17,19 @@ namespace WebApp.Models
         [Display(Name = "PassengerType")]
         public PassengerType PassengerType { get; set; }
     }
+
+    public class UpdateTicketPriceBindingModel
+    {
+        [Required]
+        [Display(Name = "PricelistId")]
+        public int PricelistId { get; set; }
+
+        [Required]
+        [Display(Name = "PricelistItemId")]
+        public int PricelistItemId { get; set; }
+
+        [Required]
+        [Display(Name = "Price")]
+        public float Price { get; set; }
+    }
 }

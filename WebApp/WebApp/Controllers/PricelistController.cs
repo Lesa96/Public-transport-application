@@ -29,5 +29,19 @@ namespace WebApp.Controllers
 
             return Ok(regularPrice * coefficient);
         }
+
+        [Route("UpdateTicketPrice")]
+        public IHttpActionResult UpdateTicketPrice(UpdateTicketPriceBindingModel bindingModel)
+        {
+            var pricelist = unitOfWork.Pricelists.Get(bindingModel.PricelistId);
+            var pricelistItem = unitOfWork.Pricelists.GetPricelistItemByIds(bindingModel.PricelistId, bindingModel.PricelistItemId);
+            pricelistItem.Price = bindingModel.Price;
+
+            unitOfWork.PricelistItems.Update(pricelistItem);
+            unitOfWork.Pricelists.Update(pricelist);
+            unitOfWork.Complete();
+
+            return Ok();
+        }
     }
 }
