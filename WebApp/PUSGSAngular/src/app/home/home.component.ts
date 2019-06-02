@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import {HomeService} from '../home.service'
 
 @Component({
   selector: 'app-home',
@@ -6,10 +7,24 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+  
+  
+  private ticketPrice : number;
 
-  constructor() { }
+  constructor(private homeService : HomeService) { }
 
   ngOnInit() {
+  }
+
+  test()
+  {
+    console.log("Radi");
+  }
+
+  getTicketPrice()
+  { 
+    console.log(this.homeService.getTicketPrice().subscribe(price => this.ticketPrice = price as number));
+
   }
 
 }
