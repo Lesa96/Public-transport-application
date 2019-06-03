@@ -274,7 +274,9 @@
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\Coordinates.cs" />
     <Compile Include="Models\Driveline.cs" />
+    <Compile Include="Models\DrivelineBindingModels.cs" />
     <Compile Include="Models\DrivingPlan.cs" />
+    <Compile Include="Models\DrivingPlanBindingModel.cs" />
     <Compile Include="Models\Enums\DriveTypeEnum.cs" />
     <Compile Include="Models\Enums\PassengerType.cs" />
     <Compile Include="Models\Enums\TicketType.cs" />
