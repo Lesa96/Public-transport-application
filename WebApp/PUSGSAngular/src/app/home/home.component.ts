@@ -23,8 +23,10 @@ export class HomeComponent implements OnInit {
 
   getTicketPrice()
   { 
-    console.log(this.homeService.getTicketPrice().subscribe(price => this.ticketPrice = price as number));
-
+    this.homeService.getTicketPrice().subscribe(price => { 
+      this.ticketPrice = price;
+      console.log("=-=============** " + this.ticketPrice);
+    });
   }
 
 }

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { GetTicketPriceBindingModel } from './Models/GetTicketPriceBindingModel';
+import { Observable } from 'rxjs/internal/Observable';
 
 const para = new HttpParams();
 para.set('TicketType' , "Daily");
@@ -9,6 +10,7 @@ para.set("PassengerType" , "Regular")
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+  params: new HttpParams().set('ticketType', 'Daily').set('passengerType', 'Regular')
 };
 
 @Injectable({
@@ -23,12 +25,8 @@ export class HomeService {
 
   constructor(private http: HttpClient) { }
 
-  getTicketPrice() 
-  {
-    let bindingModel = new GetTicketPriceBindingModel();
-    bindingModel.TicketType = 1;
-    bindingModel.PassengerType = 2;
-
-  return this.http.get(this.priceListUri, httpOptions);
+  getTicketPrice() : Observable<any> 
+  { 
+    return this.http.get(this.priceListUri, httpOptions);
   }
 }

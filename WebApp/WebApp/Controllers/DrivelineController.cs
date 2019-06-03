@@ -23,7 +23,7 @@ namespace WebApp.Controllers
         [HttpPatch, Route("AddStation")]
         public IHttpActionResult AddStation(AddStationBindingModel bindingModel)
         {
-            unitOfWork.Drivelines.AddStationInLine(bindingModel.DriveLineId, bindingModel.StationId);
+            //unitOfWork.Drivelines.AddStationInLine(bindingModel.DriveLineId, bindingModel.StationId);
 
             return Ok();
         }
@@ -32,7 +32,7 @@ namespace WebApp.Controllers
         [HttpDelete, Route("DeleteStation")]
         public IHttpActionResult DeleteStation(AddStationBindingModel bindingModel)
         {
-            unitOfWork.Drivelines.DeleteStationInLine(bindingModel.DriveLineId, bindingModel.StationId);
+            //unitOfWork.Drivelines.DeleteStationInLine(bindingModel.DriveLineId, bindingModel.StationId);
 
             return Ok();
         }
@@ -41,7 +41,7 @@ namespace WebApp.Controllers
         [HttpPatch, Route("ChangeNumber")]
         public IHttpActionResult ChangeNumber(ChangeNumberBindingModel bindingModel)
         {
-            unitOfWork.Drivelines.UpdateNumber(bindingModel.DriveLineId, bindingModel.DriveLineNumber);
+            //unitOfWork.Drivelines.UpdateNumber(bindingModel.DriveLineId, bindingModel.DriveLineNumber);
 
             return Ok();
         }

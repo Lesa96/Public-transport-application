@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using WebApp.Models;
+using WebApp.Models.Enums;
 using WebApp.Persistence.UnitOfWork;
 
 namespace WebApp.Controllers
@@ -21,11 +22,11 @@ namespace WebApp.Controllers
         }
 
         [Route("GetTicketPrice")]
-        public IHttpActionResult GetTicketPrice(GetTicketPriceBindingModel bindingModel)
+        public IHttpActionResult GetTicketPrice(TicketType ticketType, PassengerType passengerType)
         {
             DateTime currentTime = DateTime.Now;
-            float regularPrice = unitOfWork.Pricelists.GetTicketPrice(bindingModel.TicketType, bindingModel.PassengerType, currentTime);
-            float coefficient = unitOfWork.PassengerTypeCoefficients.GetCoefficientForType(bindingModel.PassengerType);
+            float regularPrice = unitOfWork.Pricelists.GetTicketPrice(ticketType, passengerType, currentTime);
+            float coefficient = unitOfWork.PassengerTypeCoefficients.GetCoefficientForType(passengerType);
 
             return Ok(regularPrice * coefficient);
         }
