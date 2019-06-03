@@ -1,3 +1,8 @@
-<p>
-  register works!
-</p>
+<nav>
+    <a (click)="toggleForm('login')">Login</a>
+    <a (click)="toggleForm('register')">Register</a>
+</nav>
+  
+<app-login-form *ngIf="showLogin"></app-login-form>
+
+<app-register-form *ngIf="showRegister"></app-register-form>

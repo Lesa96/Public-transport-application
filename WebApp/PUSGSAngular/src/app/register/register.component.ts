@@ -1,15 +1,26 @@
 import { Component, OnInit } from '@angular/core';
 
+export type FormType = 'login' | 'register';
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent{
 
-  constructor() { }
-
-  ngOnInit() {
-  }
+  form: FormType = 'login';
+  
+    get showLogin() {
+      return this.form === 'login';
+    }
+  
+    get showRegister() {
+      return this.form === 'register';
+    }
+  
+    toggleForm(type: FormType) {
+      this.form = type;
+    }
 
 }

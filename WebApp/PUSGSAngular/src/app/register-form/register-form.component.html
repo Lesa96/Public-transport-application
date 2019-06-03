@@ -1,0 +1,70 @@
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+  <table>
+    <tr>
+      <td colspan="2" align="center">
+        <h2>Register form</h2>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Email:
+      </td>
+      <td>
+        <input type="email" formControlName="email" required>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Password:
+      </td>
+      <td>
+        <input type="password" formControlName="password" required>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Retype Password:
+      </td>
+      <td>
+        <input type="password" formControlName="passwordRetype" required>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        First Name:
+      </td>
+      <td>
+        <input type="text" formControlName="firstName" required>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Last Name:
+      </td>
+      <td>
+        <input type="text" formControlName="lastName" required>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Birth Date:
+      </td>
+      <td>
+        <input type="date" formControlName="birthDate" required>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Address:
+      </td>
+      <td>
+        <input type="text" formControlName="address" required>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" align="right">
+        <button type="submit" class="btn btn-default" [disabled]="registerForm.invalid">Submit</button>
+      </td>
+    </tr>
+  </table>
+</form>
