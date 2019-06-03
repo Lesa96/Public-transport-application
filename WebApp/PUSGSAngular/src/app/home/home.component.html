@@ -1,19 +1,56 @@
-<!-- <header>
-  <div class="container">
-    <nav>
-      <ul>
-        <li><a routerLink="/">Home</a></li>
-        <li><a routerLink="/">Register</a></li>
-        <li><a routerLink="/">Buy Ticket</a></li>
-        <li><a routerLink="/">Driving Plan</a></li>
-      </ul>
-    </nav>
-  </div>
-</header> -->
-<h1></h1>
+<h1>Gradski i Prigradski red voznje</h1>
+
+<div>
+  <form [formGroup]="DrivingPlanForm" (ngSubmit)="onSubmit()">
+    <table>
+
+      <tr>
+        <td>
+          <label>Red voznje za datum: </label>
+        </td>
+        <td>
+          <select formControlName="number">
+            <option *ngFor="let number of drivelineNumber"  [value]="number">{{number}}</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+          <td>
+            <label>Tip prevoza: </label>
+          </td>
+          <td>
+            <select formControlName="type">
+                <option *ngFor="let type of driveType" [value]="type">{{type}}</option> 
+            </select>
+          </td>
+        </tr>
+        <tr>
+            <td>
+              <label>Dan: </label>
+            </td>
+            <td>
+              <select formControlName="day">
+                  <option *ngFor="let day of days" [value]="day">{{day}}</option> 
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div align='center'>
+                  <button type="submit">Prikazi</button>
+              </div>
+                
+            </td>
+          </tr>
+
+    </table>
+    
+  </form>
+</div>
+
 <div>
   <button (click)="getTicketPrice()">HttpGet</button>
-  <button (click)="test()">Local</button>
+
 </div>
 
 

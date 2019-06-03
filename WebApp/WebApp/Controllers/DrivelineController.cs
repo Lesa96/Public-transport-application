@@ -19,6 +19,19 @@ namespace WebApp.Controllers
             this.unitOfWork = unitOfWork;
         }
 
+        [HttpGet, Route("GetDrivelineNumbers")]
+        public IHttpActionResult GetDrivelineNumbers()
+        {
+            List<Driveline> drivelines = unitOfWork.Drivelines.GetAllDriveLines();
+            int[] numbers = new int[drivelines.Count];
+            for (int i = 0; i < drivelines.Count; i++)
+            {
+                numbers[i] = drivelines[i].Id;
+            }
+
+            return Ok(numbers);
+        }
+
         //[Authorize(Roles ="Admin")]
         [HttpPatch, Route("AddStation")]
         public IHttpActionResult AddStation(AddStationBindingModel bindingModel)
