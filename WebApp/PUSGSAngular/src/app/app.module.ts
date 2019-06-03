@@ -7,7 +7,6 @@ import { HomeComponent } from './home/home.component';
 import { HttpClientModule } from '@angular/common/http';
 import { RegisterComponent } from './register/register.component';
 import { BuyTicketComponent } from './buy-ticket/buy-ticket.component';
-import { DrivingPlanComponent } from './driving-plan/driving-plan.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +14,6 @@ import { DrivingPlanComponent } from './driving-plan/driving-plan.component';
     HomeComponent,
     RegisterComponent,
     BuyTicketComponent,
-    DrivingPlanComponent,
   ],
   imports: [
     BrowserModule,
