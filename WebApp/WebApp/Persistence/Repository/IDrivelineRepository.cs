@@ -13,5 +13,7 @@ namespace WebApp.Persistence.Repository
         bool AddStationInLine(int drivelineId, int stationID);
         bool DeleteStationInLine(int drivelineId, int stationID);
         bool UpdateNumber(int drivelineId, int drivelineNumber);
+
+        List<Driveline> GetAllDriveLines();
     }
 }

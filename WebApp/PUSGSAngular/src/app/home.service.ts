@@ -21,12 +21,20 @@ export class HomeService {
   
 
   private priceListUri = "http://localhost:8080/api/Pricelist/GetTicketPrice";
+  private drivelineNumbersUri = "http://localhost:8080/api/Driveline/GetDrivelineNumbers";
   
 
   constructor(private http: HttpClient) { }
+
+  getDrivelineNumbers() : Observable<any>
+  {
+    return this.http.get(this.drivelineNumbersUri);
+  }
 
   getTicketPrice() : Observable<any> 
   { 
     return this.http.get(this.priceListUri, httpOptions);
   }
+
+
 }

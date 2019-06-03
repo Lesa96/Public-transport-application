@@ -55,5 +55,16 @@ namespace WebApp.Persistence.Repository
 
             return true;
         }
+
+        public List<Driveline> GetAllDriveLines()
+        {
+            List<Driveline> drivelines = new List<Driveline>();
+            foreach (Driveline dl in AppDbContext.DriveLines)
+            {
+                drivelines.Add(dl);
+            }
+
+            return drivelines;
+        }
     }
 }

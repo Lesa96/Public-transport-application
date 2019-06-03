@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import {HomeService} from '../home.service'
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
@@ -8,17 +9,36 @@ import {HomeService} from '../home.service'
 })
 export class HomeComponent implements OnInit {
   
-  
+  driveType = ["Gradski" , "Prigradski"];
+  days = ["Ponedeljak", "Utorak" ,"Sreda" , "Cetvrtak" , "Petak" , "Subota" , "Nedelja"];
+  drivelineNumber = [];
+  driveline = { type : this.driveType[0] , day : this.days[0] , drivelineNumber : 0}
+
+  DrivingPlanForm = this.fb.group(
+    {
+      type : [this.driveline.type],
+      day : [this.driveline.day],
+      number : this.driveline.drivelineNumber
+
+    }
+  )
+
+
   private ticketPrice : number;
 
-  constructor(private homeService : HomeService) { }
+  constructor(private homeService : HomeService , private fb: FormBuilder) { }
 
-  ngOnInit() {
+  onSubmit() {
+    console.warn(this.DrivingPlanForm.value);
   }
 
-  test()
+  ngOnInit() {
+    this.getDrivelineNumbers();
+  }
+
+  getDrivelineNumbers()
   {
-    console.log("Radi");
+    this.homeService.getDrivelineNumbers().subscribe(numbers => this.drivelineNumber = numbers);
   }
 
   getTicketPrice()
