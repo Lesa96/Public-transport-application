@@ -20,7 +20,7 @@ namespace WebApp.Controllers
             unitOfWork = un;
         }
 
-        //GET / DrivingPlan / GetDrivingPlan? ...
+        //GET / DrivingPlan / GetDrivingPlan?DrivePlanType=1&DrivePlanDay=2&DriveLineNumber=1
         [HttpGet]
         [Route("GetDrivingPlanLine")]
         public IHttpActionResult GetDrivingPlanLine (GetDrivingPlanBindingModel model)

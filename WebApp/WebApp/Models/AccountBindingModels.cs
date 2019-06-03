@@ -83,42 +83,9 @@ namespace WebApp.Models
         public string ConfirmPassword { get; set; }
     }
 
-    public class GetDrivingPlanBindingModel
-    {
-        [Required]
-        [Display(Name ="Drive plan type")]
-        public DriveType DrivePlanType { get; set; }
+    
 
-        [Required]
-        [Display(Name = "Drive plan day")]
-        public WeekDays DrivePlanDay { get; set; }
-
-        [Required]
-        [Display(Name = "Drive line number")]
-        public int DriveLineNumber { get; set; }
-    }
-
-    public class AddStationBindingModel
-    {
-        [Required]
-        [Display(Name = "Drive line number")]
-        public int DriveLineId { get; set; }
-
-        [Required]
-        [Display(Name = "Station number")]
-        public int StationId { get; set; }
-    }
-
-    public class ChangeNumberBindingModel
-    {
-        [Required]
-        [Display(Name = "Drive line Id")]
-        public int DriveLineId { get; set; }
-
-        [Required]
-        [Display(Name = "Driveline number")]
-        public int DriveLineNumber { get; set; }
-    }
+   
 
     
 }
