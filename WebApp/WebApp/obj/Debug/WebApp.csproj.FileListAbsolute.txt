@@ -445,7 +445,6 @@ C:\Users\Sasa Dragomirovic\Desktop\WEB2_Projekat\PUSGS_Project\WebApp\WebApp\bin
 C:\Users\Sasa Dragomirovic\Desktop\WEB2_Projekat\PUSGS_Project\WebApp\WebApp\obj\Debug\WebApp.csproj.CopyComplete
 C:\Users\Sasa Dragomirovic\Desktop\WEB2_Projekat\PUSGS_Project\WebApp\WebApp\obj\Debug\WebApp.csprojResolveAssemblyReference.cache
 C:\Users\Sasa Dragomirovic\Desktop\WEB2_Projekat\PUSGS_Project\WebApp\WebApp\obj\Debug\WebApp.Migrations.NewMigration.resources
-C:\Users\Sasa Dragomirovic\Desktop\WEB2_Projekat\PUSGS_Project\WebApp\WebApp\obj\Debug\WebApp.Migrations.UpdatedModel.resources
 C:\Users\stefa\OneDrive\Dokumenti\GitHub\PUSGS_Project\WebApp\WebApp\obj\Debug\WebApp.Migrations.NewMigration.resources
 C:\Users\e3124-2015\Documents\GitHub\PUSGS_Project\WebApp\WebApp\obj\Debug\WebApp.csprojResolveAssemblyReference.cache
 C:\Users\e3124-2015\Documents\GitHub\PUSGS_Project\WebApp\WebApp\obj\Debug\WebApp.Migrations.InitialMigration.resources

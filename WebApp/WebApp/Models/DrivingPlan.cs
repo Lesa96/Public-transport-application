@@ -13,10 +13,12 @@ namespace WebApp.Models
         public WeekDays Day { get; set; }
         public DriveType Type { get; set; }
         public virtual ICollection<Driveline> Lines { get; set; }
-        
+        public virtual ICollection<Departure> Departures { get; set; }
+
         public DrivingPlan()
         {
             Lines = new HashSet<Driveline>();
+            Departures = new HashSet<Departure>();
         }
     }
 }

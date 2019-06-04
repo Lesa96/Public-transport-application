@@ -76,6 +76,7 @@ namespace WebApp.App_Start
             container.RegisterType<IStationRepository, StationRepository>();
             container.RegisterType<IDrivelineRepository, DrivelineRepository>();
             container.RegisterType<IDrivingPlanRepository, DrivingPlanRepository>();
+            container.RegisterType<IDepartureRepository, DepartureRepository>();
             
 
             container.RegisterType<DbContext, ApplicationDbContext>(new PerResolveLifetimeManager());

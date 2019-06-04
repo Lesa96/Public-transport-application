@@ -273,6 +273,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\Coordinates.cs" />
+    <Compile Include="Models\Departure.cs" />
     <Compile Include="Models\Driveline.cs" />
     <Compile Include="Models\DrivelineBindingModels.cs" />
     <Compile Include="Models\DrivingPlan.cs" />
@@ -293,10 +294,12 @@
     <Compile Include="Persistence\ApplicationDbContext.cs" />
     <Compile Include="Persistence\Repository\ApplicationUserRepository.cs" />
     <Compile Include="Persistence\Repository\CoordinatesRepository.cs" />
+    <Compile Include="Persistence\Repository\DepartureRepository.cs" />
     <Compile Include="Persistence\Repository\DrivelineRepository.cs" />
     <Compile Include="Persistence\Repository\DrivingPlanRepository.cs" />
     <Compile Include="Persistence\Repository\IApplicationUserRepository.cs" />
     <Compile Include="Persistence\Repository\ICoordinatesRepository.cs" />
+    <Compile Include="Persistence\Repository\IDepartureRepository.cs" />
     <Compile Include="Persistence\Repository\IDrivelineRepository.cs" />
     <Compile Include="Persistence\Repository\IDrivingPlanRepository.cs" />
     <Compile Include="Persistence\Repository\IPassengerTypeCoefficientRepository.cs" />

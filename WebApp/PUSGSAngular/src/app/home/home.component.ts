@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import {HomeService} from '../home.service'
 import { FormBuilder } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-home',
@@ -25,15 +27,23 @@ export class HomeComponent implements OnInit {
 
 
   private ticketPrice : number;
+  private departures : Observable<DatePipe>;
 
   constructor(private homeService : HomeService , private fb: FormBuilder) { }
 
   onSubmit() {
     console.warn(this.DrivingPlanForm.value);
+    this.getDrivingPlanDepartures();
+    
   }
 
   ngOnInit() {
     this.getDrivelineNumbers();
+  }
+
+  getDrivingPlanDepartures()
+  {
+    this.homeService.getDrivingPlanDepartures().subscribe(deps => this.departures = deps as Observable<DatePipe> );
   }
 
   getDrivelineNumbers()

@@ -10,7 +10,7 @@ using WebApp.Persistence.UnitOfWork;
 
 namespace WebApp.Controllers
 {
-    [RoutePrefix("DrivingPlan")]
+    [RoutePrefix("api/DrivingPlan")]
     public class DrivingPlanController : ApiController
     {
         private readonly IUnitOfWork unitOfWork;
@@ -32,6 +32,25 @@ namespace WebApp.Controllers
 
             return Ok(drivingPlanLine);
             
+
+
+        }
+
+        //GET / DrivingPlan / GetDrivingPlanDepartures? DriveLineNumber=1 & DrivePlanType=2 & DriveLineType=1
+        [HttpGet]
+        [Route("GetDrivingPlanDepartures")]
+        public IHttpActionResult GetDrivingPlanDepartures(int lineNumber , DriveType driveType , WeekDays drivePlanDay)
+        {
+            List<DateTime> dateTimes = new List<DateTime>();
+
+            var departures = unitOfWork.Departures.GetDepartures(lineNumber, driveType, drivePlanDay);
+            foreach (Departure dep in departures)
+            {
+                dateTimes.Add(dep.Time);
+            }
+
+            return Ok(dateTimes);
+
 
 
         }
