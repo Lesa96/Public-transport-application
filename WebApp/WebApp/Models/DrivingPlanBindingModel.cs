@@ -10,6 +10,10 @@ namespace WebApp.Models
     public class GetDrivingPlanBindingModel
     {
         [Required]
+        [Display(Name = "Drive line number")]
+        public int DriveLineNumber { get; set; }
+
+        [Required]
         [Display(Name = "Drive plan type")]
         public DriveType DrivePlanType { get; set; }
 
@@ -17,8 +21,6 @@ namespace WebApp.Models
         [Display(Name = "Drive plan day")]
         public WeekDays DrivePlanDay { get; set; }
 
-        [Required]
-        [Display(Name = "Drive line number")]
-        public int DriveLineNumber { get; set; }
+        
     }
 }

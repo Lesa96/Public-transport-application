@@ -6,7 +6,7 @@
 
       <tr>
         <td>
-          <label>Red voznje za datum: </label>
+          <label>Broj linije: </label>
         </td>
         <td>
           <select formControlName="number">
@@ -46,6 +46,16 @@
     </table>
     
   </form>
+</div>
+<br />
+<br />
+<div>
+  <ul  >
+    <li *ngFor="let date of departures">
+      {{date.transform('shortTime')}}
+    </li>
+
+  </ul>
 </div>
 
 <div>

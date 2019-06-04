@@ -6,22 +6,21 @@ using System.Web;
 
 namespace WebApp.Models
 {
-    public class Driveline
+    public class Departure
     {
         public int Id { get; set; }
-        public int Number { get; set; }
+        public DateTime Time { get; set; }
         public int DrivingPlanId { get; set; }
+        public int DrivelineId { get; set; }
 
         [ForeignKey("DrivingPlanId")]
         public DrivingPlan DrivingPlan { get; set; }
+        [ForeignKey("DrivelineId")]
+        public Driveline Driveline { get; set; }
 
-        public virtual ICollection<Station> Stations { get; set; }
-        
-
-        public Driveline()
+        public Departure()
         {
-            Stations = new HashSet<Station>();
-            
+
         }
     }
 }
