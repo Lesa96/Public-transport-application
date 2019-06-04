@@ -12,13 +12,11 @@ import { LoginService } from '../login.service';
 export class LoginFormComponent  {
   
     loginForm = this.fb.group({
-      email: ['', Validators.required, Validators.email],
+      email: ['', Validators.required],
       password: ['', Validators.required],
     });
   
     get f() { return this.loginForm.controls; }
-    
-    private token;
 
     constructor(private loginService : LoginService, private fb: FormBuilder) { }
   

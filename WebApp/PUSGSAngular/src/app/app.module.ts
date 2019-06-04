@@ -9,6 +9,7 @@ import { RegisterComponent } from './register/register.component';
 import { BuyTicketComponent } from './buy-ticket/buy-ticket.component';
 import { RegisterFormComponent } from './register-form/register-form.component';
 import { LoginFormComponent } from './login-form/login-form.component';
+import { UploadDocumentComponent } from './upload-document/upload-document.component';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { LoginFormComponent } from './login-form/login-form.component';
     BuyTicketComponent,
     RegisterFormComponent,
     LoginFormComponent,
+    UploadDocumentComponent,
   ],
   imports: [
     BrowserModule,

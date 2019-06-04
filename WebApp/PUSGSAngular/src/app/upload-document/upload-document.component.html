@@ -1,0 +1,23 @@
+<table>
+  <tr>
+    <td colspan="2" align="center">
+      <h2>Please select document image</h2>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center">
+      <img [src]="url" height="200">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <button class="btn btn-default">Skip</button>
+    </td>
+    <td align="right">
+      <input type="file" id="selectedFile" style="display: none;" (change)="onSelectFile($event)" accept="image/*" />
+      <button class="btn btn-default" onclick="document.getElementById('selectedFile').click();">Browse...</button>
+      &nbsp;
+      <button class="btn btn-default">Confirm</button>
+    </td>
+  </tr>
+</table>

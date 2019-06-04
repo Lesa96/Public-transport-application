@@ -17,6 +17,10 @@ namespace WebApp.Models
     public class ApplicationUser : IdentityUser
     {
         public PassengerType PassengerType { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public DateTime BirthDate { get; set; }
+        public string Address { get; set; }
         public virtual ICollection<Ticket> Tickets { get; set; }
         public VerificationStatus VerificationStatus { get; set; }
         public virtual ICollection<string> ImageDocuments { get; set; }

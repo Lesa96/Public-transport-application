@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from 'src/app/home/home.component';
 import { RegisterComponent } from 'src/app/register/register.component';
 import { BuyTicketComponent } from 'src/app/buy-ticket/buy-ticket.component';
+import { UploadDocumentComponent } from './upload-document/upload-document.component';
 
 const routes: Routes = [
   { 
@@ -21,6 +22,10 @@ const routes: Routes = [
   { 
     path: 'buyticket', 
     component: BuyTicketComponent 
+  },
+  { 
+    path: 'register/uploaddocument', 
+    component: UploadDocumentComponent
   },
 ];
 

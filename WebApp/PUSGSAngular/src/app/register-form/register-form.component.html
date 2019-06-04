@@ -2,7 +2,7 @@
   <table>
     <tr>
       <td colspan="2" align="center">
-        <h2>Register form</h2>
+        <h2>Register</h2>
       </td>
     </tr>
     <tr>
@@ -10,7 +10,7 @@
         Email:
       </td>
       <td>
-        <input type="email" formControlName="email" required>
+        <input type="email" formControlName="email" required email>
       </td>
     </tr>
     <tr>
@@ -23,10 +23,10 @@
     </tr>
     <tr>
       <td>
-        Retype Password:
+        Confirm Password:
       </td>
       <td>
-        <input type="password" formControlName="passwordRetype" required>
+        <input type="password" formControlName="confirmPassword" required>
       </td>
     </tr>
     <tr>
@@ -59,6 +59,16 @@
       </td>
       <td>
         <input type="text" formControlName="address" required>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Passenger type:
+      </td>
+      <td>
+        <select formControlName="passengerType">
+          <option *ngFor="let passengerType of passengerTypes" [value]="passengerType">{{passengerType}}</option> 
+      </select>
       </td>
     </tr>
     <tr>
