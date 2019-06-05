@@ -67,6 +67,8 @@ namespace WebApp.Controllers
         }
 
         // POST api/Account/Logout
+        [HttpPost]
+        [Authorize(Roles = "Admin, Controller, AppUser")]
         [Route("Logout")]
         public IHttpActionResult Logout()
         {

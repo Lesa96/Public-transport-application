@@ -10,6 +10,8 @@ import { BuyTicketComponent } from './buy-ticket/buy-ticket.component';
 import { RegisterFormComponent } from './register-form/register-form.component';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { UploadDocumentComponent } from './upload-document/upload-document.component';
+import { AdminViewComponent } from './admin-view/admin-view.component';
+import { StartPageNavigationComponent } from './start-page-navigation/start-page-navigation.component';
 
 
 @NgModule({
@@ -21,6 +23,8 @@ import { UploadDocumentComponent } from './upload-document/upload-document.compo
     RegisterFormComponent,
     LoginFormComponent,
     UploadDocumentComponent,
+    AdminViewComponent,
+    StartPageNavigationComponent,
   ],
   imports: [
     BrowserModule,

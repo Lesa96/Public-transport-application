@@ -594,7 +594,6 @@ C:\Users\e3124-2015\Documents\GitHub\PUSGS_Project\WebApp\WebApp\bin\Microsoft.O
 C:\Users\e3124-2015\Documents\GitHub\PUSGS_Project\WebApp\WebApp\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 C:\Users\e3124-2015\Documents\GitHub\PUSGS_Project\WebApp\WebApp\bin\System.Web.Http.Owin.xml
 C:\Users\e3124-2015\Documents\GitHub\PUSGS_Project\WebApp\WebApp\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-C:\Users\e3124-2015\Documents\GitHub\PUSGS_Project\WebApp\WebApp\obj\Debug\WebApp.Migrations.NewMigration.resources
 C:\Users\e375-2015\Desktop\ProjekatWeb2\PUSGS_Project\WebApp\WebApp\bin\WebApp.dll.config
 C:\Users\e375-2015\Desktop\ProjekatWeb2\PUSGS_Project\WebApp\WebApp\bin\WebApp.dll
 C:\Users\e375-2015\Desktop\ProjekatWeb2\PUSGS_Project\WebApp\WebApp\bin\WebApp.pdb
@@ -743,3 +742,4 @@ C:\Users\e375-2015\Desktop\ProjekatWeb2\PUSGS_Project\WebApp\WebApp\obj\Debug\We
 C:\Users\e375-2015\Desktop\ProjekatWeb2\PUSGS_Project\WebApp\WebApp\obj\Debug\WebApp.csproj.GenerateResource.Cache
 C:\Users\e375-2015\Desktop\ProjekatWeb2\PUSGS_Project\WebApp\WebApp\obj\Debug\WebApp.Migrations.InitialMigration.resources
 C:\Users\e375-2015\Desktop\ProjekatWeb2\PUSGS_Project\WebApp\WebApp\obj\Debug\WebApp.Migrations.MigrationDB.resources
+C:\Users\e3124-2015\Documents\GitHub\PUSGS_Project\WebApp\WebApp\obj\Debug\WebApp.Migrations.MigrationDB.resources

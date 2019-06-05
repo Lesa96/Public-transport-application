@@ -3,6 +3,8 @@ import { FormBuilder } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { FormArray } from '@angular/forms';
 import { LoginService } from '../login.service';
+import { Router } from '@angular/router';
+import { NgIf } from '@angular/common/src/directives/ng_if';
 
 @Component({
   selector: 'app-login-form',
@@ -18,7 +20,7 @@ export class LoginFormComponent  {
   
     get f() { return this.loginForm.controls; }
 
-    constructor(private loginService : LoginService, private fb: FormBuilder) { }
+    constructor(private loginService : LoginService, private fb: FormBuilder, private router: Router) { }
   
     onSubmit() {
       this.loginService.login(this.loginForm.value).subscribe(data => { 
@@ -37,6 +39,14 @@ export class LoginFormComponent  {
 
           localStorage.setItem('jwt', jwt)
           localStorage.setItem('role', role);
+          if (role == 'Admin')
+          {
+            this.router.navigate(['/admin'])
+          }
+          else
+          {
+            this.router.navigate(['/home'])
+          }
       });
     }
 
