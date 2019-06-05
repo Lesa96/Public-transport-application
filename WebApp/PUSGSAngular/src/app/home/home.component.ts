@@ -3,6 +3,7 @@ import {HomeService} from '../home.service'
 import { FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { DatePipe } from '@angular/common';
+import { Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
@@ -20,7 +21,7 @@ export class HomeComponent implements OnInit {
     {
       type : [this.driveline.type],
       day : [this.driveline.day],
-      number : this.driveline.drivelineNumber
+      number : [this.driveline.drivelineNumber , Validators.required]
 
     }
   )

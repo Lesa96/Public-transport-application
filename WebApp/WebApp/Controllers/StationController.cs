@@ -23,6 +23,10 @@ namespace WebApp.Controllers
         public IHttpActionResult UpdateStationInfo(UpdateStationInfoBindingModel bindingModel)
         {
             var station = unitOfWork.Stations.Get(bindingModel.Id);
+            if(station == null)
+            {
+                return NotFound();
+            }
             station.Name = bindingModel.Name;
             station.Address = bindingModel.Address;
             station.Coordinates.CoordX = bindingModel.Coordinates.CoordX;
@@ -37,7 +41,16 @@ namespace WebApp.Controllers
         public IHttpActionResult AddLine(ManageLinesBindingModel bindingModel)
         {
             var station = unitOfWork.Stations.Get(bindingModel.Id);
+            if (station == null)
+            {
+                return NotFound();
+            }
+
             var line = unitOfWork.Drivelines.GetLineByNumber(bindingModel.LineNumber);
+            if (line == null)
+            {
+                return NotFound();
+            }
 
             station.Drivelines.Add(line);
 
@@ -51,7 +64,16 @@ namespace WebApp.Controllers
         public IHttpActionResult RemoveLine(ManageLinesBindingModel bindingModel)
         {
             var station = unitOfWork.Stations.Get(bindingModel.Id);
+            if (station == null)
+            {
+                return NotFound();
+            }
+
             var line = unitOfWork.Drivelines.GetLineByNumber(bindingModel.LineNumber);
+            if (line == null)
+            {
+                return NotFound();
+            }
 
             station.Drivelines.Remove(line);
 
