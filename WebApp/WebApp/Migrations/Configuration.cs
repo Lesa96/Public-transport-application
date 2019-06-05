@@ -74,14 +74,28 @@ namespace WebApp.Migrations
                 context.SaveChanges();
             }
 
-            if(!context.DrivingPlans.Any(p => p.Departures.Equals("4: 50 ; 10:30")))
+            if (!context.DriveLines.Any(d => d.Number == 7))
+            {
+                var drLine = new Driveline() { Number = 7 };
+                context.DriveLines.Add(drLine);
+                context.SaveChanges();
+            }
+
+            if (!context.DrivingPlans.Any(p => p.Departures.Equals("4: 50 ; 10:30")))
             {
                 DrivingPlan drivingPlan = new DrivingPlan() { Day = Models.Enums.WeekDays.Monday, Type = Models.Enums.DriveType.City, Departures = "4: 50 ; 10:30", DrivelineId = context.DriveLines.Where( l => l.Number == 4).FirstOrDefault().Id };
                 context.DrivingPlans.Add(drivingPlan);
                 context.SaveChanges();
             }
 
-           // InitialDBAdding(context); //dodaje neke pocetne vrednosti u bazi 
+            if (!context.DrivingPlans.Any(p => p.Departures.Equals("10:00 ; 11:00 ; 12:00")))
+            {
+                DrivingPlan drivingPlan = new DrivingPlan() { Day = Models.Enums.WeekDays.Monday, Type = Models.Enums.DriveType.City, Departures = "10:00 ; 11:00 ; 12:00", DrivelineId = context.DriveLines.Where(l => l.Number == 7).FirstOrDefault().Id };
+                context.DrivingPlans.Add(drivingPlan);
+                context.SaveChanges();
+            }
+
+            // InitialDBAdding(context); //dodaje neke pocetne vrednosti u bazi 
         }
 
         private void InitialDBAdding(WebApp.Persistence.ApplicationDbContext context)

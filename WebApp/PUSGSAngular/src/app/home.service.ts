@@ -11,8 +11,10 @@ para.set("PassengerType" , "Regular")
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   params: new HttpParams().set('ticketType', 'Daily').set('passengerType', 'Regular'),
-  drivingPlanDepartureParams: new HttpParams().set('lineNumber' , '1').set('driveType','City').set('drivePlanDay','Monday')
+  
 };
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -33,9 +35,14 @@ export class HomeService {
     return this.http.get(this.drivelineNumbersUri);
   }
 
-  getDrivingPlanDepartures() : Observable<any>
+  getDrivingPlanDepartures(selecetdItems : any) : Observable<any>
   {
-    return this.http.get(this.drivingPlanDeparturesUri,httpOptions);
+    let httpOptionsDepartures = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: new HttpParams().set('lineNumber' , selecetdItems.number).set('driveType',selecetdItems.type).set('drivePlanDay',selecetdItems.day)
+    }
+
+    return this.http.get(this.drivingPlanDeparturesUri,httpOptionsDepartures);
   }
 
   getTicketPrice() : Observable<any> 

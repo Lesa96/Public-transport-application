@@ -26,7 +26,7 @@ namespace WebApp.Controllers
             int[] numbers = new int[drivelines.Count];
             for (int i = 0; i < drivelines.Count; i++)
             {
-                numbers[i] = drivelines[i].Id;
+                numbers[i] = drivelines[i].Number;
             }
 
             return Ok(numbers);

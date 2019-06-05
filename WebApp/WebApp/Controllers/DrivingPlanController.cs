@@ -41,9 +41,11 @@ namespace WebApp.Controllers
         [Route("GetDrivingPlanDepartures")]
         public IHttpActionResult GetDrivingPlanDepartures(int lineNumber , DriveType driveType , WeekDays drivePlanDay)
         {
+            DrivingPlan drivingPlan = unitOfWork.DrivingPlans.GetSpecificDrivingPlan(driveType, drivePlanDay, lineNumber);
 
+            var departures = drivingPlan.Departures.Split(';');
 
-            return Ok();
+            return Ok(departures);
 
 
 

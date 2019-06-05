@@ -52,15 +52,12 @@
 <div>
   <ul  >
     <li *ngFor="let date of departures">
-      {{date.transform('shortTime')}}
+      {{date}}
     </li>
 
   </ul>
 </div>
 
-<div>
-  <button (click)="getTicketPrice()">HttpGet</button>
 
-</div>
 
 

@@ -23,7 +23,7 @@ namespace WebApp.Persistence.Repository
 
         public DrivingPlan GetSpecificDrivingPlan(DriveType driveType, WeekDays day, int lineNumber)
         {
-            return AppDbContext.DrivingPlans.Where(x => x.Type == driveType && x.Day == day).FirstOrDefault(); //sve linije za odredjeni dan i tip
+            return AppDbContext.DrivingPlans.Where(x => x.Type == driveType && x.Day == day && x.Driveline.Number == lineNumber).FirstOrDefault(); 
         }
 
 
