@@ -10,15 +10,19 @@ namespace WebApp.Models
     public class DrivingPlan
     {
         public int Id { get; set; }
+        public int DrivelineId { get; set; }
         public WeekDays Day { get; set; }
         public DriveType Type { get; set; }
-        public virtual ICollection<Driveline> Lines { get; set; }
-        public virtual ICollection<Departure> Departures { get; set; }
+
+        [ForeignKey("DrivelineId")]
+        public Driveline Driveline { get; set; }
+        public string Departures { get; set; }
 
         public DrivingPlan()
         {
-            Lines = new HashSet<Driveline>();
-            Departures = new HashSet<Departure>();
+           
+
+
         }
     }
 }

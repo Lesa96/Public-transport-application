@@ -737,10 +737,9 @@ C:\Users\e375-2015\Desktop\ProjekatWeb2\PUSGS_Project\WebApp\WebApp\bin\Microsof
 C:\Users\e375-2015\Desktop\ProjekatWeb2\PUSGS_Project\WebApp\WebApp\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 C:\Users\e375-2015\Desktop\ProjekatWeb2\PUSGS_Project\WebApp\WebApp\bin\System.Web.Http.Owin.xml
 C:\Users\e375-2015\Desktop\ProjekatWeb2\PUSGS_Project\WebApp\WebApp\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-C:\Users\e375-2015\Desktop\ProjekatWeb2\PUSGS_Project\WebApp\WebApp\obj\Debug\WebApp.csprojResolveAssemblyReference.cache
-C:\Users\e375-2015\Desktop\ProjekatWeb2\PUSGS_Project\WebApp\WebApp\obj\Debug\WebApp.Migrations.InitialMigration.resources
-C:\Users\e375-2015\Desktop\ProjekatWeb2\PUSGS_Project\WebApp\WebApp\obj\Debug\WebApp.Migrations.NewMigration.resources
-C:\Users\e375-2015\Desktop\ProjekatWeb2\PUSGS_Project\WebApp\WebApp\obj\Debug\WebApp.csproj.GenerateResource.Cache
 C:\Users\e375-2015\Desktop\ProjekatWeb2\PUSGS_Project\WebApp\WebApp\obj\Debug\WebApp.csproj.CoreCompileInputs.cache
 C:\Users\e375-2015\Desktop\ProjekatWeb2\PUSGS_Project\WebApp\WebApp\obj\Debug\WebApp.dll
 C:\Users\e375-2015\Desktop\ProjekatWeb2\PUSGS_Project\WebApp\WebApp\obj\Debug\WebApp.pdb
+C:\Users\e375-2015\Desktop\ProjekatWeb2\PUSGS_Project\WebApp\WebApp\obj\Debug\WebApp.csproj.GenerateResource.Cache
+C:\Users\e375-2015\Desktop\ProjekatWeb2\PUSGS_Project\WebApp\WebApp\obj\Debug\WebApp.Migrations.InitialMigration.resources
+C:\Users\e375-2015\Desktop\ProjekatWeb2\PUSGS_Project\WebApp\WebApp\obj\Debug\WebApp.Migrations.MigrationDB.resources

@@ -20,36 +20,30 @@ namespace WebApp.Controllers
             unitOfWork = un;
         }
 
-        //GET / DrivingPlan / GetDrivingPlan?DrivePlanType=1&DrivePlanDay=2&DriveLineNumber=1
-        [HttpGet]
-        [Route("GetDrivingPlanLine")]
-        public IHttpActionResult GetDrivingPlanLine (GetDrivingPlanBindingModel model)
-        {
+        ////GET / DrivingPlan / GetDrivingPlan?DrivePlanType=1&DrivePlanDay=2&DriveLineNumber=1
+        //[HttpGet]
+        //[Route("GetDrivingPlanLine")]
+        //public IHttpActionResult GetDrivingPlanLine (GetDrivingPlanBindingModel model)
+        //{
 
-            var lines = unitOfWork.DrivingPlans.GetSpecificDrivingPlan(model.DrivePlanType, model.DrivePlanDay, model.DriveLineNumber).Lines;
+        //    var lines = unitOfWork.DrivingPlans.GetSpecificDrivingPlan(model.DrivePlanType, model.DrivePlanDay, model.DriveLineNumber).Lines;
 
-            var drivingPlanLine = lines.Where(x => x.Number == model.DriveLineNumber).FirstOrDefault(); //tacno trazena linija
+        //    var drivingPlanLine = lines.Where(x => x.Number == model.DriveLineNumber).FirstOrDefault(); //tacno trazena linija
 
-            return Ok(drivingPlanLine);
+        //    return Ok(drivingPlanLine);
             
 
 
-        }
+        //}
 
         //GET / DrivingPlan / GetDrivingPlanDepartures? DriveLineNumber=1 & DrivePlanType=2 & DriveLineType=1
         [HttpGet]
         [Route("GetDrivingPlanDepartures")]
         public IHttpActionResult GetDrivingPlanDepartures(int lineNumber , DriveType driveType , WeekDays drivePlanDay)
         {
-            List<DateTime> dateTimes = new List<DateTime>();
 
-            var departures = unitOfWork.Departures.GetDepartures(lineNumber, driveType, drivePlanDay);
-            foreach (Departure dep in departures)
-            {
-                dateTimes.Add(dep.Time);
-            }
 
-            return Ok(dateTimes);
+            return Ok();
 
 
 

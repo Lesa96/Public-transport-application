@@ -264,16 +264,15 @@
     <Compile Include="Migrations\201905222056072_InitialMigration.Designer.cs">
       <DependentUpon>201905222056072_InitialMigration.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201906031151441_NewMigration.cs" />
-    <Compile Include="Migrations\201906031151441_NewMigration.Designer.cs">
-      <DependentUpon>201906031151441_NewMigration.cs</DependentUpon>
+    <Compile Include="Migrations\201906051414008_MigrationDB.cs" />
+    <Compile Include="Migrations\201906051414008_MigrationDB.Designer.cs">
+      <DependentUpon>201906051414008_MigrationDB.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\Coordinates.cs" />
-    <Compile Include="Models\Departure.cs" />
     <Compile Include="Models\Driveline.cs" />
     <Compile Include="Models\DrivelineBindingModels.cs" />
     <Compile Include="Models\DrivingPlan.cs" />
@@ -294,12 +293,10 @@
     <Compile Include="Persistence\ApplicationDbContext.cs" />
     <Compile Include="Persistence\Repository\ApplicationUserRepository.cs" />
     <Compile Include="Persistence\Repository\CoordinatesRepository.cs" />
-    <Compile Include="Persistence\Repository\DepartureRepository.cs" />
     <Compile Include="Persistence\Repository\DrivelineRepository.cs" />
     <Compile Include="Persistence\Repository\DrivingPlanRepository.cs" />
     <Compile Include="Persistence\Repository\IApplicationUserRepository.cs" />
     <Compile Include="Persistence\Repository\ICoordinatesRepository.cs" />
-    <Compile Include="Persistence\Repository\IDepartureRepository.cs" />
     <Compile Include="Persistence\Repository\IDrivelineRepository.cs" />
     <Compile Include="Persistence\Repository\IDrivingPlanRepository.cs" />
     <Compile Include="Persistence\Repository\IPassengerTypeCoefficientRepository.cs" />
@@ -417,8 +414,8 @@
     <EmbeddedResource Include="Migrations\201905222056072_InitialMigration.resx">
       <DependentUpon>201905222056072_InitialMigration.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906031151441_NewMigration.resx">
-      <DependentUpon>201906031151441_NewMigration.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201906051414008_MigrationDB.resx">
+      <DependentUpon>201906051414008_MigrationDB.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

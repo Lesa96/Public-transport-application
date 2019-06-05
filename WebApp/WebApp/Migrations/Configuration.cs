@@ -55,29 +55,45 @@ namespace WebApp.Migrations
 
             if (!context.Users.Any(u => u.UserName == "admin@yahoo.com"))
             {
-                var user = new ApplicationUser() { Id = "admin", UserName = "admin@yahoo.com", Email = "admin@yahoo.com", PasswordHash = ApplicationUser.HashPassword("Admin123!") };
+                var user = new ApplicationUser() { Id = "admin", UserName = "admin@yahoo.com", Email = "admin@yahoo.com", PasswordHash = ApplicationUser.HashPassword("Admin123!") , BirthDate = DateTime.Now };
                 userManager.Create(user);
                 userManager.AddToRole(user.Id, "Admin");
             }
 
             if (!context.Users.Any(u => u.UserName == "appu@yahoo.com"))
             { 
-                var user = new ApplicationUser() { Id = "appu", UserName = "appu@yahoo.com", Email = "appu@yahoo.com", PasswordHash = ApplicationUser.HashPassword("Appu123!") };
+                var user = new ApplicationUser() { Id = "appu", UserName = "appu@yahoo.com", Email = "appu@yahoo.com", PasswordHash = ApplicationUser.HashPassword("Appu123!"), BirthDate = DateTime.Now };
                 userManager.Create(user);
                 userManager.AddToRole(user.Id, "AppUser");
             }
 
+            if(!context.DriveLines.Any(d => d.Number == 4))
+            {
+                var drLine = new Driveline() { Number = 4 };
+                context.DriveLines.Add(drLine);
+                context.SaveChanges();
+            }
 
-            InitialDBAdding(context); //dodaje neke pocetne vrednosti u bazi 
+            if(!context.DrivingPlans.Any(p => p.Departures.Equals("4: 50 ; 10:30")))
+            {
+                DrivingPlan drivingPlan = new DrivingPlan() { Day = Models.Enums.WeekDays.Monday, Type = Models.Enums.DriveType.City, Departures = "4: 50 ; 10:30", DrivelineId = context.DriveLines.Where( l => l.Number == 4).FirstOrDefault().Id };
+                context.DrivingPlans.Add(drivingPlan);
+                context.SaveChanges();
+            }
+
+           // InitialDBAdding(context); //dodaje neke pocetne vrednosti u bazi 
         }
 
         private void InitialDBAdding(WebApp.Persistence.ApplicationDbContext context)
         {
             Coordinates coordinates = new Coordinates() { CoordinatesId = 1,CoordX = 1, CoordY = 1 };
 
-            DrivingPlan drivingPlan = new DrivingPlan() {Id = 1, Day = Models.Enums.WeekDays.Monday, Type = Models.Enums.DriveType.City };
+            DrivingPlan drivingPlan = new DrivingPlan() {Id = 1, Day = Models.Enums.WeekDays.Monday, Type = Models.Enums.DriveType.City , Departures ="4: 50 ; 10:30" };
+            
+            
             Station station = new Station() {Id = 1, Address = "TestAddress", CoordinatesId = 1, Name = "TestName" };
-            Driveline driveline = new Driveline() {Id = 1, Number = 1, DrivingPlanId = 1 };
+            Driveline driveline = new Driveline() {Id = 1, Number = 1 };
+            driveline.DrivingPlans.Add(drivingPlan);
             driveline.Stations.Add(station);
             station.Drivelines.Add(driveline);
 
