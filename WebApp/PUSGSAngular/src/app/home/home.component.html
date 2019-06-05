@@ -1,64 +1,59 @@
 <app-start-page-navigation></app-start-page-navigation>
-<h1>Gradski i Prigradski red voznje</h1>
-
+<br><br><br>
 <div>
   <form [formGroup]="DrivingPlanForm" (ngSubmit)="onSubmit()">
     <table>
-
+      <tr>
+        <td colspan="2" align="center">
+          <h2>Choose ride</h2>
+        </td>
+      </tr>
       <tr>
         <td>
-          <label>Broj linije: </label>
+          <label>Line number: </label>
         </td>
         <td>
           <select formControlName="number">
-            <option *ngFor="let number of drivelineNumber"  [value]="number">{{number}}</option>
+            <option *ngFor="let number of drivelineNumber" [value]="number">{{number}}</option>
           </select>
         </td>
       </tr>
       <tr>
-          <td>
-            <label>Tip prevoza: </label>
-          </td>
-          <td>
-            <select formControlName="type">
-                <option *ngFor="let type of driveType" [value]="type">{{type}}</option> 
-            </select>
-          </td>
-        </tr>
-        <tr>
-            <td>
-              <label>Dan: </label>
-            </td>
-            <td>
-              <select formControlName="day">
-                  <option *ngFor="let day of days" [value]="day">{{day}}</option> 
-              </select>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <div align='center'>
-                  <button type="submit">Prikazi</button>
-              </div>
-                
-            </td>
-          </tr>
-
+        <td>
+          <label>Ride type: </label>
+        </td>
+        <td>
+          <select formControlName="type">
+            <option *ngFor="let type of driveType" [value]="type">{{type}}</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label>Day: </label>
+        </td>
+        <td>
+          <select formControlName="day">
+            <option *ngFor="let day of days" [value]="day">{{day}}</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" align="right">
+            <button type="submit">Show</button>
+        </td>
+      </tr>
     </table>
-    
   </form>
 </div>
 <br />
 <br />
 <div>
-  <ul  >
+  <h2 align="center">Timetable for selected ride:</h2>
+  <ul align="center">
     <li *ngFor="let date of departures">
       {{date}}
     </li>
 
   </ul>
 </div>
-
-
-
-

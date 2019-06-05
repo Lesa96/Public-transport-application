@@ -1,10 +1,11 @@
+<br><br><br>
 <table>
   <tr>
     <td colspan="2" align="center">
       <h2>Please select document image</h2>
     </td>
   </tr>
-  <tr>
+  <tr *ngIf="url">
     <td colspan="2" align="center">
       <img [src]="url" height="200">
     </td>

@@ -1,4 +1,29 @@
 <app-start-page-navigation></app-start-page-navigation>
-<p>
-  buy-ticket works!
-</p>
+<br><br><br>
+<form [formGroup]="buyForm" (ngSubmit)="onSubmit()">
+  <table>
+    <tr>
+      <td colspan="2" align="center">
+        <h2>Buy ticket</h2>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" align="center">
+        <i>Ticket will be sent to your email</i>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Email:
+      </td>
+      <td>
+        <input type="email" formControlName="email" required email>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" align="right">
+        <button type="submit" class="btn btn-default" [disabled]="buyForm.invalid">Buy ticket</button>
+      </td>
+    </tr>
+  </table>
+</form>
