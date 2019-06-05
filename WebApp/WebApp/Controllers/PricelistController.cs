@@ -28,6 +28,11 @@ namespace WebApp.Controllers
             float regularPrice = unitOfWork.Pricelists.GetTicketPrice(ticketType, passengerType, currentTime);
             float coefficient = unitOfWork.PassengerTypeCoefficients.GetCoefficientForType(passengerType);
 
+            if (regularPrice == 0 || coefficient == 0)
+            {
+                return BadRequest();
+            }
+
             return Ok(regularPrice * coefficient);
         }
 
@@ -35,7 +40,17 @@ namespace WebApp.Controllers
         public IHttpActionResult UpdateTicketPrice(UpdateTicketPriceBindingModel bindingModel)
         {
             var pricelist = unitOfWork.Pricelists.Get(bindingModel.PricelistId);
+            if (pricelist == null)
+            {
+                return NotFound();
+            }
+
             var pricelistItem = unitOfWork.Pricelists.GetPricelistItemByIds(bindingModel.PricelistId, bindingModel.PricelistItemId);
+            if (pricelistItem == null)
+            {
+                return NotFound();
+            }
+
             pricelistItem.Price = bindingModel.Price;
 
             unitOfWork.PricelistItems.Update(pricelistItem);

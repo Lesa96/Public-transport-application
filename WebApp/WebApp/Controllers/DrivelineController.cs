@@ -23,11 +23,18 @@ namespace WebApp.Controllers
         public IHttpActionResult GetDrivelineNumbers()
         {
             List<Driveline> drivelines = unitOfWork.Drivelines.GetAllDriveLines();
+
+            if(drivelines.Count == 0)
+            {
+                return NotFound();
+            }
+
             int[] numbers = new int[drivelines.Count];
             for (int i = 0; i < drivelines.Count; i++)
             {
-                numbers[i] = drivelines[i].Id;
+                numbers[i] = drivelines[i].Number;
             }
+            
 
             return Ok(numbers);
         }
@@ -36,7 +43,10 @@ namespace WebApp.Controllers
         [HttpPatch, Route("AddStation")]
         public IHttpActionResult AddStation(AddStationBindingModel bindingModel)
         {
-            unitOfWork.Drivelines.AddStationInLine(bindingModel.DriveLineId, bindingModel.StationId);
+            if(unitOfWork.Drivelines.AddStationInLine(bindingModel.DriveLineId, bindingModel.StationId))
+            {
+                return NotFound();
+            }
 
             return Ok();
         }
@@ -45,7 +55,10 @@ namespace WebApp.Controllers
         [HttpPatch, Route("DeleteStation")]
         public IHttpActionResult DeleteStation(AddStationBindingModel bindingModel)
         {
-            unitOfWork.Drivelines.DeleteStationInLine(bindingModel.DriveLineId, bindingModel.StationId);
+            if(unitOfWork.Drivelines.DeleteStationInLine(bindingModel.DriveLineId, bindingModel.StationId))
+            {
+                return NotFound();
+            }
 
             return Ok();
         }
@@ -54,7 +67,10 @@ namespace WebApp.Controllers
         [HttpPatch, Route("ChangeNumber")]
         public IHttpActionResult ChangeNumber(ChangeNumberBindingModel bindingModel)
         {
-            unitOfWork.Drivelines.UpdateNumber(bindingModel.DriveLineId, bindingModel.DriveLineNumber);
+            if(unitOfWork.Drivelines.UpdateNumber(bindingModel.DriveLineId, bindingModel.DriveLineNumber))
+            {
+                return NotFound();
+            }
 
             return Ok();
         }

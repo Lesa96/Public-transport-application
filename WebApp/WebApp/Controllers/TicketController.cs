@@ -24,7 +24,16 @@ namespace WebApp.Controllers
         {
             DateTime currentTime = DateTime.Now;
             var pricelistItem = unitOfWork.Pricelists.GetPricelistItemForSelectedTypes(bindingModel.TicketType, bindingModel.PassengerType, currentTime);
+            if (pricelistItem == null)
+            {
+                return NotFound();
+            }
+
             var passenger = unitOfWork.Users.Find(u => u.Id.Equals(bindingModel.UserId)).FirstOrDefault();
+            if (passenger == null)
+            {
+                return NotFound();
+            }
 
             Ticket ticket = new Ticket() {
                 TimeOfPurchase = currentTime,

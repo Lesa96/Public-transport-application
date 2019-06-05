@@ -25,8 +25,14 @@ namespace WebApp.Persistence.Repository
 
         public bool AddStationInLine(int drivelineId, int stationID)
         {
-            var station = AppDbContext.Stations.Where(x => x.Id == stationID).FirstOrDefault();
+            var station = AppDbContext.Stations.Where(x => x.Id == stationID).FirstOrDefault();           
             var driveline = AppDbContext.DriveLines.Where(x => x.Id == drivelineId).FirstOrDefault();
+
+            if (station == null || driveline == null)
+            {
+                return false;
+            }
+
 
             driveline.Stations.Add(station);
             AppDbContext.SaveChanges();
@@ -40,6 +46,11 @@ namespace WebApp.Persistence.Repository
             var station = AppDbContext.Stations.Where(x => x.Id == stationID).FirstOrDefault();
             var driveline = AppDbContext.DriveLines.Where(x => x.Id == drivelineId).FirstOrDefault();
 
+            if (station == null || driveline == null)
+            {
+                return false;
+            }
+
             driveline.Stations.Remove(station);
             AppDbContext.SaveChanges();
 
@@ -49,6 +60,11 @@ namespace WebApp.Persistence.Repository
         public bool UpdateNumber(int drivelineId, int drivelineNumber)
         {
             var driveline = AppDbContext.DriveLines.Where(x => x.Id == drivelineId).FirstOrDefault();
+            if ( driveline == null)
+            {
+                return false;
+            }
+
             driveline.Number = drivelineNumber;
 
             AppDbContext.SaveChanges();
