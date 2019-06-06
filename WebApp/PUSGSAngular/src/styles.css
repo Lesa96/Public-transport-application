@@ -89,3 +89,7 @@ h1 {
     cursor: hand;
     float: right;
   }
+
+  .nowrap {
+    white-space: nowrap ;
+  }

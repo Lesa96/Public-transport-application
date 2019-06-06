@@ -1,4 +1,10 @@
 <app-admin-navigation></app-admin-navigation>
-<p>
-  edit-pricelist works!
-</p>
+<nav>
+  <a (click)="toggleForm('add')">Add</a>
+  <a (click)="toggleForm('edit')">Edit</a>
+  <a (click)="toggleForm('delete')">Delete</a>
+</nav>
+
+<app-add-pricelist-form *ngIf="showAdd"></app-add-pricelist-form>
+<app-edit-pricelist-form *ngIf="showEdit"></app-edit-pricelist-form>
+<app-delete-pricelist-form *ngIf="showDelete"></app-delete-pricelist-form>

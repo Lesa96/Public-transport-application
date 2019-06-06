@@ -16,6 +16,12 @@ import { EditLinesComponent } from './edit-lines/edit-lines.component';
 import { EditStationsComponent } from './edit-stations/edit-stations.component';
 import { EditDrivingPlanComponent } from './edit-driving-plan/edit-driving-plan.component';
 import { EditPricelistComponent } from './edit-pricelist/edit-pricelist.component';
+import { AddDrivingPlanFormComponent } from './add-driving-plan-form/add-driving-plan-form.component';
+import { EditDrivingPlanFormComponent } from './edit-driving-plan-form/edit-driving-plan-form.component';
+import { DeleteDrivingPlanFormComponent } from './delete-driving-plan-form/delete-driving-plan-form.component';
+import { AddPricelistFormComponent } from './add-pricelist-form/add-pricelist-form.component';
+import { EditPricelistFormComponent } from './edit-pricelist-form/edit-pricelist-form.component';
+import { DeletePricelistFormComponent } from './delete-pricelist-form/delete-pricelist-form.component';
 
 
 @NgModule({
@@ -33,6 +39,12 @@ import { EditPricelistComponent } from './edit-pricelist/edit-pricelist.componen
     EditStationsComponent,
     EditDrivingPlanComponent,
     EditPricelistComponent,
+    AddDrivingPlanFormComponent,
+    EditDrivingPlanFormComponent,
+    DeleteDrivingPlanFormComponent,
+    AddPricelistFormComponent,
+    EditPricelistFormComponent,
+    DeletePricelistFormComponent,
   ],
   imports: [
     BrowserModule,

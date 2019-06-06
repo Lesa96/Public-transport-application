@@ -20,7 +20,35 @@ namespace WebApp.Models
         [Required]
         [Display(Name = "Drive plan day")]
         public WeekDays DrivePlanDay { get; set; }
+    }
 
-        
+    public class AddDrivingPlanBindingModel
+    {
+        [Required]
+        [Display(Name = "Type")]
+        public DriveType Type { get; set; }
+
+        [Required]
+        [Display(Name = "Number")]
+        public int Number { get; set; }
+
+        [Required]
+        [Display(Name = "Day")]
+        public WeekDays Day { get; set; }
+
+        [Display(Name = "Departures")]
+        public ICollection<string> Departures { get; set; }
+
+        public AddDrivingPlanBindingModel()
+        {
+            Departures = new HashSet<string>();
+        }
+    }
+
+    public class DeleteDrivingPlanBindingModel
+    {
+        [Required]
+        [Display(Name = "Id")]
+        public int Id { get; set; }
     }
 }

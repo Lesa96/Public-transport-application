@@ -1,0 +1,28 @@
+<br><br><br>
+<form [formGroup]="deleteForm" (ngSubmit)="onSubmit()">
+  <table>
+    <tr>
+      <td colspan="2" align="center">
+        <h2>Delete driving plan</h2>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" align="left">
+        <div class="nowrap" *ngFor="let plan of plans">Id: {{plan.Id}}; Type: {{plan.Type}}; Day: {{plan.Day}}; Departures: {{plan.Departures}}</div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Delete plan (id):
+      </td>
+      <td align="right">
+        <input type="text" formControlName="id" required>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" align="right">
+        <button type="submit" class="btn btn-default" [disabled]="deleteForm.invalid">Delete</button>
+      </td>
+    </tr>
+  </table>
+</form>

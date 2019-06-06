@@ -38,8 +38,9 @@ export class HomeService {
   getDrivingPlanDepartures(selecetdItems : any) : Observable<any>
   {
     let httpOptionsDepartures = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      headers: new HttpHeaders({ 'Content-Type': 'application/json', "Authorization": "Bearer " + localStorage.jwt }),
       params: new HttpParams().set('lineNumber' , selecetdItems.number).set('driveType',selecetdItems.type).set('drivePlanDay',selecetdItems.day)
+      
     }
 
     return this.http.get(this.drivingPlanDeparturesUri,httpOptionsDepartures);

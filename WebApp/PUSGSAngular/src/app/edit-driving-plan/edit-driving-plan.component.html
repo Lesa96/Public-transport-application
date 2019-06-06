@@ -1,4 +1,10 @@
 <app-admin-navigation></app-admin-navigation>
-<p>
-  edit-driving-plan works!
-</p>
+<nav>
+  <a (click)="toggleForm('add')">Add</a>
+  <a (click)="toggleForm('edit')">Edit</a>
+  <a (click)="toggleForm('delete')">Delete</a>
+</nav>
+
+<app-add-driving-plan-form *ngIf="showAdd"></app-add-driving-plan-form>
+<app-edit-driving-plan-form *ngIf="showEdit"></app-edit-driving-plan-form>
+<app-delete-driving-plan-form *ngIf="showDelete"></app-delete-driving-plan-form>
