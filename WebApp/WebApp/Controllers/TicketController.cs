@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Mail;
 using System.Web.Http;
 using WebApp.Models;
 using WebApp.Models.Enums;
@@ -67,12 +68,25 @@ namespace WebApp.Controllers
                 IsCanceled = false
             };
 
-            //send email here
+            SendTicketToEmail(ticket, bindingModel.email);
 
             unitOfWork.Tickets.Add(ticket);
             unitOfWork.Complete();
 
             return Ok();
+        }
+
+        public void SendTicketToEmail(Ticket ticket, string toEmail)
+        {
+            MailMessage mail = new MailMessage("you@yourcompany.com", toEmail);
+            SmtpClient client = new SmtpClient();
+            client.Port = 25;
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.UseDefaultCredentials = false;
+            client.Host = "smtp.gmail.com";
+            mail.Subject = "Ticket";
+            mail.Body = ticket.ToString();
+            client.Send(mail);
         }
     }
 }

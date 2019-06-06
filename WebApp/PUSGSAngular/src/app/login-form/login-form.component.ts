@@ -41,7 +41,7 @@ export class LoginFormComponent  {
           localStorage.setItem('role', role);
           if (role == 'Admin')
           {
-            this.router.navigate(['/admin'])
+            this.router.navigate(['/editlines'])
           }
           else
           {

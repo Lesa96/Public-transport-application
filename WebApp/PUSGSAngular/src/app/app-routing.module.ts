@@ -4,7 +4,10 @@ import { HomeComponent } from 'src/app/home/home.component';
 import { RegisterComponent } from 'src/app/register/register.component';
 import { BuyTicketComponent } from 'src/app/buy-ticket/buy-ticket.component';
 import { UploadDocumentComponent } from './upload-document/upload-document.component';
-import { AdminViewComponent } from 'src/app/admin-view/admin-view.component';
+import { EditLinesComponent } from 'src/app/edit-lines/edit-lines.component';
+import { EditStationsComponent } from 'src/app/edit-stations/edit-stations.component';
+import { EditDrivingPlanComponent } from 'src/app/edit-driving-plan/edit-driving-plan.component';
+import { EditPricelistComponent } from 'src/app/edit-pricelist/edit-pricelist.component';
 
 const routes: Routes = [
   { 
@@ -29,8 +32,20 @@ const routes: Routes = [
     component: UploadDocumentComponent
   },
   {
-    path: 'admin',
-    component: AdminViewComponent
+    path: 'editlines',
+    component: EditLinesComponent
+  },
+  {
+    path: 'editstations',
+    component: EditStationsComponent
+  },
+  {
+    path: 'editdrivingplan',
+    component: EditDrivingPlanComponent
+  },
+  {
+    path: 'editpricelist',
+    component: EditPricelistComponent
   }
 ];
 

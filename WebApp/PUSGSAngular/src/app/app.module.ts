@@ -10,8 +10,12 @@ import { BuyTicketComponent } from './buy-ticket/buy-ticket.component';
 import { RegisterFormComponent } from './register-form/register-form.component';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { UploadDocumentComponent } from './upload-document/upload-document.component';
-import { AdminViewComponent } from './admin-view/admin-view.component';
 import { StartPageNavigationComponent } from './start-page-navigation/start-page-navigation.component';
+import { AdminNavigationComponent } from './admin-navigation/admin-navigation.component';
+import { EditLinesComponent } from './edit-lines/edit-lines.component';
+import { EditStationsComponent } from './edit-stations/edit-stations.component';
+import { EditDrivingPlanComponent } from './edit-driving-plan/edit-driving-plan.component';
+import { EditPricelistComponent } from './edit-pricelist/edit-pricelist.component';
 
 
 @NgModule({
@@ -23,8 +27,12 @@ import { StartPageNavigationComponent } from './start-page-navigation/start-page
     RegisterFormComponent,
     LoginFormComponent,
     UploadDocumentComponent,
-    AdminViewComponent,
     StartPageNavigationComponent,
+    AdminNavigationComponent,
+    EditLinesComponent,
+    EditStationsComponent,
+    EditDrivingPlanComponent,
+    EditPricelistComponent,
   ],
   imports: [
     BrowserModule,
