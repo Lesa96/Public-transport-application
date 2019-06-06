@@ -14,5 +14,16 @@ namespace WebApp.Persistence.Repository
         public StationRepository(DbContext context) : base(context)
         {
         }
+
+        public List<string> GetStationNames()
+        {
+            List<string> stationNames = new List<string>();
+
+            foreach (Station s in AppDbContext.Stations)
+            {
+                stationNames.Add(s.Name + ';');
+            }
+            return stationNames;
+        }
     }
 }

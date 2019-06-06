@@ -1,0 +1,31 @@
+<div>
+  <form [formGroup]="DrivelineForm" (ngSubmit)="onSubmit()">
+    <table>
+      <tr>
+        <td>
+          <label>Line number: </label>
+        </td>
+        <td>
+          <input type="number" formControlName="number" min ='1'>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label formArrayName="names" *ngFor="let name of names.controls; let i=index" >
+              <input formControlName="names"  type="checkbox" >
+            {{stationNames[i]}}
+            <br>
+          </label>
+
+          
+        </td>
+      </tr>
+      <tr>
+          <td colspan="2" align="right">
+              <button type="submit">Add Driveline</button>
+          </td>
+        </tr>
+    </table>
+  </form>
+  
+</div>

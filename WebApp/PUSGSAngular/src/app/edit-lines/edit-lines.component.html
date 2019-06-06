@@ -1,4 +1,11 @@
 <app-admin-navigation></app-admin-navigation>
-<p>
-  edit-lines works!
-</p>
+<nav>
+  <a (click)="toggleForm('AddDriveline')">AddDriveline</a>
+  <a (click)="toggleForm('ChangeDriveline')">ChangeDriveline</a>
+  <a (click)="toggleForm('DeleteDriveline')">DeleteDriveline</a>
+</nav>
+
+<app-add-driveline *ngIf="showAdd"></app-add-driveline>
+<app-change-driveline *ngIf="showChange"></app-change-driveline>
+<app-delete-driveline *ngIf="showDelete"></app-delete-driveline>
+

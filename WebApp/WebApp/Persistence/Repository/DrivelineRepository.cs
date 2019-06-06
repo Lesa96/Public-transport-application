@@ -82,5 +82,31 @@ namespace WebApp.Persistence.Repository
 
             return drivelines;
         }
+
+        public bool AddDriveline(int number, List<string> stationNames)
+        {
+            if(!AppDbContext.DriveLines.Any(d => d.Number == number))
+            {
+                Driveline dr = new Driveline() { Number = number };
+                if (stationNames != null)
+                {
+                    foreach (string name in stationNames)
+                    {
+                        dr.Stations.Add(AppDbContext.Stations.Where(s => s.Name == name).FirstOrDefault()); //dodaje stanice u liniju
+                       
+                    }
+
+                    
+                }
+
+                AppDbContext.DriveLines.Add(dr);
+                AppDbContext.SaveChanges();
+
+                return true;
+
+            }
+
+            return false;
+        }
     }
 }

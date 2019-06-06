@@ -80,6 +80,12 @@ namespace WebApp.Migrations
                 context.Coordinates.Add(c);
                 context.SaveChanges();
             }
+            if (!context.Coordinates.Any(c => c.CoordinatesId == 2)) // kada budemo napravili server ovo ce biti nepotrebno
+            {
+                Coordinates c = new Coordinates() { CoordX = 10, CoordY = 10 };
+                context.Coordinates.Add(c);
+                context.SaveChanges();
+            }
 
             if (!context.DriveLines.Any(d => d.Number == 4))
             {
@@ -115,7 +121,14 @@ namespace WebApp.Migrations
                 context.Stations.Add(s);
                 context.SaveChanges();
             }
-            if(!context.Pricelists.Any(p => p.PricelistId == 1)) //necemo po ID-u , ali posto je samo test onda je ok
+            if (!context.Stations.Any(s => s.Name == "SecondStation"))
+            {
+                Station s = new Station() { Name = "SecondStation", Address = "Bulevar Oslobodjenja 10" };
+                s.CoordinatesId = context.Coordinates.Where(c => c.CoordinatesId == 2).FirstOrDefault().CoordinatesId;
+                context.Stations.Add(s);
+                context.SaveChanges();
+            }
+            if (!context.Pricelists.Any(p => p.PricelistId == 1)) //necemo po ID-u , ali posto je samo test onda je ok
             {
                 Pricelist pr = new Pricelist() { ValidFrom = DateTime.Now, ValidUntil = DateTime.Now.AddDays(2) };
                 context.Pricelists.Add(pr);

@@ -40,6 +40,21 @@ namespace WebApp.Controllers
         }
 
         //[Authorize(Roles ="Admin")]
+        [HttpPost, Route("AddDriveline")]
+        public IHttpActionResult AddDriveline(AddDrivelineBindingModel bindingModel)
+        {
+            if (unitOfWork.Drivelines.AddDriveline(bindingModel.Number , bindingModel.StationNames))
+            {
+                return Ok();
+            }
+
+            return BadRequest();
+
+            
+        }
+
+
+        //[Authorize(Roles ="Admin")]
         [HttpPatch, Route("AddStation")]
         public IHttpActionResult AddStation(AddStationBindingModel bindingModel)
         {

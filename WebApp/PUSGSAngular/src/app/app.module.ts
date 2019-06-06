@@ -16,6 +16,9 @@ import { EditLinesComponent } from './edit-lines/edit-lines.component';
 import { EditStationsComponent } from './edit-stations/edit-stations.component';
 import { EditDrivingPlanComponent } from './edit-driving-plan/edit-driving-plan.component';
 import { EditPricelistComponent } from './edit-pricelist/edit-pricelist.component';
+import { AddDrivelineComponent } from './add-driveline/add-driveline.component';
+import { ChangeDrivelineComponent } from './change-driveline/change-driveline.component';
+import { DeleteDrivelineComponent } from './delete-driveline/delete-driveline.component';
 
 
 @NgModule({
@@ -33,6 +36,9 @@ import { EditPricelistComponent } from './edit-pricelist/edit-pricelist.componen
     EditStationsComponent,
     EditDrivingPlanComponent,
     EditPricelistComponent,
+    AddDrivelineComponent,
+    ChangeDrivelineComponent,
+    DeleteDrivelineComponent,
   ],
   imports: [
     BrowserModule,
