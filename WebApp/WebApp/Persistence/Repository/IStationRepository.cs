@@ -9,6 +9,6 @@ namespace WebApp.Persistence.Repository
 {
     public interface IStationRepository : IRepository<Station, int>
     {
-
+        List<string> GetStationNames();
     }
 }

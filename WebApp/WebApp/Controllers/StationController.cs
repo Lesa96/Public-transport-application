@@ -19,6 +19,19 @@ namespace WebApp.Controllers
             this.unitOfWork = unitOfWork;
         }
 
+        [HttpGet]
+        [Route("GetAllStationNames")]
+        public IHttpActionResult GetAllStationNames()
+        {
+            List<string> stationNames = unitOfWork.Stations.GetStationNames();
+            if(stationNames.Equals(string.Empty))
+            {
+                return NotFound();
+            }
+            return Ok(stationNames);
+
+        }
+
         [Route("UpdateStationInfo"), HttpPatch]
         public IHttpActionResult UpdateStationInfo(UpdateStationInfoBindingModel bindingModel)
         {

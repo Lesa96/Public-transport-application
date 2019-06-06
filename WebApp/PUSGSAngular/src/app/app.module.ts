@@ -22,6 +22,9 @@ import { DeleteDrivingPlanFormComponent } from './delete-driving-plan-form/delet
 import { AddPricelistFormComponent } from './add-pricelist-form/add-pricelist-form.component';
 import { EditPricelistFormComponent } from './edit-pricelist-form/edit-pricelist-form.component';
 import { DeletePricelistFormComponent } from './delete-pricelist-form/delete-pricelist-form.component';
+import { AddDrivelineComponent } from './add-driveline/add-driveline.component';
+import { ChangeDrivelineComponent } from './change-driveline/change-driveline.component';
+import { DeleteDrivelineComponent } from './delete-driveline/delete-driveline.component';
 
 
 @NgModule({
@@ -45,6 +48,9 @@ import { DeletePricelistFormComponent } from './delete-pricelist-form/delete-pri
     AddPricelistFormComponent,
     EditPricelistFormComponent,
     DeletePricelistFormComponent,
+    AddDrivelineComponent,
+    ChangeDrivelineComponent,
+    DeleteDrivelineComponent,
   ],
   imports: [
     BrowserModule,

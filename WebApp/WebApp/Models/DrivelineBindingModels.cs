@@ -6,6 +6,17 @@ using System.Web;
 
 namespace WebApp.Models
 {
+
+    public class AddDrivelineBindingModel
+    {
+        [Required]
+        [Display(Name = "Drive line number")]
+        public int Number { get; set; }
+
+        [Required]
+        [Display(Name = "Station names")]
+        public List<string> StationNames { get; set; }
+    }
     public class AddStationBindingModel
     {
         [Required]
