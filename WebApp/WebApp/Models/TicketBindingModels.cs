@@ -21,4 +21,11 @@ namespace WebApp.Models
         [Display(Name = "PassengerType")]
         public PassengerType PassengerType { get; set; }
     }
+
+    public class BuyUnregisteredBindingModel
+    {
+        [Required]
+        [Display(Name = "Email")]
+        public string email { get; set; }
+    }
 }
