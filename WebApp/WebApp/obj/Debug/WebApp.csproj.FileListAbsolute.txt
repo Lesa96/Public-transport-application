@@ -444,7 +444,6 @@ C:\Users\Sasa Dragomirovic\Desktop\WEB2_Projekat\PUSGS_Project\WebApp\WebApp\bin
 C:\Users\Sasa Dragomirovic\Desktop\WEB2_Projekat\PUSGS_Project\WebApp\WebApp\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 C:\Users\Sasa Dragomirovic\Desktop\WEB2_Projekat\PUSGS_Project\WebApp\WebApp\obj\Debug\WebApp.csproj.CopyComplete
 C:\Users\Sasa Dragomirovic\Desktop\WEB2_Projekat\PUSGS_Project\WebApp\WebApp\obj\Debug\WebApp.csprojResolveAssemblyReference.cache
-C:\Users\Sasa Dragomirovic\Desktop\WEB2_Projekat\PUSGS_Project\WebApp\WebApp\obj\Debug\WebApp.Migrations.NewMigration.resources
 C:\Users\e3124-2015\Documents\GitHub\PUSGS_Project\WebApp\WebApp\obj\Debug\WebApp.csprojResolveAssemblyReference.cache
 C:\Users\e3124-2015\Documents\GitHub\PUSGS_Project\WebApp\WebApp\obj\Debug\WebApp.Migrations.InitialMigration.resources
 C:\Users\e3124-2015\Documents\GitHub\PUSGS_Project\WebApp\WebApp\obj\Debug\WebApp.csproj.GenerateResource.Cache
@@ -743,3 +742,4 @@ C:\Users\e375-2015\Desktop\ProjekatWeb2\PUSGS_Project\WebApp\WebApp\obj\Debug\We
 C:\Users\e375-2015\Desktop\ProjekatWeb2\PUSGS_Project\WebApp\WebApp\obj\Debug\WebApp.Migrations.MigrationDB.resources
 C:\Users\e375-2015\Desktop\ProjekatWeb2\PUSGS_Project\WebApp\WebApp\obj\Debug\WebApp.csprojResolveAssemblyReference.cache
 C:\Users\stefa\OneDrive\Dokumenti\GitHub\PUSGS_Project\WebApp\WebApp\obj\Debug\WebApp.Migrations.MigrationDB.resources
+C:\Users\Sasa Dragomirovic\Desktop\WEB2_Projekat\PUSGS_Project\WebApp\WebApp\obj\Debug\WebApp.Migrations.MigrationDB.resources

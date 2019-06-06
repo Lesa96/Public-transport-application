@@ -67,7 +67,21 @@ namespace WebApp.Migrations
                 userManager.AddToRole(user.Id, "AppUser");
             }
 
-            if(!context.DriveLines.Any(d => d.Number == 4))
+            
+
+             InitialDBAdding(context); //dodaje neke pocetne vrednosti u bazi 
+        }
+
+        private void InitialDBAdding(WebApp.Persistence.ApplicationDbContext context)
+        {
+            if(!context.Coordinates.Any(c => c.CoordinatesId == 1)) // kada budemo napravili server ovo ce biti nepotrebno
+            {
+                Coordinates c = new Coordinates() { CoordX = 1, CoordY = 1 };
+                context.Coordinates.Add(c);
+                context.SaveChanges();
+            }
+
+            if (!context.DriveLines.Any(d => d.Number == 4))
             {
                 var drLine = new Driveline() { Number = 4 };
                 context.DriveLines.Add(drLine);
@@ -83,55 +97,60 @@ namespace WebApp.Migrations
 
             if (!context.DrivingPlans.Any(p => p.Departures.Equals("4: 50 ; 10:30")))
             {
-                DrivingPlan drivingPlan = new DrivingPlan() { Day = Models.Enums.WeekDays.Monday, Type = Models.Enums.DriveType.City, Departures = "4: 50 ; 10:30", DrivelineId = context.DriveLines.Where( l => l.Number == 4).FirstOrDefault().Id };
-                context.DrivingPlans.Add(drivingPlan);
+                DrivingPlan drPlan = new DrivingPlan() { Day = Models.Enums.WeekDays.Monday, Type = Models.Enums.DriveType.City, Departures = "4: 50 ; 10:30", DrivelineId = context.DriveLines.Where(l => l.Number == 4).FirstOrDefault().Id };
+                context.DrivingPlans.Add(drPlan);
                 context.SaveChanges();
             }
 
             if (!context.DrivingPlans.Any(p => p.Departures.Equals("10:00 ; 11:00 ; 12:00")))
             {
-                DrivingPlan drivingPlan = new DrivingPlan() { Day = Models.Enums.WeekDays.Monday, Type = Models.Enums.DriveType.City, Departures = "10:00 ; 11:00 ; 12:00", DrivelineId = context.DriveLines.Where(l => l.Number == 7).FirstOrDefault().Id };
-                context.DrivingPlans.Add(drivingPlan);
+                DrivingPlan drPlan = new DrivingPlan() { Day = Models.Enums.WeekDays.Monday, Type = Models.Enums.DriveType.City, Departures = "10:00 ; 11:00 ; 12:00", DrivelineId = context.DriveLines.Where(l => l.Number == 7).FirstOrDefault().Id };
+                context.DrivingPlans.Add(drPlan);
                 context.SaveChanges();
             }
+            if(!context.Stations.Any(s => s.Name == "FirstStation"))
+            {
+                Station s = new Station() { Name = "FirstStation", Address = "Bulevar Oslobodjenja 1" };
+                s.CoordinatesId = context.Coordinates.Where(c => c.CoordinatesId == 1).FirstOrDefault().CoordinatesId;
+                context.Stations.Add(s);
+                context.SaveChanges();
+            }
+            if(!context.Pricelists.Any(p => p.PricelistId == 1)) //necemo po ID-u , ali posto je samo test onda je ok
+            {
+                Pricelist pr = new Pricelist() { ValidFrom = DateTime.Now, ValidUntil = DateTime.Now.AddDays(2) };
+                context.Pricelists.Add(pr);
+                context.SaveChanges();
+            }
+            if(!context.PricelistItems.Any(p => p.TicketType == Models.Enums.TicketType.Daily && p.PassengerType == Models.Enums.PassengerType.Regular))
+            {
+                PricelistItem prI = new PricelistItem() { TicketType = Models.Enums.TicketType.Daily, Price = 200, PassengerType = Models.Enums.PassengerType.Regular };
+                Pricelist pr = context.Pricelists.Where(p => p.PricelistId == 1).FirstOrDefault();
+                prI.PricelistId = pr.PricelistId;
+                context.PricelistItems.Add(prI);
+                context.SaveChanges();
 
-            // InitialDBAdding(context); //dodaje neke pocetne vrednosti u bazi 
-        }
-
-        private void InitialDBAdding(WebApp.Persistence.ApplicationDbContext context)
-        {
-            Coordinates coordinates = new Coordinates() { CoordinatesId = 1,CoordX = 1, CoordY = 1 };
-
-            DrivingPlan drivingPlan = new DrivingPlan() {Id = 1, Day = Models.Enums.WeekDays.Monday, Type = Models.Enums.DriveType.City , Departures ="4: 50 ; 10:30" };
-            
-            
-            Station station = new Station() {Id = 1, Address = "TestAddress", CoordinatesId = 1, Name = "TestName" };
-            Driveline driveline = new Driveline() {Id = 1, Number = 1 };
-            driveline.DrivingPlans.Add(drivingPlan);
-            driveline.Stations.Add(station);
-            station.Drivelines.Add(driveline);
-
-
-            Pricelist pricelist = new Pricelist() {PricelistId = 1, ValidFrom = DateTime.Now, ValidUntil = DateTime.Now.AddDays(2) };
-            PricelistItem pricelistItem = new PricelistItem() {PricelistItemId = 1, TicketType = Models.Enums.TicketType.Daily, Price = 200, PricelistId = 1, PassengerType = Models.Enums.PassengerType.Regular };
-            PassengerTypeCoefficient passengerTypeCoefficient = new PassengerTypeCoefficient() {PassengerTypeCoefficientId = 1, Coefficient = 0.9F, PassengerType = Models.Enums.PassengerType.Regular };
-           // pricelist.PricelistItems.Add(pricelistItem);  //ovde je neki problem, treba ovo ispitati
-
-            Ticket ticket = new Ticket() {TicketId = 1, IsCanceled = false, TicketInfoId = 1, TimeOfPurchase = DateTime.Now };
-
-            context.Coordinates.AddOrUpdate(coordinates);
-            context.DrivingPlans.AddOrUpdate(drivingPlan);
-            context.Stations.AddOrUpdate(station);
-            context.DriveLines.AddOrUpdate(driveline);
-            
-            context.Pricelists.AddOrUpdate(pricelist);
-            context.PricelistItems.AddOrUpdate(pricelistItem);
-            
-            context.PassengerTypeCoefficients.AddOrUpdate(passengerTypeCoefficient);
-            context.Tickets.AddOrUpdate(ticket);
-
-            context.SaveChanges();
-            
+                pr.PricelistItems.Add(prI);
+                context.PricelistItems.AddOrUpdate(prI);
+                context.SaveChanges();
+            }
+            if(!context.PassengerTypeCoefficients.Any(p=> p.PassengerType == Models.Enums.PassengerType.Regular))
+            {
+                PassengerTypeCoefficient pas = new PassengerTypeCoefficient() {  Coefficient = 1F, PassengerType = Models.Enums.PassengerType.Regular };
+                context.PassengerTypeCoefficients.Add(pas);
+                context.SaveChanges();
+            }
+            if (!context.PassengerTypeCoefficients.Any(p => p.PassengerType == Models.Enums.PassengerType.Pensioner))
+            {
+                PassengerTypeCoefficient pas = new PassengerTypeCoefficient() { Coefficient = 0.9F, PassengerType = Models.Enums.PassengerType.Pensioner };
+                context.PassengerTypeCoefficients.Add(pas);
+                context.SaveChanges();
+            }
+            if (!context.PassengerTypeCoefficients.Any(p => p.PassengerType == Models.Enums.PassengerType.Student))
+            {
+                PassengerTypeCoefficient pas = new PassengerTypeCoefficient() { Coefficient = 0.8F, PassengerType = Models.Enums.PassengerType.Student };
+                context.PassengerTypeCoefficients.Add(pas);
+                context.SaveChanges();
+            }
             
         }
     }
