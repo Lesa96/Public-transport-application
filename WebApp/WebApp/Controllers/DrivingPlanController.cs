@@ -105,15 +105,40 @@ namespace WebApp.Controllers
             return Ok();
         }
 
-        [HttpPost]
+        [HttpDelete]
         [Route("DeleteDrivingPlan")]
-        public IHttpActionResult DeleteDrivingPlan(DeleteDrivingPlanBindingModel bindingModel)
+        public IHttpActionResult DeleteDrivingPlan(int id)
         {
-            var drivingPlan = unitOfWork.DrivingPlans.Get(bindingModel.Id);
+            var drivingPlan = unitOfWork.DrivingPlans.Get(id);
             if (drivingPlan == null)
                 return NotFound();
 
             unitOfWork.DrivingPlans.Remove(drivingPlan);
+            unitOfWork.Complete();
+
+            return Ok();
+        }
+
+        [HttpPut]
+        [Route("UpdateDrivingPlan")]
+        public IHttpActionResult UpdateDrivingPlan(UpdateDrivingPlanBindingModel bindingModel)
+        {
+            var lineId = unitOfWork.Drivelines.GetLineByNumber(bindingModel.Number).Id;
+            string departures = "";
+
+            foreach (var departure in bindingModel.Departures.OrderBy(d => d, StringComparer.Ordinal))
+            {
+                departures += departure + ";";
+            }
+
+            DrivingPlan drivingPlan = unitOfWork.DrivingPlans.Get(bindingModel.Id);
+
+            drivingPlan.Type = bindingModel.Type;
+            drivingPlan.Day = bindingModel.Day;
+            drivingPlan.DrivelineId = lineId;
+            drivingPlan.Departures = departures;
+
+            unitOfWork.DrivingPlans.Update(drivingPlan);
             unitOfWork.Complete();
 
             return Ok();

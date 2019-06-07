@@ -45,6 +45,33 @@ namespace WebApp.Models
         }
     }
 
+    public class UpdateDrivingPlanBindingModel
+    {
+        [Required]
+        [Display(Name = "Id")]
+        public int Id { get; set; }
+
+        [Required]
+        [Display(Name = "Type")]
+        public DriveType Type { get; set; }
+
+        [Required]
+        [Display(Name = "Number")]
+        public int Number { get; set; }
+
+        [Required]
+        [Display(Name = "Day")]
+        public WeekDays Day { get; set; }
+
+        [Display(Name = "Departures")]
+        public ICollection<string> Departures { get; set; }
+
+        public UpdateDrivingPlanBindingModel()
+        {
+            Departures = new HashSet<string>();
+        }
+    }
+
     public class DeleteDrivingPlanBindingModel
     {
         [Required]

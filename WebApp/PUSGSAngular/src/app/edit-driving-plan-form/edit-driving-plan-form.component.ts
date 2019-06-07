@@ -33,6 +33,12 @@ export class EditDrivingPlanFormComponent implements OnInit {
         number : ['' , Validators.required]
       }
     )
+
+    addDepartureForm = this.fb.group(
+      {
+        time : ['', Validators.required]
+      }
+    )
   
     constructor(private homeService : HomeService, private drivingPlanService : DrivingPlanService , private fb: FormBuilder) { }
   
@@ -68,7 +74,7 @@ export class EditDrivingPlanFormComponent implements OnInit {
         this.editForm.controls['type'].patchValue(this.driveType[plan.Type - 1]);
         this.editForm.controls['day'].patchValue(this.days[plan.Day - 1]);
         this.editForm.controls['number'].setValue(plan.Line);
-        this.departures = plan.Departures.split(";"); //str.split(" ", 3); 
+        this.departures = plan.Departures.split(";").filter(item => item !== "");
         console.log(this.editForm.value);
       }
       );
@@ -76,6 +82,21 @@ export class EditDrivingPlanFormComponent implements OnInit {
 
     saveDrivingPlan()
     {
-      this.drivingPlanService.saveDrivingPlan(this.editForm).subscribe();
+      let bindingModel = this.editForm.value;
+      bindingModel['departures'] = this.departures;
+      this.drivingPlanService.saveDrivingPlan(bindingModel).subscribe();
+    }
+
+    deleteDeparture(departure)
+    {
+      console.log("Old departures: " + this.departures);
+      this.departures = this.departures.filter(item => item !== departure);
+      console.log("New departures: " + this.departures);
+    }
+
+    addDeparture()
+    {
+      let time = this.addDepartureForm.value.time;
+      this.departures.push(time);
     }
 }

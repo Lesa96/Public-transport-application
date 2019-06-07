@@ -50,9 +50,12 @@ export class DrivingPlanService {
       headers: {
         "Content-type": "application/json",
         "Authorization": "Bearer " + localStorage.jwt
+      },
+      params: {
+        "Id" : bindingModel.id
       }
     }
-    return this.http.post(addUri, bindingModel, httpOptions);
+    return this.http.delete(addUri, httpOptions);
   }
 
   saveDrivingPlan(bindingModel) : Observable<any>

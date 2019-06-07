@@ -71,19 +71,19 @@
     <tr>
       <td colspan="2" align="center">
         TIMETABLE
-        <div *ngFor="let time of departures">{{time}}</div>
+        <div *ngFor="let time of departures">{{time}} <button (click)="deleteDeparture(time)">Delete</button></div>
       </td>
     </tr>
     <tr>
       <td colspan="2" align="right">
-        <button type="submit" class="btn btn-default" [disabled]="editForm.invalid">Add</button>
+        <button type="submit" class="btn btn-default" [disabled]="editForm.invalid">Save changes</button>
       </td>
     </tr>
   </table>
 </form>
 <br>
 
-<!-- <form [formGroup]="addDepartureForm" (ngSubmit)="addDeparture()" *ngIf="selectedPlan">
+<form [formGroup]="addDepartureForm" (ngSubmit)="addDeparture()" *ngIf="selectedPlan">
   <table>
     <tr>
       <td>
@@ -99,4 +99,4 @@
       </td>
     </tr>
   </table>
-</form> -->
+</form>
