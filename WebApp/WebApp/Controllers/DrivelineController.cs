@@ -54,6 +54,21 @@ namespace WebApp.Controllers
             
         }
 
+        //[Authorize(Roles ="Admin")]
+        [HttpDelete, Route("DeleteDriveline")]
+        public IHttpActionResult DeleteDriveline(int number)
+        {
+
+            if (unitOfWork.Drivelines.DeleteDriveline(number))
+            {
+                return Ok();
+            }
+
+            return NotFound();
+
+
+        }
+
 
         //[Authorize(Roles ="Admin")]
         [HttpPatch, Route("AddStation")]
