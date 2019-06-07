@@ -1,4 +1,10 @@
 <app-admin-navigation></app-admin-navigation>
-<p>
-  edit-stations works!
-</p>
+<nav>
+  <a (click)="toggleForm('AddStation')">AddStation</a>
+  <a (click)="toggleForm('ChangeStation')">ChangeStation</a>
+  <a (click)="toggleForm('DeleteStation')">DeleteStation</a>
+</nav>
+
+<app-add-station *ngIf="showAdd"></app-add-station>
+<app-change-station *ngIf="showChange"></app-change-station>
+<app-delete-station *ngIf="showDelete"></app-delete-station>
