@@ -59,5 +59,81 @@ namespace WebApp.Controllers
 
             return Ok();
         }
+
+        /////////////////////////////////////
+
+        [HttpGet]
+        [Route("GetAll")]
+        public IHttpActionResult GetAll()
+        {
+            var pricelists = unitOfWork.Pricelists.GetAll();
+            return Ok(pricelists);
+        }
+
+        [HttpGet]
+        [Route("GetPricelist")]
+        public IHttpActionResult GetPricelist(int id)
+        {
+            var pricelist = unitOfWork.Pricelists.Get(id);
+
+            return Ok(pricelist);
+        }
+
+        [HttpPost]
+        [Route("AddPricelist")]
+        public IHttpActionResult AddPricelist(AddPricelistBindingModel bindingModel)
+        {
+            Pricelist pricelist = new Pricelist()
+            {
+                ValidFrom = bindingModel.ValidFrom,
+                ValidUntil = bindingModel.ValidUntil,
+                PricelistItems = bindingModel.PricelistItems
+            };
+
+            unitOfWork.Pricelists.Add(pricelist);
+            unitOfWork.Complete();
+
+            return Ok();
+        }
+
+        // TODO PROMENITI DRIVINGPLAN U PRICELIST
+        [HttpDelete]
+        [Route("DeletePricelist")]
+        public IHttpActionResult DeletePricelist(int id)
+        {
+            var drivingPlan = unitOfWork.DrivingPlans.Get(id);
+            if (drivingPlan == null)
+                return NotFound();
+
+            unitOfWork.DrivingPlans.Remove(drivingPlan);
+            unitOfWork.Complete();
+
+            return Ok();
+        }
+
+        [HttpPut]
+        [Route("UpdateDrivingPlan")]
+        public IHttpActionResult UpdateDrivingPlan(UpdateDrivingPlanBindingModel bindingModel)
+        {
+            var lineId = unitOfWork.Drivelines.GetLineByNumber(bindingModel.Number).Id;
+            string departures = "";
+
+            foreach (var departure in bindingModel.Departures.OrderBy(d => d, StringComparer.Ordinal))
+            {
+                departures += departure + ";";
+            }
+
+            DrivingPlan drivingPlan = unitOfWork.DrivingPlans.Get(bindingModel.Id);
+
+            drivingPlan.Type = bindingModel.Type;
+            drivingPlan.Day = bindingModel.Day;
+            drivingPlan.DrivelineId = lineId;
+            drivingPlan.Departures = departures;
+
+            unitOfWork.DrivingPlans.Update(drivingPlan);
+            unitOfWork.Complete();
+
+            return Ok();
+        }
     }
 }

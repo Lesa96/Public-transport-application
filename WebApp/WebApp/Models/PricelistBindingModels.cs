@@ -32,4 +32,16 @@ namespace WebApp.Models
         [Display(Name = "Price")]
         public float Price { get; set; }
     }
+
+    public class AddPricelistBindingModel
+    { 
+        [Required]
+        [Display(Name = "ValidFrom")]
+        public DateTime ValidFrom { get; set; }
+        [Required]
+        [Display(Name = "ValidUntil")]
+        public DateTime ValidUntil { get; set; }
+        [Display(Name = "PricelistItems")]
+        public virtual ICollection<PricelistItem> PricelistItems { get; set; }
+    }
 }
