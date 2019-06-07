@@ -25,7 +25,39 @@ namespace WebApp.Controllers
         public IHttpActionResult GetAll()
         {
             var drivingPlans = unitOfWork.DrivingPlans.GetAll();
-            return Ok(drivingPlans);
+            List<DisplayDrivingPlanBindingModel> displayDrivingPlans =
+                new List<DisplayDrivingPlanBindingModel>();
+            foreach (var drivingPlan in drivingPlans)
+            {
+                displayDrivingPlans.Add(new DisplayDrivingPlanBindingModel()
+                {
+                    Id = drivingPlan.Id,
+                    Day = drivingPlan.Day,
+                    Type = drivingPlan.Type,
+                    Departures = drivingPlan.Departures,
+                    Line = unitOfWork.Drivelines.Get(drivingPlan.DrivelineId).Number,
+                    DrivelineId = drivingPlan.DrivelineId
+                });
+            }
+            return Ok(displayDrivingPlans);
+        }
+
+        [HttpGet]
+        [Route("GetPlan")]
+        public IHttpActionResult GetPlan(int id)
+        {
+            var drivingPlan = unitOfWork.DrivingPlans.Get(id);
+            DisplayDrivingPlanBindingModel displayDPBM =
+                new DisplayDrivingPlanBindingModel()
+                {
+                    Id = drivingPlan.Id,
+                    Day = drivingPlan.Day,
+                    Type = drivingPlan.Type,
+                    Departures = drivingPlan.Departures,
+                    Line = unitOfWork.Drivelines.Get(drivingPlan.DrivelineId).Number,
+                    DrivelineId = drivingPlan.DrivelineId
+                };
+            return Ok(displayDPBM);
         }
 
         //GET / DrivingPlan / GetDrivingPlanDepartures? DriveLineNumber=1 & DrivePlanType=2 & DriveLineType=1

@@ -1,3 +1,102 @@
-<p>
-  edit-driving-plan-form works!
-</p>
+<br><br><br>
+<form [formGroup]="selectForm" (ngSubmit)="onSelectSubmit()">
+  <table>
+    <tr>
+      <td colspan="2" align="center">
+        <h2>Driving plans</h2>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" align="left">
+        <div class="nowrap" *ngFor="let plan of plans">Id: {{plan.Id}}; Line: {{plan.Line}}; Type: {{plan.Type}}; Day: {{plan.Day}}; Departures: {{plan.Departures}}</div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Edit plan (id):
+      </td>
+      <td align="right">
+        <input type="text" formControlName="id" required>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" align="right">
+        <button type="submit" class="btn btn-default" [disabled]="selectForm.invalid">Edit</button>
+      </td>
+    </tr>
+  </table>
+</form>
+
+<form [formGroup]="editForm" (ngSubmit)="onEditSubmit()" *ngIf="selectedPlan">
+  <table>
+    <tr>
+      <td colspan="2" align="center">
+        <h2>Edit driving plan</h2>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Id:
+      </td>
+      <input type="text" formControlName="id" readonly required>
+    </tr>
+    <tr>
+      <td>
+        <label>Plan type: </label>
+      </td>
+      <td>
+        <select formControlName="type">
+          <option *ngFor="let type of driveType" [value]="type">{{type}}</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Day:
+      </td>
+      <select formControlName="day">
+        <option *ngFor="let day of days" [value]="day">{{day}}</option>
+      </select>
+    </tr>
+    <tr>
+      <td>
+        Line:
+      </td>
+      <td>
+        <select formControlName="number">
+          <option name="lineNumber" *ngFor="let number of drivelineNumbers" [value]="number">{{number}}</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" align="center">
+        TIMETABLE
+        <div *ngFor="let time of departures">{{time}}</div>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" align="right">
+        <button type="submit" class="btn btn-default" [disabled]="editForm.invalid">Add</button>
+      </td>
+    </tr>
+  </table>
+</form>
+<br>
+
+<!-- <form [formGroup]="addDepartureForm" (ngSubmit)="addDeparture()" *ngIf="selectedPlan">
+  <table>
+    <tr>
+      <td>
+        New departure:
+      </td>
+      <td>
+        <input type="time" formControlName="time" required>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" align="right">
+        <button type="submit" class="btn btn-default" [disabled]="addDepartureForm.invalid">Add</button>
+      </td>
+    </tr>
+  </table>
+</form> -->

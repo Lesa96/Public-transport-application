@@ -51,4 +51,14 @@ namespace WebApp.Models
         [Display(Name = "Id")]
         public int Id { get; set; }
     }
+
+    public class DisplayDrivingPlanBindingModel
+    {
+        public int Id { get; set; }
+        public int Line { get; set; }
+        public WeekDays Day { get; set; }
+        public DriveType Type { get; set; }
+        public string Departures { get; set; }
+        public int DrivelineId { get; set; }
+    }
 }
