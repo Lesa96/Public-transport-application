@@ -6,6 +6,8 @@ import {DrivelineService} from '../driveline.service'
 import { observable } from 'rxjs/internal/symbol/observable';
 import { Validators } from '@angular/forms';
 import { FormArray } from '@angular/forms';
+import { ArrayType } from '@angular/compiler/src/output/output_ast';
+import { AddDrivelineBindingModel } from 'src/app/Models/AddDrivelineBindingModel';
 
 @Component({
   selector: 'app-add-driveline',
@@ -15,76 +17,59 @@ import { FormArray } from '@angular/forms';
 export class AddDrivelineComponent implements OnInit {
 
   form: FormGroup;
-  sNames  = [
-    // { id: 100, name: 'order 1' },
-    // { id: 200, name: 'order 2' },
-    // { id: 300, name: 'order 3' },
-    // { id: 400, name: 'order 4' }
-  ];
+  sNames = new Array();
+  drivelineNumber : number;
+
+  response = new AddDrivelineBindingModel();
 
   constructor(private fb: FormBuilder , private drivelineService : DrivelineService) { 
-    this.drivelineService.getStationNames().subscribe(names => this.sNames = names);
-    console.warn(this.sNames);
+    this.drivelineService.getStationNames().subscribe(names => 
+      {
+        this.sNames = names;
+        this.addCheckboxes();
+
+        this.sNames.forEach(element => {
+          console.warn(element);
+        });
+      });
 
     this.form = this.fb.group({
       number : [this.drivelineNumber , Validators.required],
-      sNames : this.sNames
+      sNames : new FormArray([])
     });
-
-    this.addCheckboxes();
+    
+   
   }
-
-  
-
-   drivelineNumber : number;
-  // stationNames : any[] = [];
-
-  // DrivelineForm = this.fb.group(
-  //   {
-  //     number : [this.drivelineNumber , Validators.required],
-  //     names : this.fb.array([
-  //     ])
-  //     // this.stationNames[0] 
-  //   }
-  // )
-
-  // getStationName = (index : number) => {
-  //   return this.stationNames[index]
-  // }
 
   onSubmit() 
   {
-    //this.drivelineService.addDriveline(this.DrivelineForm.value).subscribe();
+    this.response.Number = this.form.value.number;
+    this.response.StationNames = new Array<any>();
+
+    for(var i=0; i < this.sNames.length; i++)
+    {
+      if(this.form.controls.sNames.value[i] == true)
+      {
+        this.response.StationNames.push(this.sNames[i]);
+      }
+    }
+    
+    this.drivelineService.addDriveline(this.response).subscribe();
+
+    this.form.reset();
   }
 
   ngOnInit() {
-    
-
-    
-
-    //this.getStationNames(); 
+   
   }
-  private addCheckboxes() {
-    //this.drivelineService.getStationNames().subscribe(names => this.sNames = names);
-    this.sNames.map((o, i) => {
+  private addCheckboxes()
+   {
+      this.sNames.map((o, i) => {
+        const control = new FormControl(); 
+        (this.form.controls.sNames as FormArray).push(control);
+      });
+    } 
 
-      const control = new FormControl(); // if first item set to true, else false
-      (this.form.controls.sNames as FormArray).push(control);
-    });
-  }
-
-  // get names() {
-  //  // return this.DrivelineForm.get('names') as FormArray;
-  // }
-
-  // getStationNames()
-  // {
-  //   this.drivelineService.getStationNames().subscribe(names => {
-  //     this.stationNames = names;
-  //     this.stationNames.forEach(element => {
-  //       this.names.push(this.fb.control(true))
-  //     });
-  //   });
-  // }
+  
 
 }
