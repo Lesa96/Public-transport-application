@@ -92,11 +92,11 @@ namespace WebApp.Persistence.Repository
                 {
                     foreach (string name in stationNames)
                     {
-                        dr.Stations.Add(AppDbContext.Stations.Where(s => s.Name == name).FirstOrDefault()); //dodaje stanice u liniju
-                       
-                    }
+                        string[] n = name.Split(';');
+                        string st = n[0];
 
-                    
+                        dr.Stations.Add(AppDbContext.Stations.Where(s => s.Name == st).FirstOrDefault()); //dodaje stanice u liniju
+                    }
                 }
 
                 AppDbContext.DriveLines.Add(dr);

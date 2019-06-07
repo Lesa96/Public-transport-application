@@ -1,15 +1,22 @@
 <div>
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <table>
-      
+      <tr>
+        <td>
+          <label>Line number: </label>
+        </td>
+        <td>
+          <input type="number" formControlName="number" min ='1'>
+        </td>
+      </tr>
+      <tr>
       <tr>
         <td>
           <label formArrayName="sNames" *ngFor="let name of form.controls.sNames.controls; let i = index">
             <input type="checkbox" [formControlName]="i">
-            {{sNames[i].name}}
+            {{sNames[i]}}
+            <br>
           </label>
-
-          
         </td>
       </tr>
       <tr>

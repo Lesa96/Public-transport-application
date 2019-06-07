@@ -43,10 +43,11 @@ namespace WebApp.Controllers
         [HttpPost, Route("AddDriveline")]
         public IHttpActionResult AddDriveline(AddDrivelineBindingModel bindingModel)
         {
-            //if (unitOfWork.Drivelines.AddDriveline(bindingModel.Number , bindingModel.StationNames))
-            //{
-            //    return Ok();
-            //}
+
+            if (unitOfWork.Drivelines.AddDriveline(bindingModel.Number, bindingModel.StationNames))
+            {
+                return Ok();
+            }
 
             return BadRequest();
 
