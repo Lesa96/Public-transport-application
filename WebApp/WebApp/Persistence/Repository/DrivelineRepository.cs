@@ -108,5 +108,20 @@ namespace WebApp.Persistence.Repository
 
             return false;
         }
+
+        public bool DeleteDriveline(int number)
+        {
+            Driveline dr = AppDbContext.DriveLines.Where(x => x.Number == number).FirstOrDefault();
+            if(dr != null)
+            {
+                AppDbContext.DriveLines.Remove(dr);
+                AppDbContext.SaveChanges();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

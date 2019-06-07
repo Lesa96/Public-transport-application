@@ -11,6 +11,7 @@ namespace WebApp.Persistence.Repository
     {
         Driveline GetLineByNumber(int number);
         bool AddDriveline(int number, List<string> stationNames);
+        bool DeleteDriveline(int number);
         bool AddStationInLine(int drivelineId, int stationID);
         bool DeleteStationInLine(int drivelineId, int stationID);
         bool UpdateNumber(int drivelineId, int drivelineNumber);
