@@ -15,13 +15,21 @@ namespace WebApp.Persistence.Repository
         {
         }
 
-        public List<string> GetStationNames()
+        public string[] GetStationNames()
         {
-            List<string> stationNames = new List<string>();
-
+            int numberOfStations = 0;
             foreach (Station s in AppDbContext.Stations)
             {
-                stationNames.Add(s.Name + ';');
+                numberOfStations++;
+            }
+
+            string[] stationNames = new string[numberOfStations];
+
+            int i = 0;
+            foreach (Station s in AppDbContext.Stations)
+            {
+                stationNames[i] = (s.Name + ';');
+                i++;
             }
             return stationNames;
         }

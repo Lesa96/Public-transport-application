@@ -23,7 +23,7 @@ namespace WebApp.Controllers
         [Route("GetAllStationNames")]
         public IHttpActionResult GetAllStationNames()
         {
-            List<string> stationNames = unitOfWork.Stations.GetStationNames();
+            string[] stationNames = unitOfWork.Stations.GetStationNames();
             if(stationNames.Equals(string.Empty))
             {
                 return NotFound();
