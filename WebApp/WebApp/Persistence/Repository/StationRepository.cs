@@ -33,5 +33,18 @@ namespace WebApp.Persistence.Repository
             }
             return stationNames;
         }
+
+        public bool DeleteStationByName(string name)
+        {
+            Station st = AppDbContext.Stations.Where(x => x.Name == name).FirstOrDefault();
+            if (st != null)
+            {
+                AppDbContext.Stations.Remove(st);
+                AppDbContext.SaveChanges();
+                return true;
+            }
+
+            return false;
+        }
     }
 }

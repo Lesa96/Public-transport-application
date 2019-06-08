@@ -32,6 +32,20 @@ namespace WebApp.Controllers
 
         }
 
+        [HttpDelete]
+        [Route("DeleteStation")]
+        public IHttpActionResult DeleteStation(string StationName)
+        {
+            if (unitOfWork.Stations.DeleteStationByName(StationName))
+            {
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
         [Route("UpdateStationInfo"), HttpPatch]
         public IHttpActionResult UpdateStationInfo(UpdateStationInfoBindingModel bindingModel)
         {

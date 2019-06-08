@@ -63,12 +63,12 @@ export class AddDrivelineComponent implements OnInit {
    
   }
   private addCheckboxes()
-   {
+  {
       this.sNames.map((o, i) => {
         const control = new FormControl(); 
         (this.form.controls.sNames as FormArray).push(control);
       });
-    } 
+  } 
 
   
 
