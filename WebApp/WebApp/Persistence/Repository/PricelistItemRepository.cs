@@ -14,5 +14,10 @@ namespace WebApp.Persistence.Repository
         public PricelistItemRepository(DbContext context) : base(context)
         {
         }
+
+        public IEnumerable<PricelistItem> GetPricelistsItemsFromPricelistId(int id)
+        {
+            return AppDbContext.PricelistItems.Where(p => p.PricelistId == id);
+        }
     }
 }

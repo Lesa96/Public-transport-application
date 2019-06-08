@@ -36,6 +36,19 @@ export class PricelistService {
     return this.http.get(this.pricelistUri + "/GetPricelist", httpOptions);
   }
 
+  getPricelistItems(input) : Observable<any>
+  {
+    let httpOptions = 
+    {
+      headers: {
+        "Content-type": "application/json",
+        "Authorization": "Bearer " + localStorage.jwt
+      },
+      params: new HttpParams().set('id' , input.id)     
+    }
+    return this.http.get(this.pricelistUri + "/GetPricelistItems", httpOptions);
+  }
+
   addPricelist(bindingModel) : Observable<any>
   {
     let addUri = this.pricelistUri + "/AddPricelist";

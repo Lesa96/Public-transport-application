@@ -42,7 +42,6 @@ export class AddPricelistFormComponent implements OnInit {
 
   ngOnInit() {
     this.intializeList();
-    console.log(this.pricelistItems[0]);
   }
 
   onSubmit() {

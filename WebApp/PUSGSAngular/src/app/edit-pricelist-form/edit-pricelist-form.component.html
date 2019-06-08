@@ -1,3 +1,230 @@
-<p>
-  edit-pricelist-form works!
-</p>
+<br><br><br>
+<form [formGroup]="selectForm" (ngSubmit)="onSelectSubmit()">
+  <table>
+    <tr>
+      <td colspan="2" align="center">
+        <h2>Pricelists</h2>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" align="left">
+        <div class="nowrap" *ngFor="let pl of pricelists">Id: {{pl.PricelistId}}; Valid from: {{pl.ValidFrom.split("T")[0]}}; Valid until:
+          {{pl.ValidUntil.split("T")[0]}}; </div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Edit pricelist (id):
+      </td>
+      <td align="right">
+        <input type="text" formControlName="id" required>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" align="right">
+        <button type="submit" class="btn btn-default" [disabled]="selectForm.invalid">Edit</button>
+      </td>
+    </tr>
+  </table>
+</form>
+
+<form [formGroup]="editForm" (ngSubmit)="onEditSubmit()" *ngIf="pricelistItemsLoaded">
+  <table>
+    <tr>
+      <td colspan="2" align="center">
+        <h2>Edit pricelist</h2>
+      </td>
+    </tr>
+    <tr>
+        <td>
+          Id:
+        </td>
+        <td>
+          <input type="text" formControlName="id" required readonly>
+        </td>
+      </tr>
+    <tr>
+      <td>
+        Valid from:
+      </td>
+      <td>
+        <input type="date" formControlName="validFrom" required>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Valid until:
+      </td>
+      <td>
+        <input type="date" formControlName="validUntil" required>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" align="center">
+        Prices:
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <div class="nowrap" *ngFor="let item of pricelistItems">{{item.passengerType}} + {{item.ticketType}} =
+          {{item.price}} </div>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" align="right">
+        <button type="submit" class="btn btn-default" [disabled]="editForm.invalid">Add</button>
+      </td>
+    </tr>
+  </table>
+</form>
+<br>
+<form [formGroup]="pricelistItemsForm" (ngSubmit)="savePrices()" *ngIf="pricelistItemsLoaded">
+  <table>
+    <tr>
+      <td colspan="3">
+        Edit Prices:
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        {{pricelistItems[0].passengerType}}:
+      </td>
+      <td>
+        {{pricelistItems[0].ticketType}}
+      </td>
+      <td>
+        <input type="text" formControlName="price0" required>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        {{pricelistItems[1].passengerType}}:
+      </td>
+      <td>
+        {{pricelistItems[1].ticketType}}
+      </td>
+      <td>
+        <input type="text" formControlName="price1" required>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        {{pricelistItems[2].passengerType}}:
+      </td>
+      <td>
+        {{pricelistItems[2].ticketType}}
+      </td>
+      <td>
+        <input type="text" formControlName="price2" required>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        {{pricelistItems[3].passengerType}}:
+      </td>
+      <td>
+        {{pricelistItems[3].ticketType}}
+      </td>
+      <td>
+        <input type="text" formControlName="price3" required>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        {{pricelistItems[4].passengerType}}:
+      </td>
+      <td>
+        {{pricelistItems[4].ticketType}}
+      </td>
+      <td>
+        <input type="text" formControlName="price4" required>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        {{pricelistItems[5].passengerType}}:
+      </td>
+      <td>
+        {{pricelistItems[5].ticketType}}
+      </td>
+      <td>
+        <input type="text" formControlName="price5" required>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        {{pricelistItems[6].passengerType}}:
+      </td>
+      <td>
+        {{pricelistItems[6].ticketType}}
+      </td>
+      <td>
+        <input type="text" formControlName="price6" required>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        {{pricelistItems[7].passengerType}}:
+      </td>
+      <td>
+        {{pricelistItems[7].ticketType}}
+      </td>
+      <td>
+        <input type="text" formControlName="price7" required>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        {{pricelistItems[8].passengerType}}:
+      </td>
+      <td>
+        {{pricelistItems[8].ticketType}}
+      </td>
+      <td>
+        <input type="text" formControlName="price8" required>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        {{pricelistItems[9].passengerType}}:
+      </td>
+      <td>
+        {{pricelistItems[9].ticketType}}
+      </td>
+      <td>
+        <input type="text" formControlName="price9" required>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        {{pricelistItems[10].passengerType}}:
+      </td>
+      <td>
+        {{pricelistItems[10].ticketType}}
+      </td>
+      <td>
+        <input type="text" formControlName="price10" required>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        {{pricelistItems[11].passengerType}}:
+      </td>
+      <td>
+        {{pricelistItems[11].ticketType}}
+      </td>
+      <td>
+        <input type="text" formControlName="price11" required>
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="2" align="right">
+        <button type="submit" class="btn btn-default" [disabled]="pricelistItemsForm.invalid">Save</button>
+      </td>
+    </tr>
+  </table>
+</form>
