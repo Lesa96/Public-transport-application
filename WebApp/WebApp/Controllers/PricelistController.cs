@@ -66,6 +66,7 @@ namespace WebApp.Controllers
         [Route("GetAll")]
         public IHttpActionResult GetAll()
         {
+            //Debug this... List as field problem?
             var pricelists = unitOfWork.Pricelists.GetAll();
             return Ok(pricelists);
         }
@@ -96,41 +97,31 @@ namespace WebApp.Controllers
             return Ok();
         }
 
-        // TODO PROMENITI DRIVINGPLAN U PRICELIST
         [HttpDelete]
         [Route("DeletePricelist")]
         public IHttpActionResult DeletePricelist(int id)
         {
-            var drivingPlan = unitOfWork.DrivingPlans.Get(id);
-            if (drivingPlan == null)
+            var pricelist = unitOfWork.Pricelists.Get(id);
+            if (pricelist == null)
                 return NotFound();
 
-            unitOfWork.DrivingPlans.Remove(drivingPlan);
+            unitOfWork.Pricelists.Remove(pricelist);
             unitOfWork.Complete();
 
             return Ok();
         }
 
         [HttpPut]
-        [Route("UpdateDrivingPlan")]
-        public IHttpActionResult UpdateDrivingPlan(UpdateDrivingPlanBindingModel bindingModel)
+        [Route("UpdatePricelist")]
+        public IHttpActionResult UpdatePricelist(UpdatePricelistBindingModel bindingModel)
         {
-            var lineId = unitOfWork.Drivelines.GetLineByNumber(bindingModel.Number).Id;
-            string departures = "";
+            Pricelist pricelist = unitOfWork.Pricelists.Get(bindingModel.Id);
 
-            foreach (var departure in bindingModel.Departures.OrderBy(d => d, StringComparer.Ordinal))
-            {
-                departures += departure + ";";
-            }
+            pricelist.ValidFrom = bindingModel.ValidFrom;
+            pricelist.ValidUntil = bindingModel.ValidUntil;
+            pricelist.PricelistItems = bindingModel.PricelistItems;
 
-            DrivingPlan drivingPlan = unitOfWork.DrivingPlans.Get(bindingModel.Id);
-
-            drivingPlan.Type = bindingModel.Type;
-            drivingPlan.Day = bindingModel.Day;
-            drivingPlan.DrivelineId = lineId;
-            drivingPlan.Departures = departures;
-
-            unitOfWork.DrivingPlans.Update(drivingPlan);
+            unitOfWork.Pricelists.Update(pricelist);
             unitOfWork.Complete();
 
             return Ok();

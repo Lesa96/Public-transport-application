@@ -4,7 +4,6 @@ import { Validators } from '@angular/forms';
 import { FormArray } from '@angular/forms';
 import { LoginService } from '../login.service';
 import { Router } from '@angular/router';
-import { NgIf } from '@angular/common/src/directives/ng_if';
 
 @Component({
   selector: 'app-login-form',

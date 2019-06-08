@@ -44,4 +44,20 @@ namespace WebApp.Models
         [Display(Name = "PricelistItems")]
         public virtual ICollection<PricelistItem> PricelistItems { get; set; }
     }
+
+    public class UpdatePricelistBindingModel
+    {
+        [Required]
+        [Display(Name = "Id")]
+        public int Id { get; set; }
+
+        [Required]
+        [Display(Name = "ValidFrom")]
+        public DateTime ValidFrom { get; set; }
+        [Required]
+        [Display(Name = "ValidUntil")]
+        public DateTime ValidUntil { get; set; }
+        [Display(Name = "PricelistItems")]
+        public virtual ICollection<PricelistItem> PricelistItems { get; set; }
+    }
 }

@@ -13,7 +13,14 @@ export class PricelistService {
 
   getPricelists() : Observable<any>
   {
-    return this.http.get(this.pricelistUri + "/GetAll");
+    let httpOptions = 
+    {
+      headers: {
+        "Content-type": "application/json",
+        "Authorization": "Bearer " + localStorage.jwt
+      }
+    }
+    return this.http.get(this.pricelistUri + "/GetAll", httpOptions);
   }
 
   getPricelist(input) : Observable<any>
