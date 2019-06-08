@@ -8,7 +8,7 @@
     </tr>
     <tr>
       <td colspan="2" align="left">
-        <div class="nowrap" *ngFor="let pricelist of pricelists">Id: {{pricelist.PricelistId}}; Valid from: {{pricelist.ValidFrom}}; Valid until: {{pricelist.ValidUntil}};</div>
+        <div class="nowrap" *ngFor="let pricelist of pricelists">Id: {{pricelist.PricelistId}}; Valid from: {{pricelist.ValidFrom.split("T")[0]}}; Valid until: {{pricelist.ValidUntil.split("T")[0]}};</div>
       </td>
     </tr>
     <tr>

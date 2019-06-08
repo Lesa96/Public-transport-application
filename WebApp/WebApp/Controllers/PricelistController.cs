@@ -67,8 +67,18 @@ namespace WebApp.Controllers
         public IHttpActionResult GetAll()
         {
             //Debug this... List as field problem?
+            var result = new List<DisplayPricelistBindingModel>();
             var pricelists = unitOfWork.Pricelists.GetAll();
-            return Ok(pricelists);
+            foreach (var pricelist in pricelists)
+            {
+                result.Add(new DisplayPricelistBindingModel()
+                {
+                    PricelistId = pricelist.PricelistId,
+                    ValidFrom = pricelist.ValidFrom,
+                    ValidUntil = pricelist.ValidUntil
+                });
+            }
+            return Ok(result);
         }
 
         [HttpGet]
@@ -87,8 +97,7 @@ namespace WebApp.Controllers
             Pricelist pricelist = new Pricelist()
             {
                 ValidFrom = bindingModel.ValidFrom,
-                ValidUntil = bindingModel.ValidUntil,
-                PricelistItems = bindingModel.PricelistItems
+                ValidUntil = bindingModel.ValidUntil
             };
 
             unitOfWork.Pricelists.Add(pricelist);

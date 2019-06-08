@@ -41,8 +41,6 @@ namespace WebApp.Models
         [Required]
         [Display(Name = "ValidUntil")]
         public DateTime ValidUntil { get; set; }
-        [Display(Name = "PricelistItems")]
-        public virtual ICollection<PricelistItem> PricelistItems { get; set; }
     }
 
     public class UpdatePricelistBindingModel
@@ -59,5 +57,19 @@ namespace WebApp.Models
         public DateTime ValidUntil { get; set; }
         [Display(Name = "PricelistItems")]
         public virtual ICollection<PricelistItem> PricelistItems { get; set; }
+    }
+
+    public class DisplayPricelistBindingModel
+    {
+        [Required]
+        [Display(Name = "Id")]
+        public int PricelistId { get; set; }
+
+        [Required]
+        [Display(Name = "ValidFrom")]
+        public DateTime ValidFrom { get; set; }
+        [Required]
+        [Display(Name = "ValidUntil")]
+        public DateTime ValidUntil { get; set; }
     }
 }

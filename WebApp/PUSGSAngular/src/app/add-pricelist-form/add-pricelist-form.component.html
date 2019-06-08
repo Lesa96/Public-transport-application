@@ -1,3 +1,31 @@
-<p>
-  add-pricelist-form works!
-</p>
+<br><br><br>
+<form [formGroup]="addForm" (ngSubmit)="onSubmit()">
+  <table>
+    <tr>
+      <td colspan="2" align="center">
+        <h2>Add pricelist</h2>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Valid from:
+      </td>
+      <td>
+        <input type="date" formControlName="validFrom" required>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Valid until:
+      </td>
+      <td>
+        <input type="date" formControlName="validUntil" required>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" align="right">
+        <button type="submit" class="btn btn-default" [disabled]="addForm.invalid">Add</button>
+      </td>
+    </tr>
+  </table>
+</form>
