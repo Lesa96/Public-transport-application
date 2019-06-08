@@ -28,6 +28,7 @@ import { DeleteDrivelineComponent } from './delete-driveline/delete-driveline.co
 import { AddStationComponent } from './add-station/add-station.component';
 import { ChangeStationComponent } from './change-station/change-station.component';
 import { DeleteStationComponent } from './delete-station/delete-station.component';
+import { AdminProfileComponent } from './admin-profile/admin-profile.component';
 
 
 @NgModule({
@@ -57,6 +58,7 @@ import { DeleteStationComponent } from './delete-station/delete-station.componen
     AddStationComponent,
     ChangeStationComponent,
     DeleteStationComponent,
+    AdminProfileComponent,
   ],
   imports: [
     BrowserModule,

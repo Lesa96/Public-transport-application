@@ -71,6 +71,29 @@ namespace WebApp.Models
         public PassengerType PassengerType { get; set; }
     }
 
+    public class AdminProfileBindingModel
+    {
+        [Required]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+
+        [Required]
+        [Display(Name = "First name")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [Display(Name = "Last name")]
+        public string LastName { get; set; }
+
+        [Required]
+        [Display(Name = "Birth date")]
+        public DateTime BirthDate { get; set; }
+
+        [Required]
+        [Display(Name = "Address")]
+        public string Address { get; set; }
+    }
+
     public class RegisterExternalBindingModel
     {
         [Required]

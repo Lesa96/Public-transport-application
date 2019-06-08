@@ -14,6 +14,7 @@ using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
 using WebApp.Models;
+using WebApp.Persistence.UnitOfWork;
 using WebApp.Providers;
 using WebApp.Results;
 
@@ -23,11 +24,13 @@ namespace WebApp.Controllers
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController
     {
+        private readonly IUnitOfWork unitOfWork;
         private const string LocalLoginProvider = "Local";
         private ApplicationUserManager _userManager;
 
-        public AccountController()
+        public AccountController(IUnitOfWork unitOfWork)
         {
+            this.unitOfWork = unitOfWork;
         }
 
         public AccountController(ApplicationUserManager userManager,
@@ -50,6 +53,45 @@ namespace WebApp.Controllers
         }
 
         public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; private set; }
+
+        // GET api/Account/GetAdminProfile
+        [HttpGet]
+        [Route("GetAdminProfile")]
+        public IHttpActionResult GetAdminProfile()
+        {
+            ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
+            var userId = User.Identity.GetUserId();
+            var user = unitOfWork.Users.GetUserById(userId);
+
+            return Ok(new AdminProfileBindingModel()
+            {
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                BirthDate = user.BirthDate,
+                Address = user.Address
+            });
+        }
+
+        [HttpPut]
+        [Route("UpdateAdminProfile")]
+        public IHttpActionResult UpdateAdminProfile(AdminProfileBindingModel bindingModel)
+        {
+            ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
+            var userId = User.Identity.GetUserId();
+            var user = unitOfWork.Users.GetUserById(userId);
+
+            user.Email = bindingModel.Email;
+            user.FirstName = bindingModel.FirstName;
+            user.LastName = bindingModel.LastName;
+            user.BirthDate = bindingModel.BirthDate;
+            user.Address = bindingModel.Address;
+
+            unitOfWork.Users.Update(user);
+            unitOfWork.Complete();
+
+            return Ok();
+        }
 
         // GET api/Account/UserInfo
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]

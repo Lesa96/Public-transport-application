@@ -8,6 +8,7 @@ import { EditLinesComponent } from 'src/app/edit-lines/edit-lines.component';
 import { EditStationsComponent } from 'src/app/edit-stations/edit-stations.component';
 import { EditDrivingPlanComponent } from 'src/app/edit-driving-plan/edit-driving-plan.component';
 import { EditPricelistComponent } from 'src/app/edit-pricelist/edit-pricelist.component';
+import { AdminProfileComponent } from './admin-profile/admin-profile.component';
 
 const routes: Routes = [
   { 
@@ -46,6 +47,10 @@ const routes: Routes = [
   {
     path: 'editpricelist',
     component: EditPricelistComponent
+  },
+  {
+    path: 'adminprofile',
+    component: AdminProfileComponent
   }
 ];
 

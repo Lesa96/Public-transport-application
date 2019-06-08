@@ -1,0 +1,97 @@
+<app-admin-navigation></app-admin-navigation>
+<br><br><br>
+<form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+  <table>
+    <tr>
+      <td colspan="2" align="center">
+        <h2>Update profile</h2>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Email:
+      </td>
+      <td>
+        <input type="email" formControlName="email" required email>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        First Name:
+      </td>
+      <td>
+        <input type="text" formControlName="firstName" required>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Last Name:
+      </td>
+      <td>
+        <input type="text" formControlName="lastName" required>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Birth Date:
+      </td>
+      <td>
+        <input type="date" formControlName="birthDate" required>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Address:
+      </td>
+      <td>
+        <input type="text" formControlName="address" required>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" align="right">
+        <button type="submit" class="btn btn-default" [disabled]="profileForm.invalid">Update</button>
+      </td>
+    </tr>
+  </table>
+</form>
+
+<br><br>
+<form [formGroup]="passwordForm" (ngSubmit)="onChangePassword()">
+  <table>
+    <tr>
+      <td colspan="2">
+        <h2>Change password</h2>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Old Password:
+      </td>
+      <td>
+        <input type="password" formControlName="oldPassword" required>
+      </td>
+    </tr>
+    <tr>
+    <tr>
+      <td>
+        New Password:
+      </td>
+      <td>
+        <input type="password" formControlName="newPassword" required>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Confirm Password:
+      </td>
+      <td>
+        <input type="password" formControlName="confirmPassword" required>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" align="right">
+        <button type="submit" class="btn btn-default" [disabled]="passwordForm.invalid">Change password</button>
+      </td>
+    </tr>
+  </table>
+</form>
