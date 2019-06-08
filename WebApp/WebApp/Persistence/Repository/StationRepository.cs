@@ -28,7 +28,7 @@ namespace WebApp.Persistence.Repository
             int i = 0;
             foreach (Station s in AppDbContext.Stations)
             {
-                stationNames[i] = (s.Name + ';');
+                stationNames[i] = (s.Name);
                 i++;
             }
             return stationNames;

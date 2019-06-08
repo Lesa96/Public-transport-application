@@ -92,10 +92,9 @@ namespace WebApp.Persistence.Repository
                 {
                     foreach (string name in stationNames)
                     {
-                        string[] n = name.Split(';');
-                        string st = n[0];
+                       
 
-                        dr.Stations.Add(AppDbContext.Stations.Where(s => s.Name == st).FirstOrDefault()); //dodaje stanice u liniju
+                        dr.Stations.Add(AppDbContext.Stations.Where(s => s.Name ==name).FirstOrDefault()); //dodaje stanice u liniju
                     }
                 }
 
@@ -122,6 +121,69 @@ namespace WebApp.Persistence.Repository
             {
                 return false;
             }
+        }
+
+        public List<string> GetDrivelineNumbersAndIds()
+        {
+            List<string> drLines = new List<string>();
+
+            foreach (Driveline dr in AppDbContext.DriveLines)
+            {
+                string num = "Id: " + dr.Id.ToString() + " Number: " + dr.Number.ToString();
+                drLines.Add(num);
+            }
+
+            return drLines;
+        }
+
+        public Driveline GetLineById(int id)
+        {
+            Driveline dr = AppDbContext.DriveLines.Where(x => x.Id == id).FirstOrDefault();
+            return dr;
+        }
+
+        public string[] GetDrivelineStationsNames(int id)
+        {
+            int numberOfStations = 0;
+            Driveline dr = AppDbContext.DriveLines.Where(x => x.Id == id).FirstOrDefault();
+            numberOfStations = dr.Stations.Count;
+            string[] stations = new string[numberOfStations];
+
+            int i = 0;
+            foreach (Station s in dr.Stations)
+            {
+                stations[i] = s.Name;
+                i++;
+            }
+
+            return stations;
+        }
+
+        public bool UpdateDriveline(int id, int number, List<string> stationNames)
+        {
+            Driveline dr = AppDbContext.DriveLines.Where(x => x.Id == id).FirstOrDefault();
+            if (dr != null)
+            {
+                dr.Number = number;
+                dr.Stations.Clear();
+
+                if (stationNames != null)
+                {
+                    foreach (string name in stationNames)
+                    {
+
+
+                        dr.Stations.Add(AppDbContext.Stations.Where(s => s.Name == name).FirstOrDefault()); //dodaje stanice u liniju
+                    }
+                }
+
+              
+
+                return true;
+
+            }
+
+            return false;
         }
     }
 }

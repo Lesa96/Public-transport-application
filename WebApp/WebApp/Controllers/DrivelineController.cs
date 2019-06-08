@@ -39,6 +39,65 @@ namespace WebApp.Controllers
             return Ok(numbers);
         }
 
+        [HttpGet, Route("GetDrivelineNumberById")]
+        public IHttpActionResult GetDrivelineNumberById(int id)
+        {
+            Driveline dr = unitOfWork.Drivelines.GetLineById(id);
+            if (dr == null)
+                return NotFound();
+
+            return Ok(dr.Number);
+        }
+
+        [HttpGet, Route("GetDrivelineNumbersAndIds")]
+        public IHttpActionResult GetDrivelineNumbersAndIds()
+        {
+            List<string> drLines = unitOfWork.Drivelines.GetDrivelineNumbersAndIds();
+
+            if(drLines.Count == 0)
+            {
+                return NotFound();
+            }
+
+            return Ok(drLines);
+        }
+
+        [HttpGet, Route("GetDrivelineStationsNames")]
+        public IHttpActionResult GetDrivelineStationsNames(int id)
+        {
+            string[] stations = unitOfWork.Drivelines.GetDrivelineStationsNames(id);
+
+            return Ok(stations);
+        }
+
+        [HttpPatch, Route("UpdateDriveline")]
+        public IHttpActionResult UpdateDriveline(ChangeDrivelineBindingModel bindingModel)
+        {
+            Driveline dr = unitOfWork.Drivelines.Get(bindingModel.DriveLineId);
+            if (dr != null)
+            {
+                dr.Number = bindingModel.DriveLineNumber;
+                dr.Stations.Clear();
+
+                if (bindingModel.StationNames != null)
+                {
+                    foreach (string name in bindingModel.StationNames)
+                    {
+                        dr.Stations.Add(unitOfWork.Stations.Find(s => s.Name == name).FirstOrDefault()); //dodaje stanice u liniju
+                    }
+                }
+
+                unitOfWork.Drivelines.Update(dr);
+                unitOfWork.Complete();
+                return Ok();
+            }
+
+            return NotFound();
+
+            
+        }
+
+
         //[Authorize(Roles ="Admin")]
         [HttpPost, Route("AddDriveline")]
         public IHttpActionResult AddDriveline(AddDrivelineBindingModel bindingModel)

@@ -1,3 +1,70 @@
-<p>
-  change-driveline works!
-</p>
+<div>
+  <form [formGroup]="selectForm" (ngSubmit)="onSelectSubmit()">
+    <table>
+
+      <tr>
+        <td colspan="2" align="center">
+          <h2>Drivelines :</h2>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" align="left">
+          <div class="nowrap" *ngFor="let line of drivelines">{{line}}</div>
+         </td>
+      </tr>
+      <tr>
+          <td>
+            Edit driveline (id):
+          </td>
+          <td align="right">
+            <input type="number" formControlName="id" required>
+          </td>
+        </tr>
+        <tr>
+            <td colspan="2" align="right">
+              <button type="submit" class="btn btn-default" [disabled]="selectForm.invalid">Edit</button>
+            </td>
+          </tr>
+
+    </table>
+  </form>
+  <div>
+  <form [formGroup]="numberIdForm" (ngSubmit)="onSubmit()" *ngIf="NacrtajDrugu">
+      <table>
+        <tr>
+            <td>
+              <label>Line Id: </label>
+            </td>
+            <td>
+              <input type="number" formControlName="id" readonly min ='1'>
+            </td>
+          </tr>
+        <tr>
+          <td>
+            <label>Line number: </label>
+          </td>
+          <td>
+            <input type="number" formControlName="number" min ='1'>
+          </td>
+        </tr>
+        <tr>
+        <tr>
+          <td>
+            <label formArrayName="sNames" *ngFor="let name of numberIdForm.controls.sNames.controls; let i = index">
+              <input type="checkbox" [formControlName]="i">
+              {{sNames[i]}}
+              <br>
+            </label>
+          </td>
+        </tr>
+        <tr>
+            <td colspan="2" align="right">
+                <button type="submit">Change Driveline</button>
+            </td>
+          </tr>
+      </table>
+    </form>
+  </div>
+  
+</div>
+

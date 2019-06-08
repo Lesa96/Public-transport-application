@@ -38,4 +38,19 @@ namespace WebApp.Models
         [Display(Name = "Driveline number")]
         public int DriveLineNumber { get; set; }
     }
+
+    public class ChangeDrivelineBindingModel
+    {
+        [Required]
+        [Display(Name = "Drive line Id")]
+        public int DriveLineId { get; set; }
+
+        [Required]
+        [Display(Name = "Driveline number")]
+        public int DriveLineNumber { get; set; }
+
+        [Required]
+        [Display(Name = "Station names")]
+        public List<string> StationNames { get; set; }
+    }
 }
