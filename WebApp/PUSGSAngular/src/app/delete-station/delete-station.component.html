@@ -1,3 +1,27 @@
-<p>
-  delete-station works!
-</p>
+<div>
+  <form [formGroup]="deleteForm" (ngSubmit)="onSubmit()" >
+    <table>
+        <tr>
+            <td colspan="2" align="center">
+              <h2>Delete Station :</h2>
+            </td>
+          </tr>
+        <tr>
+            <td>
+              <label>Station name: </label>
+            </td>
+            <td>
+              <select formControlName="stationName">
+                <option *ngFor="let name of sNames" [value]="name">{{name}}</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+              <td colspan="2" align="right">
+                  <button type="submit" [disabled]="deleteForm.invalid">Delete</button>
+              </td>
+            </tr>
+    </table>
+
+  </form>
+</div>

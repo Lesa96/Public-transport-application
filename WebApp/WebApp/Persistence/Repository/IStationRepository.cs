@@ -10,5 +10,6 @@ namespace WebApp.Persistence.Repository
     public interface IStationRepository : IRepository<Station, int>
     {
         string[] GetStationNames();
+        bool DeleteStationByName(string name);
     }
 }
