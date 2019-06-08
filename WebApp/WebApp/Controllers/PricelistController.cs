@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using WebApp.Models;
 using WebApp.Models.Enums;
+using WebApp.Persistence.Repository;
 using WebApp.Persistence.UnitOfWork;
 
 namespace WebApp.Controllers
@@ -86,8 +87,14 @@ namespace WebApp.Controllers
         public IHttpActionResult GetPricelist(int id)
         {
             var pricelist = unitOfWork.Pricelists.Get(id);
+            var resultPricelist = new DisplayPricelistBindingModel()
+            {
+                PricelistId = pricelist.PricelistId,
+                ValidFrom = pricelist.ValidFrom,
+                ValidUntil = pricelist.ValidUntil
+            };
 
-            return Ok(pricelist);
+            return Ok(resultPricelist);
         }
 
         [HttpPost]
@@ -97,10 +104,20 @@ namespace WebApp.Controllers
             Pricelist pricelist = new Pricelist()
             {
                 ValidFrom = bindingModel.ValidFrom,
-                ValidUntil = bindingModel.ValidUntil
+                ValidUntil = bindingModel.ValidUntil,
             };
 
             unitOfWork.Pricelists.Add(pricelist);
+            unitOfWork.Complete();
+
+            var pricelistId = unitOfWork.Pricelists.Find(pl => pl.ValidFrom == bindingModel.ValidFrom && pl.ValidUntil == bindingModel.ValidUntil).LastOrDefault().PricelistId;
+
+            foreach (var item in bindingModel.PricelistItems)
+            {
+                item.PricelistId = pricelistId;
+                unitOfWork.PricelistItems.Add(item);
+            }
+
             unitOfWork.Complete();
 
             return Ok();
@@ -128,12 +145,39 @@ namespace WebApp.Controllers
 
             pricelist.ValidFrom = bindingModel.ValidFrom;
             pricelist.ValidUntil = bindingModel.ValidUntil;
-            pricelist.PricelistItems = bindingModel.PricelistItems;
 
             unitOfWork.Pricelists.Update(pricelist);
             unitOfWork.Complete();
 
+            foreach (var item in bindingModel.PricelistItems)
+            {
+                var pricelistItem = unitOfWork.PricelistItems.Get(item.PricelistItemId);
+                pricelistItem.Price = item.Price;
+                unitOfWork.PricelistItems.Update(pricelistItem);
+            }
+
+            unitOfWork.Complete();
+
             return Ok();
+        }
+
+        [HttpGet]
+        [Route("GetPricelistItems")]
+        public IHttpActionResult GetPricelistItems(int id)
+        {
+            var items = unitOfWork.PricelistItems.Find(item => item.PricelistId == id);
+            var resultList = new List<GetPricelistItemsBindingModel>();
+            foreach (var item in items)
+            {
+                resultList.Add(new GetPricelistItemsBindingModel()
+                {
+                    PricelistItemId = item.PricelistItemId,
+                    TicketType = item.TicketType,
+                    PassengerType = item.PassengerType,
+                    Price = item.Price
+                });
+            }
+            return Ok(resultList);
         }
     }
 }

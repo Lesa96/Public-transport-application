@@ -286,6 +286,7 @@
     <Compile Include="Models\Pricelist.cs" />
     <Compile Include="Models\PricelistBindingModels.cs" />
     <Compile Include="Models\PricelistItem.cs" />
+    <Compile Include="Models\PricelistItemBindingModels.cs" />
     <Compile Include="Models\Station.cs" />
     <Compile Include="Models\StationBindingModels.cs" />
     <Compile Include="Models\Ticket.cs" />
