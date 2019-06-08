@@ -97,10 +97,21 @@ namespace WebApp.Controllers
             Pricelist pricelist = new Pricelist()
             {
                 ValidFrom = bindingModel.ValidFrom,
-                ValidUntil = bindingModel.ValidUntil
+                ValidUntil = bindingModel.ValidUntil,
+                //PricelistItems = bindingModel.PricelistItems
             };
 
             unitOfWork.Pricelists.Add(pricelist);
+            unitOfWork.Complete();
+
+            var pricelistId = unitOfWork.Pricelists.Find(pl => pl.ValidFrom == bindingModel.ValidFrom && pl.ValidUntil == bindingModel.ValidUntil).LastOrDefault().PricelistId;
+
+            foreach (var item in bindingModel.PricelistItems)
+            {
+                item.PricelistId = pricelistId;
+                unitOfWork.PricelistItems.Add(item);
+            }
+
             unitOfWork.Complete();
 
             return Ok();
