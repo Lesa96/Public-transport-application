@@ -1,3 +1,83 @@
-<p>
-  change-station works!
-</p>
+<div>
+  <form [formGroup]="selectForm" (ngSubmit)="onSelectSubmit()">
+    <table>
+      <tr>
+        <td colspan="2" align="center">
+          <h2>Stations :</h2>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" align="left">
+          <div class="nowrap" *ngFor="let station of stations">{{station}}</div>
+          </td>
+      </tr>
+      <tr>
+        <td>
+          Edit station (id):
+        </td>
+        <td align="right">
+          <input type="number" formControlName="id" required>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" align="right">
+          <button type="submit" class="btn btn-default" [disabled]="selectForm.invalid">Edit</button>
+        </td>
+      </tr>
+
+    </table>
+  </form>
+
+  <div>
+    <form [formGroup]="stationForm" (ngSubmit)="onSubmit()" *ngIf="NacrtajDrugu">
+      <table>
+        <tr>
+            <td>
+              <label>Station Id: </label>
+            </td>
+            <td>
+              <input type="number" formControlName="id" readonly min ='1'>
+            </td>
+        </tr>
+          <tr>
+              <td>
+                <label>Station name: </label>
+              </td>
+              <td>
+                <input type="text" formControlName="sName" >
+              </td>
+          </tr>
+          <tr>
+            <td>
+              <label>Station Address: </label>
+            </td>
+            <td>
+              <input type="text" formControlName="sAddress" >
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label>X coordinate: </label>
+            </td>
+            <td>
+              <input type="number" formControlName="X" >
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label>Y coordinate: </label>
+            </td>
+            <td>
+              <input type="number" formControlName="Y" >
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" align="right">
+                <button type="submit">Change Station</button>
+            </td>
+          </tr>
+      </table>
+    </form>
+  </div>
+
+</div>
