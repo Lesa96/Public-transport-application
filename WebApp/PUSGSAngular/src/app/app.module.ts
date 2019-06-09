@@ -32,7 +32,9 @@ import { AdminProfileComponent } from './admin-profile/admin-profile.component';
 import { UserNavigationComponent } from './user-navigation/user-navigation.component';
 import { UserBuyTicketComponent } from './user-buy-ticket/user-buy-ticket.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { MapComponent } from './map/map.component';
 
+import { AgmCoreModule } from '@agm/core';
 
 @NgModule({
   declarations: [
@@ -65,12 +67,14 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
     UserNavigationComponent,
     UserBuyTicketComponent,
     UserProfileComponent,
+    MapComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AgmCoreModule.forRoot({apiKey: 'AIzaSyDnihJyw_34z5S1KZXp90pfTGAqhFszNJk'})
   ],
   providers: [],
   bootstrap: [AppComponent]

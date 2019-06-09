@@ -14,5 +14,6 @@ namespace WebApp.Persistence.Repository
         bool DeleteStationByName(string name);
         UpdateStationInfoBindingModel GetStationsById(int id);
         List<string> GetStationsIdsAndNames();
+        List<UpdateStationInfoBindingModel> GetAllStations();
     }
 }

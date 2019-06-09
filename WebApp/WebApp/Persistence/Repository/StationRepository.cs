@@ -99,5 +99,27 @@ namespace WebApp.Persistence.Repository
 
             return null;
         }
+
+        public List<UpdateStationInfoBindingModel> GetAllStations()
+        {
+            List<UpdateStationInfoBindingModel> stations = new List<UpdateStationInfoBindingModel>();
+            List<Station> dbStations = AppDbContext.Stations.ToList();
+
+            foreach (Station s in dbStations)
+            {
+                UpdateStationInfoBindingModel station = new UpdateStationInfoBindingModel()
+                {
+                    Id = s.Id, Name = s.Name , Address = s.Address
+                };
+                Coordinates cor = AppDbContext.Coordinates.Where(x => x.CoordinatesId == s.CoordinatesId).FirstOrDefault();
+
+                station.X = cor.CoordX;
+                station.Y = cor.CoordY;
+
+                stations.Add(station);
+            }
+
+            return stations;
+        }
     }
 }
