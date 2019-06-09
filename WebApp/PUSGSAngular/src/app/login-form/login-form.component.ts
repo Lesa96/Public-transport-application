@@ -48,7 +48,7 @@ export class LoginFormComponent  {
           }
           else if (role == 'Controller')
           {
-            //this.router.navigate(['/???'])
+            this.router.navigate(['/accountverification'])
           }
           else if (role == 'AppUser')
           {

@@ -24,4 +24,26 @@ namespace WebApp.Models
         [Display(Name = "Email")]
         public string email { get; set; }
     }
+
+    public class TicketValidationBindingModel
+    {
+        [Required]
+        [Display(Name = "TicketId")]
+        public int TicketId { get; set; }
+    }
+
+    public class DisplayTicketBindingModel
+    {
+        [Required]
+        [Display(Name = "TicketId")]
+        public int TicketId { get; set; }
+
+        [Required]
+        [Display(Name = "TimeOfPurchase")]
+        public DateTime TimeOfPurchase { get; set; }
+
+        [Required]
+        [Display(Name = "IsValid")]
+        public bool IsValid { get; set; }
+    }
 }

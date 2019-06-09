@@ -11,6 +11,9 @@ import { EditPricelistComponent } from 'src/app/edit-pricelist/edit-pricelist.co
 import { AdminProfileComponent } from './admin-profile/admin-profile.component';
 import { UserBuyTicketComponent } from './user-buy-ticket/user-buy-ticket.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { ControllerAccountVerificationComponent } from './controller-account-verification/controller-account-verification.component';
+import { ControllerTicketValidationComponent } from './controller-ticket-validation/controller-ticket-validation.component';
+import { ControllerProfileComponent } from './controller-profile/controller-profile.component';
 
 const routes: Routes = [
   { 
@@ -61,7 +64,20 @@ const routes: Routes = [
   {
     path: 'userprofile',
     component: UserProfileComponent
+  },
+  {
+    path: 'accountverification',
+    component: ControllerAccountVerificationComponent
+  },
+  {
+    path: 'ticketvalidation',
+    component: ControllerTicketValidationComponent
+  },
+  {
+    path: 'controllerprofile',
+    component: ControllerProfileComponent
   }
+  
 ];
 
 @NgModule({

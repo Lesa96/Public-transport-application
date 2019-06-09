@@ -1,0 +1,29 @@
+<app-controller-navigation></app-controller-navigation>
+<br><br><br>
+<form [formGroup]="checkForm" (ngSubmit)="onSubmit()">
+  <table>
+    <tr>
+      <td colspan="2" align="center">
+        <h2>Check ticket validity</h2>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" align="left">
+        <div class="nowrap" *ngFor="let ticket of tickets">Id: {{ticket.TicketId}}; Time of purchase: {{ticket.TimeOfPurchase}}; Status: {{validity[+ticket.IsValid]}}</div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Check validity (id):
+      </td>
+      <td align="right">
+        <input type="text" formControlName="ticketId" required>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" align="right">
+        <button type="submit" class="btn btn-default" [disabled]="checkForm.invalid">Check</button>
+      </td>
+    </tr>
+  </table>
+</form>

@@ -32,6 +32,10 @@ import { AdminProfileComponent } from './admin-profile/admin-profile.component';
 import { UserNavigationComponent } from './user-navigation/user-navigation.component';
 import { UserBuyTicketComponent } from './user-buy-ticket/user-buy-ticket.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { ControllerNavigationComponent } from './controller-navigation/controller-navigation.component';
+import { ControllerProfileComponent } from './controller-profile/controller-profile.component';
+import { ControllerAccountVerificationComponent } from './controller-account-verification/controller-account-verification.component';
+import { ControllerTicketValidationComponent } from './controller-ticket-validation/controller-ticket-validation.component';
 
 
 @NgModule({
@@ -65,6 +69,10 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
     UserNavigationComponent,
     UserBuyTicketComponent,
     UserProfileComponent,
+    ControllerNavigationComponent,
+    ControllerProfileComponent,
+    ControllerAccountVerificationComponent,
+    ControllerTicketValidationComponent,
   ],
   imports: [
     BrowserModule,

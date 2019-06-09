@@ -298,8 +298,11 @@
     <Compile Include="Persistence\Repository\DrivingPlanRepository.cs" />
     <Compile Include="Persistence\Repository\IApplicationUserRepository.cs" />
     <Compile Include="Persistence\Repository\ICoordinatesRepository.cs" />
+    <Compile Include="Persistence\Repository\IdentityUserRepository.cs" />
+    <Compile Include="Persistence\Repository\IdentityRoleRepository.cs" />
     <Compile Include="Persistence\Repository\IDrivelineRepository.cs" />
     <Compile Include="Persistence\Repository\IDrivingPlanRepository.cs" />
+    <Compile Include="Persistence\Repository\IIdentityRoleRepository.cs" />
     <Compile Include="Persistence\Repository\IPassengerTypeCoefficientRepository.cs" />
     <Compile Include="Persistence\Repository\IPricelistItemRepository.cs" />
     <Compile Include="Persistence\Repository\IPricelistRepository.cs" />

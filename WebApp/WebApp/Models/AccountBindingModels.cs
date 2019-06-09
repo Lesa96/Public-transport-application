@@ -94,8 +94,58 @@ namespace WebApp.Models
         public string Address { get; set; }
     }
 
+    public class ControllerProfileBindingModel
+    {
+        [Required]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+
+        [Required]
+        [Display(Name = "First name")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [Display(Name = "Last name")]
+        public string LastName { get; set; }
+
+        [Required]
+        [Display(Name = "Birth date")]
+        public DateTime BirthDate { get; set; }
+
+        [Required]
+        [Display(Name = "Address")]
+        public string Address { get; set; }
+    }
+
     public class UserProfileBindingModel
     { 
+        [Required]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+
+        [Required]
+        [Display(Name = "First name")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [Display(Name = "Last name")]
+        public string LastName { get; set; }
+
+        [Required]
+        [Display(Name = "Birth date")]
+        public DateTime BirthDate { get; set; }
+
+        [Required]
+        [Display(Name = "Address")]
+        public string Address { get; set; }
+    }
+
+    public class DisplayUserBindingModel
+    {
+        [Required]
+        [Display(Name = "Id")]
+        public string Id { get; set; }
+
         [Required]
         [Display(Name = "Email")]
         public string Email { get; set; }

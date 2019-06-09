@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-admin-navigation',
-  templateUrl: './admin-navigation.component.html',
-  styleUrls: ['./admin-navigation.component.css']
+  selector: 'app-controller-navigation',
+  templateUrl: './controller-navigation.component.html',
+  styleUrls: ['./controller-navigation.component.css']
 })
-export class AdminNavigationComponent implements OnInit {
+export class ControllerNavigationComponent implements OnInit {
 
   constructor(private router: Router) { }
   
@@ -19,4 +19,5 @@ export class AdminNavigationComponent implements OnInit {
       localStorage.removeItem('email');
       this.router.navigate(['/home']);
     }
+
 }

@@ -32,6 +32,17 @@ export class ProfileService {
     return this.http.put(this.accountUri + "/UpdateUserProfile", profile, httpOptions);
   }
 
+  updateControllerProfile(profile) : Observable<any> 
+  { 
+    let httpOptions = {
+      headers: {
+          "Content-type": "application/json",
+          "Authorization": "Bearer " + localStorage.jwt
+      },
+  };
+    return this.http.put(this.accountUri + "/UpdateControllerProfile", profile, httpOptions);
+  }
+
   changePassword(passwords) : Observable<any> 
   { 
     let httpOptions = {
@@ -65,6 +76,18 @@ export class ProfileService {
       }     
     }
     return this.http.get(this.accountUri + "/GetUserProfile", httpOptions);
+  }
+
+  getControllerProfile() : Observable<any>
+  {
+    let httpOptions = 
+    {
+      headers: {
+        "Content-type": "application/json",
+        "Authorization": "Bearer " + localStorage.jwt
+      }     
+    }
+    return this.http.get(this.accountUri + "/GetControllerProfile", httpOptions);
   }
 
   getVerificationStatus() : Observable<any>

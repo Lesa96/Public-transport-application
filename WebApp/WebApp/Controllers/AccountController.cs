@@ -105,6 +105,64 @@ namespace WebApp.Controllers
         }
 
         [HttpGet]
+        [Route("GetControllerProfile")]
+        public IHttpActionResult GetControllerProfile()
+        {
+            ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
+            var userId = User.Identity.GetUserId();
+            var user = unitOfWork.Users.GetUserById(userId);
+
+            return Ok(new ControllerProfileBindingModel()
+            {
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                BirthDate = user.BirthDate,
+                Address = user.Address
+            });
+        }
+
+        [HttpGet]
+        [Route("GetNotVerifiedUsers")]
+        public IHttpActionResult GetNotVerifiedUsers()
+        {
+            //var role = unitOfWork.Roles.Find(r => r.Name.Equals("AppUser"));
+            //var userRole = unitOfWork.UserRoles.Find(ur => ur.RoleId.Equals(role.RoleId));
+            //var users = unitOfWork.Users.Find(u => u.Roles.Contains();
+
+            //return Ok(new ControllerProfileBindingModel()
+            //{
+            //    Email = user.Email,
+            //    FirstName = user.FirstName,
+            //    LastName = user.LastName,
+            //    BirthDate = user.BirthDate,
+            //    Address = user.Address
+            //});
+
+            return Ok();
+        }
+
+        [HttpPut]
+        [Route("UpdateControllerProfile")]
+        public IHttpActionResult UpdateControllerProfile(ControllerProfileBindingModel bindingModel)
+        {
+            ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
+            var userId = User.Identity.GetUserId();
+            var user = unitOfWork.Users.GetUserById(userId);
+
+            user.Email = bindingModel.Email;
+            user.FirstName = bindingModel.FirstName;
+            user.LastName = bindingModel.LastName;
+            user.BirthDate = bindingModel.BirthDate;
+            user.Address = bindingModel.Address;
+
+            unitOfWork.Users.Update(user);
+            unitOfWork.Complete();
+            
+            return Ok();
+        }
+
+        [HttpGet]
         [Route("GetUserProfile")]
         public IHttpActionResult GetUserProfile()
         {
