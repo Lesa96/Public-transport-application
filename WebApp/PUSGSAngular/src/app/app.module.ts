@@ -36,7 +36,9 @@ import { ControllerNavigationComponent } from './controller-navigation/controlle
 import { ControllerProfileComponent } from './controller-profile/controller-profile.component';
 import { ControllerAccountVerificationComponent } from './controller-account-verification/controller-account-verification.component';
 import { ControllerTicketValidationComponent } from './controller-ticket-validation/controller-ticket-validation.component';
+import { MapComponent } from './map/map.component';
 
+import { AgmCoreModule } from '@agm/core';
 
 @NgModule({
   declarations: [
@@ -73,12 +75,14 @@ import { ControllerTicketValidationComponent } from './controller-ticket-validat
     ControllerProfileComponent,
     ControllerAccountVerificationComponent,
     ControllerTicketValidationComponent,
+    MapComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AgmCoreModule.forRoot({apiKey: 'AIzaSyDnihJyw_34z5S1KZXp90pfTGAqhFszNJk'})
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -46,6 +46,20 @@ namespace WebApp.Controllers
 
         }
 
+        [HttpGet]
+        [Route("GetAllStations")]
+        public IHttpActionResult GetAllStations()
+        {
+            List<UpdateStationInfoBindingModel> stations = unitOfWork.Stations.GetAllStations();
+            if (stations.Count == 0)
+            {
+                return NotFound();
+            }
+
+            return Ok(stations);
+
+        }
+
 
         [HttpPost]
         [Route("AddStation")]

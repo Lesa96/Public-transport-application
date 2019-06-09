@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { AddStationBindingModel, UpdateStationBindingModel } from './Models/AddStationBindingModel';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -14,6 +15,7 @@ export class StationService {
   private StationIdsAndNamesUri = "http://localhost:8080/api/Station/GetIdsAndStationNames";
   private GetStationByIdUri = "http://localhost:8080/api/Station/GetStationsById"
   private UpdateStationInfoUri = "http://localhost:8080/api/Station/UpdateStationInfo"
+  private GetAllStationUri = "http://localhost:8080/api/Station/GetAllStations";
 
   constructor(private http: HttpClient) { }
 
@@ -41,6 +43,18 @@ export class StationService {
     }
 
     return this.http.get(this.GetStationByIdUri,httpOptions);
+  }
+  GetAllStations() : Observable<any>
+  {
+    let httpOptions = 
+    {
+      headers: {
+        "Content-type": "application/json",
+        "Authorization": "Bearer " + localStorage.jwt
+      },
+    }
+
+    return this.http.get(this.GetAllStationUri,httpOptions);
   }
 
   UpdateStationInfo(station : UpdateStationBindingModel)
