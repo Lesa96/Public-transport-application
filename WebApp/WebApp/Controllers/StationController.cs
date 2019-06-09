@@ -31,6 +31,22 @@ namespace WebApp.Controllers
             return Ok(stationNames);
 
         }
+
+        [HttpGet]
+        [Route("GetStationsById")]
+        public IHttpActionResult GetStationsById(int id)
+        {
+            UpdateStationInfoBindingModel station = unitOfWork.Stations.GetStationsById(id);
+            if(station == null)
+            {
+                return NotFound();
+            }
+            
+            return Ok(station);
+
+        }
+
+
         [HttpPost]
         [Route("AddStation")]
         public IHttpActionResult AddStation(AddStationFullBindingModel bindingModel)
@@ -55,6 +71,22 @@ namespace WebApp.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("GetIdsAndStationNames")]
+        public IHttpActionResult GetIdsAndStationNames()
+        {
+            List<string> res = unitOfWork.Stations.GetStationsIdsAndNames();
+            if(res.Count == 0)
+            {
+               return NotFound();
+            }
+
+            return Ok(res);
+
+        }
+
+
+
         [Route("UpdateStationInfo"), HttpPatch]
         public IHttpActionResult UpdateStationInfo(UpdateStationInfoBindingModel bindingModel)
         {
@@ -63,10 +95,21 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
+            Station s = unitOfWork.Stations.Find(x => x.Name == bindingModel.Name && x.Id != bindingModel.Id).FirstOrDefault();
+            if (s != null) //ako postoji stanica sa takvim imenom, vrati gresku
+            {
+                 return BadRequest();
+            }
+
             station.Name = bindingModel.Name;
             station.Address = bindingModel.Address;
-            station.Coordinates.CoordX = bindingModel.Coordinates.CoordX;
-            station.Coordinates.CoordY = bindingModel.Coordinates.CoordY;
+
+            Coordinates co = new Coordinates() { CoordX = bindingModel.X, CoordY = bindingModel.Y };
+            unitOfWork.CoordinatesRepository.Add(co);
+            unitOfWork.Complete();
+            int corId = unitOfWork.CoordinatesRepository.Find(x => x.CoordX == co.CoordX && x.CoordY == co.CoordY).FirstOrDefault().CoordinatesId;
+            station.CoordinatesId = corId;
+            
 
             unitOfWork.Stations.Update(station);
             unitOfWork.Complete();

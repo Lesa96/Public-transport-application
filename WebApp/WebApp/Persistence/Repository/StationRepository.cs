@@ -66,5 +66,38 @@ namespace WebApp.Persistence.Repository
 
             return false;
         }
+
+        public List<string> GetStationsIdsAndNames()
+        {
+            List<string> res = new List<string>();
+
+            foreach (Station s in AppDbContext.Stations)
+            {
+                res.Add("Id: " + s.Id + " Name: " + s.Name);
+            }
+            return res;
+        }
+
+        public UpdateStationInfoBindingModel GetStationsById(int id)
+        {
+            Station station = AppDbContext.Stations.Where(x => x.Id == id).FirstOrDefault();
+            UpdateStationInfoBindingModel res;
+
+            if (station != null)
+            {
+                res = new UpdateStationInfoBindingModel() { Id = id };
+                res.Name = station.Name;
+                res.Address = station.Address;
+                Coordinates co = AppDbContext.Coordinates.Where(c => c.CoordinatesId == station.CoordinatesId).FirstOrDefault();
+                res.X = co.CoordX;
+                res.Y = co.CoordY;
+
+                return res;
+            }
+            
+
+
+            return null;
+        }
     }
 }

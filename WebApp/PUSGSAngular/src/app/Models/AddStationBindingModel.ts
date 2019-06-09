@@ -4,3 +4,11 @@ export class AddStationBindingModel{
     X : number;
     Y : number;
 }
+
+export class UpdateStationBindingModel{
+    Id : number;
+    Name : string;
+    Address : string;
+    X : number;
+    Y : number;
+}

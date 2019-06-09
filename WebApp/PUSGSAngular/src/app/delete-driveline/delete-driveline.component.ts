@@ -33,7 +33,9 @@ export class DeleteDrivelineComponent implements OnInit {
 
   onSubmit()
   {
-    this.drivelineService.deleteDriveline(this.deleteForm.value).subscribe();
+    this.drivelineService.deleteDriveline(this.deleteForm.value).subscribe(()=>{
+      window.location.reload();
+    });
   }
 
 }

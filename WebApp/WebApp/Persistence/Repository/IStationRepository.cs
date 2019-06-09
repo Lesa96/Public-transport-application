@@ -12,5 +12,7 @@ namespace WebApp.Persistence.Repository
         string[] GetStationNames();
         bool AddStation(string name, string addr, float x, float y);
         bool DeleteStationByName(string name);
+        UpdateStationInfoBindingModel GetStationsById(int id);
+        List<string> GetStationsIdsAndNames();
     }
 }

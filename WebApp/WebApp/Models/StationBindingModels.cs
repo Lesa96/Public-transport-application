@@ -18,8 +18,11 @@ namespace WebApp.Models
         [Display(Name = "Address")]
         public string Address { get; set; }
 
-        [Display(Name = "Coodinates")]
-        public Coordinates Coordinates { get; set; }
+        [Display(Name = "X")]
+        public float X { get; set; }
+
+        [Display(Name = "Y")]
+        public float Y { get; set; }
     }
 
     public class ManageLinesBindingModel
