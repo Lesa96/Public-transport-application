@@ -1,3 +1,48 @@
-<p>
-  add-station works!
-</p>
+<div>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <table>
+      <tr>
+        <td colspan="2" align="center">
+          <h2>Add Station: </h2>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label>Station name: </label>
+        </td>
+        <td>
+          <input type="text" formControlName="sName" >
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label>Station Address: </label>
+        </td>
+        <td>
+          <input type="text" formControlName="sAddress" >
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label>X coordinate: </label>
+        </td>
+        <td>
+          <input type="number" formControlName="X" >
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label>Y coordinate: </label>
+        </td>
+        <td>
+          <input type="number" formControlName="Y" >
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" align="right">
+            <button type="submit">Add Station</button>
+        </td>
+      </tr>
+    </table>
+  </form>
+</div>

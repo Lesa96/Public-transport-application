@@ -46,5 +46,25 @@ namespace WebApp.Persistence.Repository
 
             return false;
         }
+
+        public bool AddStation(string name, string addr, float x, float y)
+        {
+            Station st = AppDbContext.Stations.Where(s => s.Name == name).FirstOrDefault();
+            if (st == null)
+            {
+                Coordinates co = new Coordinates() { CoordX = x, CoordY = y };
+                AppDbContext.Coordinates.Add(co);
+                AppDbContext.SaveChanges();
+
+                Coordinates coFromBase = AppDbContext.Coordinates.Where(p => p.CoordX == x && p.CoordY == y).FirstOrDefault();
+                st = new Station() { Name = name, Address = addr, CoordinatesId = coFromBase.CoordinatesId };
+                AppDbContext.Stations.Add(st);
+                AppDbContext.SaveChanges();
+
+                return true;
+            }
+
+            return false;
+        }
     }
 }

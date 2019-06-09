@@ -32,5 +32,21 @@ namespace WebApp.Models
         public int LineNumber { get; set; }
     }
 
+    public class AddStationFullBindingModel
+    {
+        [Required]
+        [Display(Name = "StationName")]
+        public string StationName { get; set; }
+
+        [Display(Name = "StationAddress")]
+        public string StationAddress { get; set; }
+
+        [Display(Name = "X")]
+        public float X { get; set; }
+
+        [Display(Name = "Y")]
+        public float Y { get; set; }
+    }
+
 
 }

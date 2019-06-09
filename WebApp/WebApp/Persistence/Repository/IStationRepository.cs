@@ -10,6 +10,7 @@ namespace WebApp.Persistence.Repository
     public interface IStationRepository : IRepository<Station, int>
     {
         string[] GetStationNames();
+        bool AddStation(string name, string addr, float x, float y);
         bool DeleteStationByName(string name);
     }
 }

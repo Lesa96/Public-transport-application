@@ -31,6 +31,15 @@ namespace WebApp.Controllers
             return Ok(stationNames);
 
         }
+        [HttpPost]
+        [Route("AddStation")]
+        public IHttpActionResult AddStation(AddStationFullBindingModel bindingModel)
+        {
+            if (unitOfWork.Stations.AddStation(bindingModel.StationName, bindingModel.StationAddress, bindingModel.X, bindingModel.Y))
+                return Ok();
+            else
+                return BadRequest();
+        }
 
         [HttpDelete]
         [Route("DeleteStation")]
