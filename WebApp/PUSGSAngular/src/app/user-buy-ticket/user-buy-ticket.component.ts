@@ -7,10 +7,11 @@ import { BuyTicketService } from '../buy-ticket.service';
   templateUrl: './user-buy-ticket.component.html',
   styleUrls: ['./user-buy-ticket.component.css']
 })
-export class UserBuyTicketComponent {
+export class UserBuyTicketComponent implements OnInit {
 
   ticketType = ["OneHourTicket", "Daily", "Monthly", "Annual"];
-  
+  status : any;
+
   buyForm = this.fb.group({
     email: localStorage.email,
     ticketType: ['', Validators.required],
@@ -19,6 +20,11 @@ export class UserBuyTicketComponent {
   get f() { return this.buyForm.controls; }
 
   constructor(private buyTicketService : BuyTicketService, private fb: FormBuilder) { }
+
+  ngOnInit()
+  {
+    this.status = localStorage.status;
+  }
 
   onSubmit()
   {

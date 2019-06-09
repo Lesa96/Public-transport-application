@@ -1,6 +1,8 @@
 <nav>
   <a routerLink="/userbuyticket">Buy ticket</a>
   <a routerLink="/userprofile">Edit profile</a>
+  
   <button class="logout" (click)="logout()">Logout</button>
 </nav>
+<h4 align="center">Verification status: {{status[verificationStatus]}}</h4>
 <router-outlet></router-outlet>

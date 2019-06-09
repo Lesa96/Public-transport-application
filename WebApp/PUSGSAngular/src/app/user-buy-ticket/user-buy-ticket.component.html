@@ -1,6 +1,6 @@
 <app-user-navigation></app-user-navigation>
 <br><br><br>
-<form [formGroup]="buyForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="buyForm" (ngSubmit)="onSubmit()" *ngIf="status==1">
   <table>
     <tr>
       <td colspan="2" align="center">
@@ -29,3 +29,6 @@
     </tr>
   </table>
 </form>
+
+<h2 *ngIf="status==0" align="center">You can't buy tickets before account verification</h2>
+<h2 *ngIf="status==2" align="center">You can't buy tickets because your account has been denied</h2>

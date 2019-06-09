@@ -66,4 +66,16 @@ export class ProfileService {
     }
     return this.http.get(this.accountUri + "/GetUserProfile", httpOptions);
   }
+
+  getVerificationStatus() : Observable<any>
+  {
+    let httpOptions = 
+    {
+      headers: {
+        "Content-type": "application/json",
+        "Authorization": "Bearer " + localStorage.jwt
+      }     
+    }
+    return this.http.get(this.accountUri + "/GetVerificationStatus", httpOptions);
+  }
 }

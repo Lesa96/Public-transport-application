@@ -54,6 +54,17 @@ namespace WebApp.Controllers
 
         public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; private set; }
 
+        [HttpGet]
+        [Route("GetVerificationStatus")]
+        public IHttpActionResult GetVerificationStatus()
+        {
+            ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
+            var userId = User.Identity.GetUserId();
+            var user = unitOfWork.Users.GetUserById(userId);
+
+            return Ok(user.VerificationStatus);
+        }
+
         // GET api/Account/GetAdminProfile
         [HttpGet]
         [Route("GetAdminProfile")]

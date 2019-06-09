@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ProfileService } from '../profile.service';
 
 @Component({
   selector: 'app-user-navigation',
@@ -8,9 +9,18 @@ import { Router } from '@angular/router';
 })
 export class UserNavigationComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  verificationStatus : any;
+  status = ["Processing", "Accepted", "Denied"]
+
+  constructor(private profileService : ProfileService, private router: Router) { }
   
   ngOnInit() {
+    this.profileService.getVerificationStatus().subscribe(status => 
+      { 
+        this.verificationStatus = status;
+        localStorage.setItem('status', status);
+        console.log(status);
+      });
   }
 
   logout() {
