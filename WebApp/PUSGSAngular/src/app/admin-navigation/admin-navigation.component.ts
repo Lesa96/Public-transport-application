@@ -17,6 +17,7 @@ export class AdminNavigationComponent implements OnInit {
     logout() {
       localStorage.removeItem('jwt');
       localStorage.removeItem('role');
+      localStorage.removeItem('email');
       this.router.navigate(['/home']);
     }
 }

@@ -30,17 +30,29 @@ export class LoginFormComponent  {
           let decodedJwtData = JSON.parse(decodedJwtJsonData)
 
           let role = decodedJwtData.role
+          let email = decodedJwtData.unique_name
 
           console.log('jwtData: ' + jwtData)
           console.log('decodedJwtJsonData: ' + decodedJwtJsonData)
           console.log('decodedJwtData: ' + decodedJwtData)
           console.log('Role ' + role)
+          console.log('Email ' + email)
 
           localStorage.setItem('jwt', jwt)
           localStorage.setItem('role', role);
+          localStorage.setItem('email', email);
+          
           if (role == 'Admin')
           {
             this.router.navigate(['/editlines'])
+          }
+          else if (role == 'Controller')
+          {
+            //this.router.navigate(['/???'])
+          }
+          else if (role == 'AppUser')
+          {
+            this.router.navigate(['/userbuyticket'])
           }
           else
           {

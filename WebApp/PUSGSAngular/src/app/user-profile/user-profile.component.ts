@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { RegisterService } from '../register.service';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Validators, FormBuilder } from '@angular/forms';
 import { ProfileService } from '../profile.service';
 
 @Component({
-  selector: 'app-admin-profile',
-  templateUrl: './admin-profile.component.html',
-  styleUrls: ['./admin-profile.component.css']
+  selector: 'app-user-profile',
+  templateUrl: './user-profile.component.html',
+  styleUrls: ['./user-profile.component.css']
 })
-export class AdminProfileComponent implements OnInit {
+export class UserProfileComponent implements OnInit {
 
   profileForm = this.fb.group({
     email: ['', Validators.required],
@@ -23,13 +22,13 @@ export class AdminProfileComponent implements OnInit {
     newPassword: ['', Validators.required],
     confirmPassword: ['', Validators.required]
   });
-
+  
   get f() { return this.profileForm.controls; }
   
   constructor(private profileService : ProfileService, private fb: FormBuilder) { }
 
   onSubmit() {
-    this.profileService.updateAdminProfile(this.profileForm.value).subscribe();
+    this.profileService.updateUserProfile(this.profileForm.value).subscribe();
   }
 
   onChangePassword() {
@@ -38,7 +37,7 @@ export class AdminProfileComponent implements OnInit {
 
   ngOnInit()
   {
-    this.profileService.getAdminProfile().subscribe(profile => {
+    this.profileService.getUserProfile().subscribe(profile => {
       this.profileForm.controls['email'].patchValue(profile.Email);
       this.profileForm.controls['firstName'].patchValue(profile.FirstName);
       this.profileForm.controls['lastName'].patchValue(profile.LastName);

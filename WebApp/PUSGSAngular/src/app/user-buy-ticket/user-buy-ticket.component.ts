@@ -1,19 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { Validators } from '@angular/forms';
+import { Validators, FormBuilder } from '@angular/forms';
 import { BuyTicketService } from '../buy-ticket.service';
 
 @Component({
-  selector: 'app-buy-ticket',
-  templateUrl: './buy-ticket.component.html',
-  styleUrls: ['./buy-ticket.component.css']
+  selector: 'app-user-buy-ticket',
+  templateUrl: './user-buy-ticket.component.html',
+  styleUrls: ['./user-buy-ticket.component.css']
 })
-export class BuyTicketComponent {
+export class UserBuyTicketComponent {
 
   ticketType = ["OneHourTicket", "Daily", "Monthly", "Annual"];
-
+  
   buyForm = this.fb.group({
-    email: ['', Validators.required],
+    email: localStorage.email,
+    ticketType: ['', Validators.required],
   });
 
   get f() { return this.buyForm.controls; }
@@ -22,7 +22,7 @@ export class BuyTicketComponent {
 
   onSubmit()
   {
-    this.buyTicketService.buyUnregistered(this.buyForm.value).subscribe();
+    this.buyTicketService.buyTicket(this.buyForm.value).subscribe();
   }
 
 }

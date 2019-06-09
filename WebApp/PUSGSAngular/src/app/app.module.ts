@@ -29,6 +29,9 @@ import { AddStationComponent } from './add-station/add-station.component';
 import { ChangeStationComponent } from './change-station/change-station.component';
 import { DeleteStationComponent } from './delete-station/delete-station.component';
 import { AdminProfileComponent } from './admin-profile/admin-profile.component';
+import { UserNavigationComponent } from './user-navigation/user-navigation.component';
+import { UserBuyTicketComponent } from './user-buy-ticket/user-buy-ticket.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 
 @NgModule({
@@ -59,6 +62,9 @@ import { AdminProfileComponent } from './admin-profile/admin-profile.component';
     ChangeStationComponent,
     DeleteStationComponent,
     AdminProfileComponent,
+    UserNavigationComponent,
+    UserBuyTicketComponent,
+    UserProfileComponent,
   ],
   imports: [
     BrowserModule,

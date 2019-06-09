@@ -21,6 +21,17 @@ export class ProfileService {
     return this.http.put(this.accountUri + "/UpdateAdminProfile", profile, httpOptions);
   }
 
+  updateUserProfile(profile) : Observable<any> 
+  { 
+    let httpOptions = {
+      headers: {
+          "Content-type": "application/json",
+          "Authorization": "Bearer " + localStorage.jwt
+      },
+  };
+    return this.http.put(this.accountUri + "/UpdateUserProfile", profile, httpOptions);
+  }
+
   changePassword(passwords) : Observable<any> 
   { 
     let httpOptions = {
@@ -42,5 +53,17 @@ export class ProfileService {
       }     
     }
     return this.http.get(this.accountUri + "/GetAdminProfile", httpOptions);
+  }
+
+  getUserProfile() : Observable<any>
+  {
+    let httpOptions = 
+    {
+      headers: {
+        "Content-type": "application/json",
+        "Authorization": "Bearer " + localStorage.jwt
+      }     
+    }
+    return this.http.get(this.accountUri + "/GetUserProfile", httpOptions);
   }
 }

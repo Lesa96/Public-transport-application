@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Mail;
+using System.Security.Claims;
 using System.Web.Http;
 using WebApp.Models;
 using WebApp.Models.Enums;
@@ -24,15 +26,11 @@ namespace WebApp.Controllers
         [HttpPost, Route("BuyTicket")]
         public IHttpActionResult BuyTicket(BuyTicketBindingModel bindingModel)
         {
-            DateTime currentTime = DateTime.Now;
-            var pricelistItem = unitOfWork.Pricelists.GetPricelistItemForSelectedTypes(bindingModel.TicketType, bindingModel.PassengerType, currentTime);
-            if (pricelistItem == null)
-            {
-                return NotFound();
-            }
+            var user = unitOfWork.Users.Find(u => u.Email.Equals(bindingModel.Email)).FirstOrDefault();
 
-            var passenger = unitOfWork.Users.Find(u => u.Id.Equals(bindingModel.UserId)).FirstOrDefault();
-            if (passenger == null)
+            DateTime currentTime = DateTime.Now;
+            var pricelistItem = unitOfWork.Pricelists.GetPricelistItemForSelectedTypes(bindingModel.TicketType, user.PassengerType, currentTime);
+            if (pricelistItem == null)
             {
                 return NotFound();
             }
@@ -41,7 +39,7 @@ namespace WebApp.Controllers
                 TimeOfPurchase = currentTime,
                 TicketInfo = pricelistItem,
                 IsCanceled = false,
-                Passenger = passenger
+                PassengerId = user.Id
             };
 
             unitOfWork.Tickets.Add(ticket);

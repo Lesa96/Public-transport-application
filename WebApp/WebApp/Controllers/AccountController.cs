@@ -93,6 +93,44 @@ namespace WebApp.Controllers
             return Ok();
         }
 
+        [HttpGet]
+        [Route("GetUserProfile")]
+        public IHttpActionResult GetUserProfile()
+        {
+            ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
+            var userId = User.Identity.GetUserId();
+            var user = unitOfWork.Users.GetUserById(userId);
+
+            return Ok(new UserProfileBindingModel()
+            {
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                BirthDate = user.BirthDate,
+                Address = user.Address
+            });
+        }
+
+        [HttpPut]
+        [Route("UpdateUserProfile")]
+        public IHttpActionResult UpdateUserProfile(UserProfileBindingModel bindingModel)
+        {
+            ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
+            var userId = User.Identity.GetUserId();
+            var user = unitOfWork.Users.GetUserById(userId);
+
+            user.Email = bindingModel.Email;
+            user.FirstName = bindingModel.FirstName;
+            user.LastName = bindingModel.LastName;
+            user.BirthDate = bindingModel.BirthDate;
+            user.Address = bindingModel.Address;
+
+            unitOfWork.Users.Update(user);
+            unitOfWork.Complete();
+
+            return Ok();
+        }
+
         // GET api/Account/UserInfo
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
         [Route("UserInfo")]

@@ -10,16 +10,12 @@ namespace WebApp.Models
     public class BuyTicketBindingModel
     {
         [Required]
-        [Display(Name = "UserId")]
-        public string UserId { get; set; }
-
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+        
         [Required]
         [Display(Name = "TicketType")]
         public TicketType TicketType { get; set; }
-
-        [Required]
-        [Display(Name = "PassengerType")]
-        public PassengerType PassengerType { get; set; }
     }
 
     public class BuyUnregisteredBindingModel

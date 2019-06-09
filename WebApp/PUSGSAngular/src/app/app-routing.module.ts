@@ -9,6 +9,8 @@ import { EditStationsComponent } from 'src/app/edit-stations/edit-stations.compo
 import { EditDrivingPlanComponent } from 'src/app/edit-driving-plan/edit-driving-plan.component';
 import { EditPricelistComponent } from 'src/app/edit-pricelist/edit-pricelist.component';
 import { AdminProfileComponent } from './admin-profile/admin-profile.component';
+import { UserBuyTicketComponent } from './user-buy-ticket/user-buy-ticket.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 const routes: Routes = [
   { 
@@ -51,6 +53,14 @@ const routes: Routes = [
   {
     path: 'adminprofile',
     component: AdminProfileComponent
+  },
+  {
+    path: 'userbuyticket',
+    component: UserBuyTicketComponent
+  },
+  {
+    path: 'userprofile',
+    component: UserProfileComponent
   }
 ];
 
