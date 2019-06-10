@@ -10,5 +10,6 @@ namespace WebApp.Persistence.Repository
     public interface IApplicationUserRepository : IRepository<ApplicationUser, int>
     {
         ApplicationUser GetUserById(string userId);
+        List<ApplicationUser> GetNotVerifiedUsers();
     }
 }

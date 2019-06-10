@@ -199,8 +199,12 @@ namespace WebApp.Models
         public string ConfirmPassword { get; set; }
     }
 
-    
-
+    public class AccountIdBindingModel
+    {
+        [Required]
+        [Display(Name = "Id")]
+        public string Id { get; set; }
+    }
    
 
     

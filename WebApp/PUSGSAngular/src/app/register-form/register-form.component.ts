@@ -3,6 +3,7 @@ import { FormBuilder } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { FormArray } from '@angular/forms';
 import { RegisterService } from '../register.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register-form',
@@ -26,11 +27,15 @@ export class RegisterFormComponent {
 
   get f() { return this.registerForm.controls; }
   
-  constructor(private registerService : RegisterService, private fb: FormBuilder) { }
+  constructor(private registerService : RegisterService, private fb: FormBuilder, private router : Router) { }
 
   onSubmit() {
-    this.registerService.register(this.registerForm.value).subscribe();
-    console.warn(this.registerForm.value);
+    this.registerService.register(this.registerForm.value).subscribe(() => {
+      if (this.registerForm.value.passengerType != this.passengerTypes[2])
+      {
+        this.router.navigate(['/register/uploaddocument']);
+      }
+    });
   }
   
 }

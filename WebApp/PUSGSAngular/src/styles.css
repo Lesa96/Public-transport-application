@@ -98,3 +98,14 @@ h1 {
   {
       color: gray;
   }
+
+  #carousel {
+    width: 320px;
+    height: 170px;
+    overflow: auto;
+    white-space: nowrap;
+  }
+
+  #carousel .slide {
+    display: inline-block;
+  }

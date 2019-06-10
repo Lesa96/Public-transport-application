@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -126,18 +127,76 @@ namespace WebApp.Controllers
         [Route("GetNotVerifiedUsers")]
         public IHttpActionResult GetNotVerifiedUsers()
         {
-            //var role = unitOfWork.Roles.Find(r => r.Name.Equals("AppUser"));
-            //var userRole = unitOfWork.UserRoles.Find(ur => ur.RoleId.Equals(role.RoleId));
-            //var users = unitOfWork.Users.Find(u => u.Roles.Contains();
+            var users = unitOfWork.Users.GetNotVerifiedUsers();
+            var resultList = new List<DisplayUserBindingModel>();
 
-            //return Ok(new ControllerProfileBindingModel()
-            //{
-            //    Email = user.Email,
-            //    FirstName = user.FirstName,
-            //    LastName = user.LastName,
-            //    BirthDate = user.BirthDate,
-            //    Address = user.Address
-            //});
+            foreach (var user in users)
+            {
+                resultList.Add( new DisplayUserBindingModel() {
+                    Id = user.Id,
+                    Email = user.Email,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    BirthDate = user.BirthDate,
+                    Address = user.Address
+                });  
+            }
+
+            return Ok(resultList);
+        }
+
+        [HttpGet]
+        [Route("GetUserDocuments")]
+        public IHttpActionResult GetUserDocuments(string id)
+        {
+            var user = unitOfWork.Users.GetUserById(id);
+            List<string> documents = new List<string>();
+            if (user.ImageDocuments != null)
+            {
+                foreach (var doc in user.ImageDocuments)
+                {
+                    documents.Add(doc);
+                }
+            }
+
+            return Ok(documents);
+        }
+
+        [HttpPatch]
+        [Route("VerifyUser")]
+        public IHttpActionResult VerifyUser(AccountIdBindingModel bindingModel)
+        {
+            var user = unitOfWork.Users.GetUserById(bindingModel.Id);
+            user.VerificationStatus = Models.Enums.VerificationStatus.Accepted;
+
+            unitOfWork.Users.Update(user);
+            unitOfWork.Complete();
+
+            return Ok();
+        }
+
+        [HttpPatch]
+        [Route("DenyUser")]
+        public IHttpActionResult DenyUser(AccountIdBindingModel bindingModel)
+        {
+            var user = unitOfWork.Users.GetUserById(bindingModel.Id);
+            user.VerificationStatus = Models.Enums.VerificationStatus.Denied;
+
+            unitOfWork.Users.Update(user);
+            unitOfWork.Complete();
+
+            return Ok();
+        }
+
+        [HttpPatch]
+        [Route("AddDocument")]
+        public IHttpActionResult AddDocument()
+        {
+            //var user = unitOfWork.Users.GetUserById(id);
+            //user.VerificationStatus = Models.Enums.VerificationStatus.Denied;
+
+            //unitOfWork.Users.Update(user);
+            //unitOfWork.Complete();
 
             return Ok();
         }
@@ -492,6 +551,15 @@ namespace WebApp.Controllers
             if (!result.Succeeded)
             {
                 return GetErrorResult(result);
+            }
+
+            var createdUser = unitOfWork.Users.Find(u => u.UserName.Equals(model.Email)).ToList().FirstOrDefault();
+
+            IdentityResult result2 = await UserManager.AddToRoleAsync(createdUser.Id, "AppUser");
+
+            if (!result2.Succeeded)
+            {
+                return GetErrorResult(result2);
             }
 
             return Ok();
