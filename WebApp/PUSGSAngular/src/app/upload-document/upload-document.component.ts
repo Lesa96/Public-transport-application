@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-upload-document',
@@ -7,11 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UploadDocumentComponent implements OnInit {
 
-  constructor() { }
+  constructor(private userService : UserService, private router : Router) { }
 
   url: string;
+  selectedFile: File = null;
+
   onSelectFile(event) { // called each time file input changes
     if (event.target.files && event.target.files[0]) {
+      this.selectedFile = <File>event.target.files[0];
+
       var reader = new FileReader();
 
       reader.readAsDataURL(event.target.files[0]); // read file as data url
@@ -24,6 +30,23 @@ export class UploadDocumentComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  onSkip()
+  {
+    this.router.navigate(['/register']);
+    alert("Successful registration. You can login now.");
+  }
+
+  onConfirm()
+  {
+    const fd = new FormData();
+    fd.append('image', this.selectedFile, this.selectedFile.name)
+    this.userService.uploadDocument(fd).subscribe(() => {
+      alert("Document uploaded!");
+      this.router.navigate(['/register']);
+      alert("Successful registration. You can login now.");
+    })
   }
 
 }

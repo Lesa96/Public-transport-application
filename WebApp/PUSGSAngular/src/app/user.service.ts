@@ -57,4 +57,9 @@ export class UserService {
   };
     return this.http.patch(this.accountUri + "/DenyUser", id, httpOptions);
   }
+
+  uploadDocument(document) : Observable<any> 
+  { 
+    return this.http.post(this.accountUri + "/UploadDocument", document);
+  }
 }

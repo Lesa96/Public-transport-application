@@ -12,13 +12,13 @@
   </tr>
   <tr>
     <td>
-      <button class="btn btn-default">Skip</button>
+      <button class="btn btn-default" (click)="onSkip()">Skip</button>
     </td>
     <td align="right">
       <input type="file" id="selectedFile" style="display: none;" (change)="onSelectFile($event)" accept="image/*" />
       <button class="btn btn-default" onclick="document.getElementById('selectedFile').click();">Browse...</button>
       &nbsp;
-      <button class="btn btn-default">Confirm</button>
+      <button class="btn btn-default" (click)="onConfirm()">Confirm</button>
     </td>
   </tr>
 </table>
