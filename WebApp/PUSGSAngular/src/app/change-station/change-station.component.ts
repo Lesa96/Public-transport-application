@@ -70,6 +70,7 @@ export class ChangeStationComponent implements OnInit {
     this.response.Y = this.stationForm.value.Y;
 
     this.stationService.UpdateStationInfo(this.response).subscribe(()=>{
+
       window.location.reload();
     }); //trebao bi da mu vrati gresku ako hoce da promeni u neki naziv koji vec postoji
 

@@ -1,11 +1,11 @@
  <!-- Kreiramo mapu -->
-<agm-map [latitude]="45.242268" [longitude]="19.842954" [zoom]="18" (mapClick)="placeMarker($event)">
+<agm-map [latitude]="45.242268" [longitude]="19.842954" [zoom]="18" > <!-- (mapClick)="placeMarker($event)"" -->
 
-  <agm-marker *ngFor="let markerInfo of markerInfos" [latitude]="markerInfo.location.latitude" [longitude]="markerInfo.location.longitude" [title]="markerInfo.title"
-  [label]="markerInfo.label" [iconUrl]="markerInfo.iconUrl">
+  <agm-marker *ngFor="let markerInfo of markerInfos" [latitude]="markerInfo.location.lat" [longitude]="markerInfo.location.lng" [title]="markerInfo.title"
+  [label]="markerInfo.label" [iconUrl]="markerInfo.iconUrl" >
 
     <!-- Svakom markeru dodajemo info-window (Nije obavezno!)-->
-    <agm-info-window [latitude]="markerInfo.location.latitude" [longitude]="markerInfo.location.longitude">
+    <agm-info-window [latitude]="markerInfo.location.lat" [longitude]="markerInfo.location.lng">
 
       <!-- U info-window stavljamo html -->
       <span style="font-size: 16px;font-family:'Times New Roman'">{{markerInfo.title}}</span>
@@ -15,11 +15,10 @@
     </agm-info-window>
   </agm-marker>
 
-  <agm-polyline [strokeColor]="polyline.color">
-      <agm-polyline-point *ngFor="let point of polyline.path" [latitude]="point.latitude" [longitude]="point.longitude">
-      </agm-polyline-point>
-  </agm-polyline>
-  <agm-marker *ngFor="let point of polyline.path" [latitude]="point.latitude" [longitude]="point.longitude" [iconUrl]="polyline.icon">
-    </agm-marker>
+  <agm-direction *ngFor="let line of lines"  [origin]= "line.origin" [destination]="line.destination" >
+ 
+  </agm-direction>
+  <!-- <agm-marker *ngFor="let point of polyline.path" [latitude]="point.latitude" [longitude]="point.longitude" [iconUrl]="polyline.icon">
+    </agm-marker> -->
 
 </agm-map>

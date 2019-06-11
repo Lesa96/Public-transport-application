@@ -39,7 +39,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    //this.getDrivelineNumbers();
+    this.getDrivelineNumbers();
   }
 
   getDrivingPlanDepartures()

@@ -39,6 +39,7 @@ import { ControllerTicketValidationComponent } from './controller-ticket-validat
 import { MapComponent } from './map/map.component';
 
 import { AgmCoreModule } from '@agm/core';
+import { AgmDirectionModule } from 'agm-direction'; 
 import { TokenInterceptor } from './token.interceptor';
 
 @NgModule({
@@ -83,7 +84,8 @@ import { TokenInterceptor } from './token.interceptor';
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-    AgmCoreModule.forRoot({apiKey: 'AIzaSyDnihJyw_34z5S1KZXp90pfTGAqhFszNJk'})
+    AgmCoreModule.forRoot({apiKey: 'AIzaSyDnihJyw_34z5S1KZXp90pfTGAqhFszNJk'}),
+    AgmDirectionModule
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true}],
   bootstrap: [AppComponent]

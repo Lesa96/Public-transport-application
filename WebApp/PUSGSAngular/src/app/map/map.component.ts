@@ -6,6 +6,7 @@ import { StationService } from '../station.service';
 import { Observable } from 'rxjs';
 import { UpdateStationBindingModel } from '../Models/AddStationBindingModel';
 import { AgmMarker } from '@agm/core';
+import { LineModel } from '../Models/LineModel';
 
 @Component({
   selector: 'app-map',
@@ -20,6 +21,11 @@ export class MapComponent implements OnInit {
   public polyline: Polyline;
   public zoom: number;
   stations = new Observable<UpdateStationBindingModel>();
+  lines : LineModel[] = [];
+  stationNumber : number;
+
+  public origin: any;
+  public destination: any;
   
   constructor(private stationService : StationService) { }
 
@@ -27,19 +33,41 @@ export class MapComponent implements OnInit {
 
     this.stationService.GetAllStations().subscribe(ss =>{ 
       this.stations = ss;
-      var i = 0;
+      this.polyline = new Polyline([], 'blue', { url:"", scaledSize: {width: 50, height: 50}}); //linije
+
+      this.stationNumber = 0;
       this.stations.forEach(station=>{
         
+        this.stationNumber++; //broj stanica 
+
         let newMarker = new MarkerInfo(new GeoLocation(station.X,station.Y),
-        "assets/BusStationLogo.png",station.Name ,station.Address, ""
+        "assets/BusStationLogo.png",station.Name ,station.Address
         )
         this.markerInfos.push(newMarker);
-      });
-      
+        //this.polyline.addLocation(new GeoLocation(station.X,station.Y));
 
+      });
+
+      this.placeLines();
+      
     });
 
-      this.polyline = new Polyline([], 'blue', { url:"assets/busicon.png", scaledSize: {width: 50, height: 50}});
+  
+  }
+
+  placeLines()
+  {
+    for(var i = 0; i < this.stationNumber - 1; i++)
+    {
+        let lineModel = new LineModel();
+        lineModel.origin = { lat: this.stations[i].X, lng: this.stations[i].Y};
+        lineModel.destination = {lat: this.stations[i + 1].X , lng: this.stations[i+1].Y}
+        this.lines.push(lineModel);     
+    }
+        let lineModel = new LineModel();
+        lineModel.origin = { lat: this.stations[this.stationNumber-1].X, lng: this.stations[this.stationNumber-1].Y};
+        lineModel.destination = {lat: this.stations[0].X , lng: this.stations[0].Y}
+
   }
 
   placeMarker($event){
