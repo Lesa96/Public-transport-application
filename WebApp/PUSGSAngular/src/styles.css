@@ -1,5 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 /* Master Styles */
+img {
+  max-width:100%;
+max-height:100%;
+}
 h1 {
     color: #369;
     font-family: Arial, Helvetica, sans-serif;
@@ -100,8 +104,8 @@ h1 {
   }
 
   #carousel {
-    width: 320px;
-    height: 170px;
+    width: 640px;
+    height: 500px;
     overflow: auto;
     white-space: nowrap;
   }
@@ -109,3 +113,4 @@ h1 {
   #carousel .slide {
     display: inline-block;
   }
+

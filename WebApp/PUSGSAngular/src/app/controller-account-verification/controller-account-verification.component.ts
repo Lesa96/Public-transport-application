@@ -38,7 +38,7 @@ export class ControllerAccountVerificationComponent implements OnInit {
   getUserDocuments() {
     this.userService.getUserDocuments(this.selectForm.value).subscribe(documents => {
       documents.forEach(document => {
-        this.documents.push(this.sanitizer.bypassSecurityTrustUrl(document));
+        this.documents.push(this.sanitizer.bypassSecurityTrustUrl("http://localhost:8080/" + document));
       });
       //this.documents = documents;
       this.selectedUser = this.selectForm.value.id;
