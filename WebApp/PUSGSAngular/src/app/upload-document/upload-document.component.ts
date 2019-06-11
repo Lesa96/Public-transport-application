@@ -41,7 +41,7 @@ export class UploadDocumentComponent implements OnInit {
   {
     const fd = new FormData();
     fd.append('image', this.selectedFile, this.selectedFile.name);
-    this.userService.uploadDocument(fd, "test@mail.com").subscribe(() => {
+    this.userService.uploadDocument(fd, localStorage.email).subscribe(() => {
       alert("Successful registration. You can login now.");
       this.router.navigate(['/register']);
     })

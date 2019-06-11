@@ -95,3 +95,49 @@
     </tr>
   </table>
 </form>
+
+<br>
+<table>
+  <tr>
+    <td colspan="2" align="center">
+      <h2>User documents</h2>
+      <h4 *ngIf="documents.length > 0">Double-click on image to delete it</h4>
+    </td>
+  </tr>
+  <tr *ngIf="documents.length > 0">
+    <td colspan="2" align="center">
+      <div id="carousel">
+        <div class="slide" *ngFor="let document of documents" (dblclick)="onImgClick($event.target)">
+          <img [src]=document />
+        </div>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center" *ngIf="documents.length == 0">
+      <h4>No documents uploaded</h4>
+    </td>
+  </tr>
+</table>
+
+<br>
+<table>
+  <tr>
+    <td colspan="2" align="center">
+      <h2>Please select document image</h2>
+    </td>
+  </tr>
+  <tr *ngIf="url">
+    <td colspan="2" align="center">
+      <img [src]="url" height="200">
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" align="right">
+      <input type="file" id="selectedFile" style="display: none;" (change)="onSelectFile($event)" accept="image/*" />
+      <button class="btn btn-default" onclick="document.getElementById('selectedFile').click();">Browse...</button>
+      &nbsp;
+      <button class="btn btn-default" (click)="onUpload()">Upload</button>
+    </td>
+  </tr>
+</table>

@@ -148,6 +148,38 @@ namespace WebApp.Controllers
             return Ok(resultList);
         }
 
+        [HttpDelete]
+        [Route("DeleteDocument")]
+        public IHttpActionResult DeleteDocument(string path)
+        {
+            ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
+            var userId = User.Identity.GetUserId();
+            var user = unitOfWork.Users.GetUserById(userId);
+
+            string root = HttpContext.Current.Server.MapPath("~/");
+            string fullPath = root + path.Replace("/", "\\");
+            path = path.Replace("/", "\\");
+
+            if (File.Exists(fullPath))
+                File.Delete(fullPath);
+
+            var docs = user.ImageDocuments.Split(';');
+            string newDocs = "";
+
+            foreach (var doc in docs)
+            {
+                if (!String.IsNullOrEmpty(doc) && !doc.Equals(path))
+                    newDocs += doc + ";";
+            }
+
+            user.ImageDocuments = newDocs;
+
+            unitOfWork.Users.Update(user);
+            unitOfWork.Complete();
+
+            return Ok();
+        }
+
         [AllowAnonymous]
         [HttpPost]
         [Route("UploadDocument")]
@@ -199,6 +231,26 @@ namespace WebApp.Controllers
         public IHttpActionResult GetUserDocuments(string id)
         {
             var user = unitOfWork.Users.GetUserById(id);
+            List<string> documents = new List<string>();
+            if (!String.IsNullOrWhiteSpace(user.ImageDocuments))
+            {
+                var docs = user.ImageDocuments.Split(';');
+
+                foreach (var doc in docs)
+                {
+                    if (!String.IsNullOrWhiteSpace(doc))
+                        documents.Add(doc);
+                }
+            }
+
+            return Ok(documents);
+        }
+
+        [HttpGet]
+        [Route("GetUserDocumentsEmail")]
+        public IHttpActionResult GetUserDocumentsEmail(string email)
+        {
+            var user = unitOfWork.Users.Find(u => u.Email.Equals(email)).FirstOrDefault();
             List<string> documents = new List<string>();
             if (!String.IsNullOrWhiteSpace(user.ImageDocuments))
             {

@@ -40,7 +40,6 @@ export class ControllerAccountVerificationComponent implements OnInit {
       documents.forEach(document => {
         this.documents.push(this.sanitizer.bypassSecurityTrustUrl("http://localhost:8080/" + document));
       });
-      //this.documents = documents;
       this.selectedUser = this.selectForm.value.id;
     })
   }
