@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../user.service';
 import { FormBuilder, Validators } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-controller-account-verification',
@@ -10,6 +11,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 export class ControllerAccountVerificationComponent implements OnInit {
   users : any[] = [];
   selectedUser : any;
+  unsafeURLs: any[] = [];
   documents : any[] = [];
 
   selectForm = this.fb.group(
@@ -17,7 +19,7 @@ export class ControllerAccountVerificationComponent implements OnInit {
       id: ['', Validators.required]
     }
   )
-  constructor(private userService: UserService, private fb: FormBuilder) { }
+  constructor(private userService: UserService, private fb: FormBuilder, private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
     this.getUsers()
@@ -35,7 +37,10 @@ export class ControllerAccountVerificationComponent implements OnInit {
 
   getUserDocuments() {
     this.userService.getUserDocuments(this.selectForm.value).subscribe(documents => {
-      this.documents = documents;
+      documents.forEach(document => {
+        this.documents.push(this.sanitizer.bypassSecurityTrustUrl(document));
+      });
+      //this.documents = documents;
       this.selectedUser = this.selectForm.value.id;
     })
   }

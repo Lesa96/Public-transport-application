@@ -268,6 +268,10 @@
     <Compile Include="Migrations\201906051414008_MigrationDB.Designer.cs">
       <DependentUpon>201906051414008_MigrationDB.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201906111240224_new-migration.cs" />
+    <Compile Include="Migrations\201906111240224_new-migration.Designer.cs">
+      <DependentUpon>201906111240224_new-migration.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -382,6 +386,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Resources\Images\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -418,6 +423,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906051414008_MigrationDB.resx">
       <DependentUpon>201906051414008_MigrationDB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906111240224_new-migration.resx">
+      <DependentUpon>201906111240224_new-migration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

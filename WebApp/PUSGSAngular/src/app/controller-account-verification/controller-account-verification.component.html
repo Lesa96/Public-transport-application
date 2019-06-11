@@ -43,7 +43,7 @@
     <td colspan="2" align="center">
       <div id="carousel">
         <div class="slide" *ngFor="let document of documents">
-          <img src={{document}} />
+          <img [src]=document />
         </div>
       </div>
     </td>

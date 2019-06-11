@@ -24,7 +24,6 @@ export class UploadDocumentComponent implements OnInit {
 
       reader.onload = (event) => { // called once readAsDataURL is completed
         this.url = reader.result as string;
-        console.log(this.url);
       }
     }
   }
@@ -35,17 +34,16 @@ export class UploadDocumentComponent implements OnInit {
   onSkip()
   {
     this.router.navigate(['/register']);
-    alert("Successful registration. You can login now.");
+    alert("Successful registration. You can login now. Please upload document later.");
   }
 
   onConfirm()
   {
     const fd = new FormData();
-    fd.append('image', this.selectedFile, this.selectedFile.name)
-    this.userService.uploadDocument(fd).subscribe(() => {
-      alert("Document uploaded!");
-      this.router.navigate(['/register']);
+    fd.append('image', this.selectedFile, this.selectedFile.name);
+    this.userService.uploadDocument(fd, "test@mail.com").subscribe(() => {
       alert("Successful registration. You can login now.");
+      this.router.navigate(['/register']);
     })
   }
 

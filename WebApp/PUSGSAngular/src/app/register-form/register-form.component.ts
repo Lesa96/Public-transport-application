@@ -30,6 +30,7 @@ export class RegisterFormComponent {
   constructor(private registerService : RegisterService, private fb: FormBuilder, private router : Router) { }
 
   onSubmit() {
+    localStorage.setItem('email', this.registerForm.value.email);
     this.registerService.register(this.registerForm.value).subscribe(() => {
       if (this.registerForm.value.passengerType != this.passengerTypes[2])
       {

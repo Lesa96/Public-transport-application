@@ -1044,3 +1044,4 @@ C:\Users\Stefan\Documents\GitHub\PUSGS_Project\WebApp\WebApp\obj\Debug\WebApp.cs
 C:\Users\Stefan\Documents\GitHub\PUSGS_Project\WebApp\WebApp\obj\Debug\WebApp.csproj.CopyComplete
 C:\Users\Stefan\Documents\GitHub\PUSGS_Project\WebApp\WebApp\obj\Debug\WebApp.dll
 C:\Users\Stefan\Documents\GitHub\PUSGS_Project\WebApp\WebApp\obj\Debug\WebApp.pdb
+C:\Users\Stefan\Documents\GitHub\PUSGS_Project\WebApp\WebApp\obj\Debug\WebApp.Migrations.newmigration.resources

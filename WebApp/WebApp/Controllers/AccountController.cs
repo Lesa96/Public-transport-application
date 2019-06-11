@@ -151,7 +151,7 @@ namespace WebApp.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Route("UploadDocument")]
-        public async Task<HttpResponseMessage> UploadDocument()
+        public async Task<HttpResponseMessage> UploadDocument(string email)
         {
             // Check if the request contains multipart/form-data.
             if (!Request.Content.IsMimeMultipartContent())
@@ -159,7 +159,7 @@ namespace WebApp.Controllers
                 throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
             }
 
-            string root = HttpContext.Current.Server.MapPath("~/App_Data");
+            string root = HttpContext.Current.Server.MapPath("~/Resources/Images");
             var provider = new MultipartFormDataStreamProvider(root);
 
             try
@@ -172,10 +172,19 @@ namespace WebApp.Controllers
                 {
                     string filename = file.LocalFileName;
                     string realName = file.Headers.ContentDisposition.FileName.Split('\"')[1];
-                    realName = root + "\\" + realName;
+                    realName = realName.Split('.').Last();
+                    realName = filename + "." + realName;
                     File.Move(filename, realName);
-                    Trace.WriteLine(file.Headers.ContentDisposition.FileName);
-                    Trace.WriteLine("Server file path: " + file.LocalFileName);
+
+                    var user = unitOfWork.Users.Find(u => u.Email.Equals(email)).FirstOrDefault();
+                    var nameParts = realName.Split('\\').SkipWhile(p => !p.Equals("Resources"));
+                    var relativePath = "";
+                    foreach (var part in nameParts)
+                        relativePath += part + "\\";
+                    relativePath = relativePath.Remove(relativePath.Length - 1);
+                    user.ImageDocuments += ";" + relativePath;
+                    unitOfWork.Users.Update(user);
+                    unitOfWork.Complete();
                 }
                 return Request.CreateResponse(HttpStatusCode.OK);
             }
@@ -191,11 +200,14 @@ namespace WebApp.Controllers
         {
             var user = unitOfWork.Users.GetUserById(id);
             List<string> documents = new List<string>();
-            if (user.ImageDocuments != null)
+            if (!String.IsNullOrWhiteSpace(user.ImageDocuments))
             {
-                foreach (var doc in user.ImageDocuments)
+                var docs = user.ImageDocuments.Split(';');
+
+                foreach (var doc in docs)
                 {
-                    documents.Add(doc);
+                    if (!String.IsNullOrWhiteSpace(doc))
+                        documents.Add(doc);
                 }
             }
 
