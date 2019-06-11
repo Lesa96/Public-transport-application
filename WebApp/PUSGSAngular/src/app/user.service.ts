@@ -36,6 +36,19 @@ export class UserService {
     return this.http.get(this.accountUri + "/GetUserDocuments", httpOptions);
   }
 
+  getUserDocumentsEmail(email) : Observable<any>
+  {
+    let httpOptions = 
+    {
+      headers: {
+        "Content-type": "application/json",
+        "Authorization": "Bearer " + localStorage.jwt
+      },
+      params: new HttpParams().set('email' , email)     
+    }
+    return this.http.get(this.accountUri + "/GetUserDocumentsEmail", httpOptions);
+  }
+
   verifyUser(id) : Observable<any> 
   { 
     let httpOptions = {
@@ -64,5 +77,17 @@ export class UserService {
       params: new HttpParams().append("email", mail)
   };
     return this.http.post(this.accountUri + "/UploadDocument", document, httpOptions);
+  }
+
+  deleteDocument(document) : Observable<any> 
+  { 
+    let httpOptions = {
+      headers: {
+        "Content-type": "application/json",
+        "Authorization": "Bearer " + localStorage.jwt
+    },
+      params: new HttpParams().append("path", document)
+  };
+    return this.http.delete(this.accountUri + "/DeleteDocument", httpOptions);
   }
 }
