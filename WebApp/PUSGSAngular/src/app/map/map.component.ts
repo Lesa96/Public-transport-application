@@ -23,13 +23,14 @@ export class MapComponent implements OnInit {
   stations = new Observable<UpdateStationBindingModel>();
   lines : LineModel[] = [];
   stationNumber : number;
-
-  public origin: any;
-  public destination: any;
+  options : any;
   
   constructor(private stationService : StationService) { }
 
   ngOnInit() {
+    this.options = {  
+      suppressMarkers : true    //brisanje defaulth markera
+    };
 
     this.stationService.GetAllStations().subscribe(ss =>{ 
       this.stations = ss;

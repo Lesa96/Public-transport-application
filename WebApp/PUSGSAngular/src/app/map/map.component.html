@@ -15,10 +15,9 @@
     </agm-info-window>
   </agm-marker>
 
-  <agm-direction *ngFor="let line of lines"  [origin]= "line.origin" [destination]="line.destination" >
+  <agm-direction *ngFor="let line of lines" [renderOptions]="options"  [origin]= "line.origin" [destination]="line.destination" >
  
   </agm-direction>
-  <!-- <agm-marker *ngFor="let point of polyline.path" [latitude]="point.latitude" [longitude]="point.longitude" [iconUrl]="polyline.icon">
-    </agm-marker> -->
+
 
 </agm-map>
