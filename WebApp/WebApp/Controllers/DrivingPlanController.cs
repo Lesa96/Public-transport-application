@@ -109,39 +109,20 @@ namespace WebApp.Controllers
         [Route("DeleteDrivingPlan")]
         public IHttpActionResult DeleteDrivingPlan(int id)
         {
-            var drivingPlan = unitOfWork.DrivingPlans.Get(id);
-            if (drivingPlan == null)
-                return NotFound();
+            if(unitOfWork.DrivingPlans.DeleteDrivingPlan(id))
+                return Ok();
 
-            unitOfWork.DrivingPlans.Remove(drivingPlan);
-            unitOfWork.Complete();
-
-            return Ok();
+            return NotFound();
         }
 
         [HttpPut]
         [Route("UpdateDrivingPlan")]
         public IHttpActionResult UpdateDrivingPlan(UpdateDrivingPlanBindingModel bindingModel)
         {
-            var lineId = unitOfWork.Drivelines.GetLineByNumber(bindingModel.Number).Id;
-            string departures = "";
+            if(unitOfWork.DrivingPlans.UpdateDrivingPlan(bindingModel.Id, bindingModel.Number , bindingModel.Type , bindingModel.Day , bindingModel.Departures))
+                return Ok();
 
-            foreach (var departure in bindingModel.Departures.OrderBy(d => d, StringComparer.Ordinal))
-            {
-                departures += departure + ";";
-            }
-
-            DrivingPlan drivingPlan = unitOfWork.DrivingPlans.Get(bindingModel.Id);
-
-            drivingPlan.Type = bindingModel.Type;
-            drivingPlan.Day = bindingModel.Day;
-            drivingPlan.DrivelineId = lineId;
-            drivingPlan.Departures = departures;
-
-            unitOfWork.DrivingPlans.Update(drivingPlan);
-            unitOfWork.Complete();
-
-            return Ok();
+            return BadRequest();
         }
     }
 }
