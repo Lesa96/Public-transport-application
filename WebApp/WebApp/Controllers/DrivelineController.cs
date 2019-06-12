@@ -39,6 +39,31 @@ namespace WebApp.Controllers
             return Ok(numbers);
         }
 
+        [HttpGet, Route("GetStationsByDrivelineNumber")]
+        public IHttpActionResult GetStationsByDrivelineNumber(int number)
+        {
+            Driveline driveline = unitOfWork.Drivelines.GetLineByNumber(number);
+            if(driveline == null || driveline.Stations.Count == 0)
+            {
+               return NotFound();
+            }
+            List<UpdateStationInfoBindingModel> stations = new List<UpdateStationInfoBindingModel>();
+            foreach (Station s in driveline.Stations)
+            {
+                UpdateStationInfoBindingModel station = new UpdateStationInfoBindingModel();
+                station.Id = s.Id;
+                station.Name = s.Name;
+                station.Address = s.Address;
+                Coordinates cor = unitOfWork.CoordinatesRepository.Get(s.CoordinatesId);
+                station.X = cor.CoordX;
+                station.Y = cor.CoordY;
+
+                stations.Add(station);
+            }
+
+            return Ok(stations);
+        }
+
         [HttpGet, Route("GetDrivelineNumberById")]
         public IHttpActionResult GetDrivelineNumberById(int id)
         {

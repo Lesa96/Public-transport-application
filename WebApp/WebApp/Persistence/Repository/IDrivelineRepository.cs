@@ -20,8 +20,6 @@ namespace WebApp.Persistence.Repository
         List<string> GetDrivelineNumbersAndIds();
         string[] GetDrivelineStationsNames(int id);
 
-
-
         List<Driveline> GetAllDriveLines();
     }
 }
