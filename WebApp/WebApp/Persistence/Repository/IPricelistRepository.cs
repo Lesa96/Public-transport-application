@@ -14,5 +14,7 @@ namespace WebApp.Persistence.Repository
         PricelistItem GetPricelistItemForSelectedTypes(TicketType ticketType, PassengerType passengerType, DateTime currentTime);
         float GetTicketPrice(TicketType ticketType, PassengerType passengerType, DateTime currentTime);
         PricelistItem GetPricelistItemByIds(int pricelistId, int pricelistItemId);
+        bool UpdatePricelist(UpdatePricelistBindingModel bindingModel);
+        bool DeletePricelist(int id);
     }
 }

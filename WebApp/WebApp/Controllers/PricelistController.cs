@@ -127,38 +127,43 @@ namespace WebApp.Controllers
         [Route("DeletePricelist")]
         public IHttpActionResult DeletePricelist(int id)
         {
-            var pricelist = unitOfWork.Pricelists.Get(id);
-            if (pricelist == null)
-                return NotFound();
+            //var pricelist = unitOfWork.Pricelists.Get(id);
+            //if (pricelist == null)
+            //    return NotFound();
 
-            unitOfWork.Pricelists.Remove(pricelist);
-            unitOfWork.Complete();
+            //unitOfWork.Pricelists.Remove(pricelist);
+            //unitOfWork.Complete();
 
-            return Ok();
+            if (unitOfWork.Pricelists.DeletePricelist(id))
+                return Ok();
+            else
+                return BadRequest();
         }
 
         [HttpPut]
         [Route("UpdatePricelist")]
         public IHttpActionResult UpdatePricelist(UpdatePricelistBindingModel bindingModel)
         {
-            Pricelist pricelist = unitOfWork.Pricelists.Get(bindingModel.Id);
+            //Pricelist pricelist = unitOfWork.Pricelists.Get(bindingModel.Id);
 
-            pricelist.ValidFrom = bindingModel.ValidFrom;
-            pricelist.ValidUntil = bindingModel.ValidUntil;
+            //pricelist.ValidFrom = bindingModel.ValidFrom;
+            //pricelist.ValidUntil = bindingModel.ValidUntil;
 
-            unitOfWork.Pricelists.Update(pricelist);
-            unitOfWork.Complete();
+            //unitOfWork.Pricelists.Update(pricelist);
+            //unitOfWork.Complete();
 
-            foreach (var item in bindingModel.PricelistItems)
-            {
-                var pricelistItem = unitOfWork.PricelistItems.Get(item.PricelistItemId);
-                pricelistItem.Price = item.Price;
-                unitOfWork.PricelistItems.Update(pricelistItem);
-            }
+            //foreach (var item in bindingModel.PricelistItems)
+            //{
+            //    var pricelistItem = unitOfWork.PricelistItems.Get(item.PricelistItemId);
+            //    pricelistItem.Price = item.Price;
+            //    unitOfWork.PricelistItems.Update(pricelistItem);
+            //}
 
-            unitOfWork.Complete();
-
-            return Ok();
+            //unitOfWork.Complete();
+            if (unitOfWork.Pricelists.UpdatePricelist(bindingModel))
+                return Ok();
+            else
+                return BadRequest();
         }
 
         [HttpGet]

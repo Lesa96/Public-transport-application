@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
+using System.Transactions;
 using System.Web;
 using WebApp.Models;
 
@@ -36,15 +38,36 @@ namespace WebApp.Persistence.Repository
 
         public bool DeleteStationByName(string name)
         {
-            Station st = AppDbContext.Stations.Where(x => x.Name == name).FirstOrDefault();
-            if (st != null)
-            {
-                AppDbContext.Stations.Remove(st);
-                AppDbContext.SaveChanges();
-                return true;
-            }
+            TransactionOptions transactionoptions = new TransactionOptions();
+            transactionoptions.IsolationLevel = IsolationLevel.Snapshot;
 
-            return false;
+            using (TransactionScope scope = new TransactionScope(TransactionScopeOption.Required, transactionoptions))
+            {
+                try
+                {
+                    Station st = AppDbContext.Stations.Where(x => x.Name == name).FirstOrDefault();
+                    if (st != null)
+                    {
+                        AppDbContext.Stations.Remove(st);
+
+                        AppDbContext.SaveChanges();
+                        scope.Complete();
+                        return true;
+                    }
+                    return false;
+                }
+                catch (TransactionAbortedException ex)
+                {
+                    Trace.WriteLine("TransactionAbortedException Message: {0}", ex.Message);
+                    return false;
+                }
+                catch (Exception ex)
+                {
+                    Trace.WriteLine("TransactionAbortedException Message: {0}", ex.Message);
+                    return false;
+                }
+
+            }
         }
 
         public bool AddStation(string name, string addr, float x, float y)
@@ -120,6 +143,53 @@ namespace WebApp.Persistence.Repository
             }
 
             return stations;
+        }
+
+        public bool UpdateStationInfo(UpdateStationInfoBindingModel bindingModel)
+        {
+            TransactionOptions transactionoptions = new TransactionOptions();
+            transactionoptions.IsolationLevel = IsolationLevel.Snapshot;
+
+            using (TransactionScope scope = new TransactionScope(TransactionScopeOption.Required, transactionoptions))
+            {
+                try
+                {
+                    Station station = AppDbContext.Stations.Where(x => x.Id == bindingModel.Id).FirstOrDefault();
+                    if (station != null)
+                    {
+                        Station s = AppDbContext.Stations.Where(x => x.Name == bindingModel.Name && x.Id != bindingModel.Id).FirstOrDefault();
+                        if (s != null) //ako postoji stanica sa takvim imenom, vrati gresku
+                        {
+                            return false;
+                        }
+
+                        station.Name = bindingModel.Name;
+                        station.Address = bindingModel.Address;
+
+                        Coordinates co = new Coordinates() { CoordX = bindingModel.X, CoordY = bindingModel.Y };
+                        AppDbContext.Coordinates.Add(co);
+
+                        int corId = AppDbContext.Coordinates.Where(x => x.CoordX == co.CoordX && x.CoordY == co.CoordY).FirstOrDefault().CoordinatesId;
+                        station.CoordinatesId = corId;
+
+                        AppDbContext.SaveChanges();
+                        scope.Complete();
+                        return true;
+                    }
+                    return false;
+                }
+                catch (TransactionAbortedException ex)
+                {
+                    Trace.WriteLine("TransactionAbortedException Message: {0}", ex.Message);
+                    return false;
+                }
+                catch (Exception ex)
+                {
+                    Trace.WriteLine("TransactionAbortedException Message: {0}", ex.Message);
+                    return false;
+                }
+
+            }
         }
     }
 }
