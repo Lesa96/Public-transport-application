@@ -98,26 +98,30 @@ namespace WebApp.Controllers
         [HttpPatch, Route("UpdateDriveline")]
         public IHttpActionResult UpdateDriveline(ChangeDrivelineBindingModel bindingModel)
         {
-            Driveline dr = unitOfWork.Drivelines.Get(bindingModel.DriveLineId);
-            if (dr != null)
-            {
-                dr.Number = bindingModel.DriveLineNumber;
-                dr.Stations.Clear();
-
-                if (bindingModel.StationNames != null)
-                {
-                    foreach (string name in bindingModel.StationNames)
-                    {
-                        dr.Stations.Add(unitOfWork.Stations.Find(s => s.Name == name).FirstOrDefault()); //dodaje stanice u liniju
-                    }
-                }
-
-                unitOfWork.Drivelines.Update(dr);
-                unitOfWork.Complete();
+            if (unitOfWork.Drivelines.UpdateDriveline(bindingModel.DriveLineId, bindingModel.DriveLineNumber, bindingModel.StationNames))
                 return Ok();
-            }
+            else
+                return Conflict();
+            //Driveline dr = unitOfWork.Drivelines.Get(bindingModel.DriveLineId);
+            //if (dr != null)
+            //{
+            //    dr.Number = bindingModel.DriveLineNumber;
+            //    dr.Stations.Clear();
 
-            return NotFound();
+            //    if (bindingModel.StationNames != null)
+            //    {
+            //        foreach (string name in bindingModel.StationNames)
+            //        {
+            //            dr.Stations.Add(unitOfWork.Stations.Find(s => s.Name == name).FirstOrDefault()); //dodaje stanice u liniju
+            //        }
+            //    }
+
+            //    unitOfWork.Drivelines.Update(dr);
+            //    unitOfWork.Complete();
+            //    return Ok();
+            //}
+
+            //return NotFound();
 
             
         }

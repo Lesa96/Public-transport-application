@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
+using System.Transactions;
 using System.Web;
 using WebApp.Models;
 using WebApp.Models.Enums;
@@ -25,7 +28,7 @@ namespace WebApp.Persistence.Repository
 
         public bool AddStationInLine(int drivelineId, int stationID)
         {
-            var station = AppDbContext.Stations.Where(x => x.Id == stationID).FirstOrDefault();           
+            var station = AppDbContext.Stations.Where(x => x.Id == stationID).FirstOrDefault();
             var driveline = AppDbContext.DriveLines.Where(x => x.Id == drivelineId).FirstOrDefault();
 
             if (station == null || driveline == null)
@@ -60,7 +63,7 @@ namespace WebApp.Persistence.Repository
         public bool UpdateNumber(int drivelineId, int drivelineNumber)
         {
             var driveline = AppDbContext.DriveLines.Where(x => x.Id == drivelineId).FirstOrDefault();
-            if ( driveline == null)
+            if (driveline == null)
             {
                 return false;
             }
@@ -85,16 +88,16 @@ namespace WebApp.Persistence.Repository
 
         public bool AddDriveline(int number, List<string> stationNames)
         {
-            if(!AppDbContext.DriveLines.Any(d => d.Number == number))
+            if (!AppDbContext.DriveLines.Any(d => d.Number == number))
             {
                 Driveline dr = new Driveline() { Number = number };
                 if (stationNames != null)
                 {
                     foreach (string name in stationNames)
                     {
-                       
 
-                        dr.Stations.Add(AppDbContext.Stations.Where(s => s.Name ==name).FirstOrDefault()); //dodaje stanice u liniju
+
+                        dr.Stations.Add(AppDbContext.Stations.Where(s => s.Name == name).FirstOrDefault()); //dodaje stanice u liniju
                     }
                 }
 
@@ -111,7 +114,7 @@ namespace WebApp.Persistence.Repository
         public bool DeleteDriveline(int number)
         {
             Driveline dr = AppDbContext.DriveLines.Where(x => x.Number == number).FirstOrDefault();
-            if(dr != null)
+            if (dr != null)
             {
                 AppDbContext.DriveLines.Remove(dr);
                 AppDbContext.SaveChanges();
@@ -161,29 +164,46 @@ namespace WebApp.Persistence.Repository
 
         public bool UpdateDriveline(int id, int number, List<string> stationNames)
         {
-            Driveline dr = AppDbContext.DriveLines.Where(x => x.Id == id).FirstOrDefault();
-            if (dr != null)
+            TransactionOptions transactionoptions = new TransactionOptions();
+            transactionoptions.IsolationLevel = IsolationLevel.Snapshot;
+
+            using (TransactionScope scope = new TransactionScope(TransactionScopeOption.Required, transactionoptions))
             {
-                dr.Number = number;
-                dr.Stations.Clear();
-
-                if (stationNames != null)
+                try
                 {
-                    foreach (string name in stationNames)
+                    Driveline dr = AppDbContext.DriveLines.Where(x => x.Id == id).FirstOrDefault();
+                    if (dr != null)
                     {
+                        dr.Number = number;
+                        dr.Stations.Clear();
 
-
-                        dr.Stations.Add(AppDbContext.Stations.Where(s => s.Name == name).FirstOrDefault()); //dodaje stanice u liniju
+                        if (stationNames != null)
+                        {
+                            foreach (string name in stationNames)
+                            {
+                                dr.Stations.Add(AppDbContext.Stations.Where(s => s.Name == name).FirstOrDefault()); //dodaje stanice u liniju
+                            }
+                        }
+                        AppDbContext.SaveChanges();
+                        scope.Complete();
+                        return true;
                     }
+                    return false;
                 }
-
-              
-
-                return true;
+                catch (TransactionAbortedException ex)
+                {
+                    Trace.WriteLine("TransactionAbortedException Message: {0}", ex.Message);
+                    return false;
+                }
+                catch (Exception ex)
+                {
+                    Trace.WriteLine("TransactionAbortedException Message: {0}", ex.Message);
+                    return false;
+                }
 
             }
 
-            return false;
+            
         }
     }
 }
