@@ -11,5 +11,7 @@ namespace WebApp.Persistence.Repository
     public interface IDrivingPlanRepository : IRepository<DrivingPlan,int>
     {
         DrivingPlan GetSpecificDrivingPlan(DriveType driveType, WeekDays day, int lineNumber);
+        bool DeleteDrivingPlan(int id);
+        bool UpdateDrivingPlan(int id,int number, DriveType Type, WeekDays Day , ICollection<string> Departures);
     }
 }

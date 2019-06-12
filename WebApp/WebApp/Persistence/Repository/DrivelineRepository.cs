@@ -113,16 +113,37 @@ namespace WebApp.Persistence.Repository
 
         public bool DeleteDriveline(int number)
         {
-            Driveline dr = AppDbContext.DriveLines.Where(x => x.Number == number).FirstOrDefault();
-            if (dr != null)
+            TransactionOptions transactionoptions = new TransactionOptions();
+            transactionoptions.IsolationLevel = IsolationLevel.Snapshot;
+
+            using (TransactionScope scope = new TransactionScope(TransactionScopeOption.Required, transactionoptions))
             {
-                AppDbContext.DriveLines.Remove(dr);
-                AppDbContext.SaveChanges();
-                return true;
-            }
-            else
-            {
-                return false;
+                try
+                {
+                    Driveline dr = AppDbContext.DriveLines.Where(x => x.Number == number).FirstOrDefault();
+                    if (dr != null)
+                    {
+                        AppDbContext.DriveLines.Remove(dr);
+                        AppDbContext.SaveChanges();
+                        scope.Complete();
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                catch (TransactionAbortedException ex)
+                {
+                    Trace.WriteLine("TransactionAbortedException Message: {0}", ex.Message);
+                    return false;
+                }
+                catch (Exception ex)
+                {
+                    Trace.WriteLine("TransactionAbortedException Message: {0}", ex.Message);
+                    return false;
+                }
+
             }
         }
 
