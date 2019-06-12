@@ -18,6 +18,7 @@ export class DrivelineService {
   private GetDrivelineNumberByIdUri = "http://localhost:8080/api/Driveline/GetDrivelineNumberById";
   private GetDrivelineStationsNamesUri = "http://localhost:8080/api/Driveline/GetDrivelineStationsNames";
   private UpdateDrivelineUri = "http://localhost:8080/api/Driveline/UpdateDriveline";
+  private GetStationsByNumberUri = "http://localhost:8080/api/Driveline/GetStationsByDrivelineNumber";
 
   getStationNames() : Observable<any>
   {
@@ -91,6 +92,20 @@ export class DrivelineService {
     }
 
     return this.http.get(this.GetDrivelineStationsNamesUri,httpOptions);
+  }
+
+  GetStationsByNumber(drivelineNumber : any) : Observable<any>
+  {
+    let httpOptions = 
+    {
+      headers: {
+        "Content-type": "application/json",
+        "Authorization": "Bearer " + localStorage.jwt
+      },
+      params: new HttpParams().set('number' , drivelineNumber)
+    }
+
+    return this.http.get(this.GetStationsByNumberUri,httpOptions);
   }
 
   UpdateDriveline(bindingModel : DrivelineBindingModel)

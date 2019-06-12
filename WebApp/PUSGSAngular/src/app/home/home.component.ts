@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import {HomeService} from '../home.service'
 import { FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs';
@@ -26,16 +26,16 @@ export class HomeComponent implements OnInit {
     }
   )
 
-
+  selectedNumber : number
   private ticketPrice : number;
   private departures : Observable<string>;
 
   constructor(private homeService : HomeService , private fb: FormBuilder) { }
 
   onSubmit() {
-    //console.warn(this.DrivingPlanForm.value);
     this.getDrivingPlanDepartures();
-    
+    this.selectedNumber = this.DrivingPlanForm.value.number;
+    console.warn(this.selectedNumber);   
   }
 
   ngOnInit() {
@@ -52,12 +52,5 @@ export class HomeComponent implements OnInit {
     this.homeService.getDrivelineNumbers().subscribe(numbers => this.drivelineNumber = numbers);
   }
 
-  // getTicketPrice()
-  // { 
-  //   this.homeService.getTicketPrice().subscribe(price => { 
-  //     this.ticketPrice = price;
-  //     console.log("=-=============** " + this.ticketPrice);
-  //   });
-  // }
 
 }
