@@ -15,5 +15,6 @@ namespace WebApp.Persistence.Repository
         UpdateStationInfoBindingModel GetStationsById(int id);
         List<string> GetStationsIdsAndNames();
         List<UpdateStationInfoBindingModel> GetAllStations();
+        bool UpdateStationInfo(UpdateStationInfoBindingModel bindingModel);
     }
 }
