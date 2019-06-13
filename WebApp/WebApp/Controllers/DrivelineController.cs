@@ -118,8 +118,8 @@ namespace WebApp.Controllers
             {
                 return Ok();
             }
-
-            return BadRequest();
+            
+            return BadRequest("There is already a station with that number...Station numbers must be uniq");
 
             
         }
