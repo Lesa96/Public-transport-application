@@ -24,7 +24,9 @@ export class DrivelineService {
 
   getStationNames() : Observable<any>
   {
-    return this.http.get(this.stationNamesUri);
+    return this.http.get(this.stationNamesUri).pipe(
+      catchError(e => throwError(this.handleError(e,"stations")))
+    );
   }
 
   addDriveline(bindingModel : AddDrivelineBindingModel)
@@ -36,13 +38,15 @@ export class DrivelineService {
       }
     }
     return this.http.post(this.AddDrivelineUri, bindingModel, httpOptions).pipe(
-      catchError(e => throwError(this.handleError(e)))
+      catchError(e => throwError(this.handleError(e,"")))
     );
   }
 
   getDrivelineNumbers() : Observable<any>
   {
-    return this.http.get(this.GetDrivelineNumbersUri);
+    return this.http.get(this.GetDrivelineNumbersUri).pipe(
+      catchError(e => throwError(this.handleError(e,"Driveline Numbers ")))
+    );
   }
 
   deleteDriveline(drivelineNumber : any)
@@ -55,7 +59,9 @@ export class DrivelineService {
       },
       params: new HttpParams().set('number' , drivelineNumber.number)
     }
-    return this.http.delete(this.DeleteDrivelineUri, httpOptions);
+    return this.http.delete(this.DeleteDrivelineUri, httpOptions).pipe(
+      catchError(e => throwError(this.handleError(e,"Driveline")))
+    );
   }
 
   getDrivelineNumbersAndIds() : Observable<any> 
@@ -68,7 +74,9 @@ export class DrivelineService {
       }, 
     }
 
-    return this.http.get(this.GetDrivelineNumbersAndIdsUri,httpOptions);
+    return this.http.get(this.GetDrivelineNumbersAndIdsUri,httpOptions).pipe(
+      catchError(e => throwError(this.handleError(e,"Drivelines")))
+    );
   }
 
   GetDrivelineNumberById(drivelineId : any) : any
@@ -83,7 +91,9 @@ export class DrivelineService {
       params: new HttpParams().set('id' , drivelineId.id)
     }
 
-    return this.http.get(this.GetDrivelineNumberByIdUri,httpOptions);
+    return this.http.get(this.GetDrivelineNumberByIdUri,httpOptions).pipe(
+      catchError(e => throwError(this.handleError(e,"Driveline")))
+    );
   }
 
   GetDrivelineStationsNames(drivelineId : any) : Observable<any>
@@ -97,7 +107,9 @@ export class DrivelineService {
       params: new HttpParams().set('id' , drivelineId.id)
     }
 
-    return this.http.get(this.GetDrivelineStationsNamesUri,httpOptions);
+    return this.http.get(this.GetDrivelineStationsNamesUri,httpOptions).pipe(
+      catchError(e => throwError(this.handleError(e,"Stations")))
+    );
   }
 
   GetStationsByNumber(drivelineNumber : any) : Observable<any>
@@ -111,7 +123,9 @@ export class DrivelineService {
       params: new HttpParams().set('number' , drivelineNumber)
     }
 
-    return this.http.get(this.GetStationsByNumberUri,httpOptions);
+    return this.http.get(this.GetStationsByNumberUri,httpOptions).pipe(
+      catchError(e => throwError(this.handleError(e,"Station")))
+    );
   }
 
   UpdateDriveline(bindingModel : DrivelineBindingModel)
@@ -121,12 +135,23 @@ export class DrivelineService {
       headers: { "Content-type": "application/json",
       "Authorization": "Bearer " + localStorage.jwt }
     }
-    return this.http.patch(this.UpdateDrivelineUri, bindingModel, httpOptions);
+    return this.http.patch(this.UpdateDrivelineUri, bindingModel, httpOptions).pipe(
+      catchError(e => throwError(this.handleError(e,"Driveline")))
+    );
   }
 
 
-  private handleError(e: HttpErrorResponse) {
-    alert(e.error.Message);
+  private handleError(e: HttpErrorResponse , mess : string) {
+    if(e.status == 420)
+    {
+      alert(mess + " doesn't exist");
+    }
+    else if (e.status == 409)
+    {
+      alert("This object has been changed by someone (probably another admin), you should reaload and then try again!");
+    }
+    else 
+      alert(e.error.Message);
     
   }
 }

@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { AddStationBindingModel, UpdateStationBindingModel } from './Models/AddStationBindingModel';
+import { catchError } from 'rxjs/operators';
 
 
 @Injectable({
@@ -21,12 +22,16 @@ export class StationService {
 
   GetAllStationsNames() : Observable<any>
   {
-    return this.http.get(this.stationNamesUri);
+    return this.http.get(this.stationNamesUri).pipe(
+      catchError(e => throwError(this.handleError(e,"Stations")))
+    );
   }
 
   GetStationsIdsAnsNames() : Observable<any>
   {
-    return this.http.get(this.StationIdsAndNamesUri);
+    return this.http.get(this.StationIdsAndNamesUri).pipe(
+      catchError(e => throwError(this.handleError(e,"Station")))
+    );
 
   }
 
@@ -42,7 +47,9 @@ export class StationService {
       params: new HttpParams().set('id' , stationId.id)
     }
 
-    return this.http.get(this.GetStationByIdUri,httpOptions);
+    return this.http.get(this.GetStationByIdUri,httpOptions).pipe(
+      catchError(e => throwError(this.handleError(e,"Station")))
+    );
   }
   GetAllStations() : Observable<any>
   {
@@ -54,7 +61,9 @@ export class StationService {
       },
     }
 
-    return this.http.get(this.GetAllStationUri,httpOptions);
+    return this.http.get(this.GetAllStationUri,httpOptions).pipe(
+      catchError(e => throwError(this.handleError(e,"Stations")))
+    );
   }
 
   UpdateStationInfo(station : UpdateStationBindingModel)
@@ -67,7 +76,9 @@ export class StationService {
       }
     }
 
-    return this.http.patch(this.UpdateStationInfoUri , station , httpOptions);
+    return this.http.patch(this.UpdateStationInfoUri , station , httpOptions).pipe(
+      catchError(e => throwError(this.handleError(e,"Station")))
+    );
   }
 
   AddStation(station : AddStationBindingModel)
@@ -80,7 +91,9 @@ export class StationService {
       }
     }
 
-    return this.http.post(this.addStationUri , station , httpOptions);
+    return this.http.post(this.addStationUri , station , httpOptions).pipe(
+      catchError(e => throwError(this.handleError(e,"Station")))
+    );
   }
 
   DeleteStation(name : any)
@@ -95,6 +108,23 @@ export class StationService {
         "StationName" : name.stationName
       }
     }
-    return this.http.delete(this.deleteStationUri, httpOptions);
+    return this.http.delete(this.deleteStationUri, httpOptions).pipe(
+      catchError(e => throwError(this.handleError(e,"Station")))
+    );
+  }
+
+
+  private handleError(e: HttpErrorResponse , mess : string) {
+    if(e.status == 420)
+    {
+      alert(mess + " doesn't exist");
+    }
+    else if (e.status == 409)
+    {
+      alert("This object has been changed by someone (probably another admin), you should reaload and then try again!");
+    }
+    else 
+      alert(e.error.Message);
+    
   }
 }

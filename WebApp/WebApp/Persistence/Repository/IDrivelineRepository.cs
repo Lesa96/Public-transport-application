@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using WebApp.Models;
@@ -12,8 +13,8 @@ namespace WebApp.Persistence.Repository
         Driveline GetLineByNumber(int number);
         Driveline GetLineById(int id);
         bool AddDriveline(int number, List<string> stationNames);
-        bool UpdateDriveline(int id, int number, List<string> stationNames);
-        bool DeleteDriveline(int number);
+        HttpStatusCode UpdateDriveline(int id, int number, List<string> stationNames);
+        HttpStatusCode DeleteDriveline(int number);
         bool AddStationInLine(int drivelineId, int stationID);
         bool DeleteStationInLine(int drivelineId, int stationID);
         bool UpdateNumber(int drivelineId, int drivelineNumber);

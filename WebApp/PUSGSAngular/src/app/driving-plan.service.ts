@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
 import { HttpParams } from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,9 @@ export class DrivingPlanService {
 
   getDrivingPlans() : Observable<any>
   {
-    return this.http.get(this.drivingPlanUri + "/GetAll");
+    return this.http.get(this.drivingPlanUri + "/GetAll").pipe(
+      catchError(e => throwError(this.handleError(e,"DrivingPlan")))
+    );
   }
 
   getDrivingPlan(input) : Observable<any>
@@ -26,7 +29,9 @@ export class DrivingPlanService {
       },
       params: new HttpParams().set('id' , input.id)     
     }
-    return this.http.get(this.drivingPlanUri + "/GetPlan", httpOptions);
+    return this.http.get(this.drivingPlanUri + "/GetPlan", httpOptions).pipe(
+      catchError(e => throwError(this.handleError(e,"DrivingPlan")))
+    );
   }
 
   addDrivingPlan(bindingModel) : Observable<any>
@@ -39,7 +44,9 @@ export class DrivingPlanService {
         "Authorization": "Bearer " + localStorage.jwt
       }
     }
-    return this.http.post(addUri, bindingModel, httpOptions);
+    return this.http.post(addUri, bindingModel, httpOptions).pipe(
+      catchError(e => throwError(this.handleError(e,"Driveline")))
+    );
   }
 
   deleteDrivingPlan(bindingModel) : Observable<any>
@@ -55,7 +62,9 @@ export class DrivingPlanService {
         "Id" : bindingModel.id
       }
     }
-    return this.http.delete(addUri, httpOptions);
+    return this.http.delete(addUri, httpOptions).pipe(
+      catchError(e => throwError(this.handleError(e,"DrivingPlan")))
+    );
   }
 
   saveDrivingPlan(bindingModel) : Observable<any>
@@ -68,7 +77,23 @@ export class DrivingPlanService {
         "Authorization": "Bearer " + localStorage.jwt
       }
     }
-    return this.http.put(addUri, bindingModel, httpOptions);
+    return this.http.put(addUri, bindingModel, httpOptions).pipe(
+      catchError(e => throwError(this.handleError(e,"Driveline")))
+    );
+  }
+
+  private handleError(e: HttpErrorResponse , mess : string) {
+    if(e.status == 420)
+    {
+      alert(mess + " doesn't exist");
+    }
+    else if (e.status == 409)
+    {
+      alert("This object has been changed by someone (probably another admin), you should reaload and then try again!");
+    }
+    else 
+      alert(e.error.Message);
+    
   }
 
 }

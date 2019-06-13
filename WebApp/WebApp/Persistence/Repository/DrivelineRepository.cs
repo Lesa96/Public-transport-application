@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Transactions;
 using System.Web;
 using WebApp.Models;
@@ -111,7 +112,7 @@ namespace WebApp.Persistence.Repository
             return false;
         }
 
-        public bool DeleteDriveline(int number)
+        public HttpStatusCode DeleteDriveline(int number)
         {
             TransactionOptions transactionoptions = new TransactionOptions();
             transactionoptions.IsolationLevel = IsolationLevel.Snapshot;
@@ -126,22 +127,22 @@ namespace WebApp.Persistence.Repository
                         AppDbContext.DriveLines.Remove(dr);
                         AppDbContext.SaveChanges();
                         scope.Complete();
-                        return true;
+                        return HttpStatusCode.OK;
                     }
                     else
                     {
-                        return false;
+                        return HttpStatusCode.NotFound;
                     }
                 }
                 catch (TransactionAbortedException ex)
                 {
                     Trace.WriteLine("TransactionAbortedException Message: {0}", ex.Message);
-                    return false;
+                    return HttpStatusCode.Conflict;
                 }
                 catch (Exception ex)
                 {
                     Trace.WriteLine("TransactionAbortedException Message: {0}", ex.Message);
-                    return false;
+                    return HttpStatusCode.Conflict;
                 }
 
             }
@@ -183,7 +184,7 @@ namespace WebApp.Persistence.Repository
             return stations;
         }
 
-        public bool UpdateDriveline(int id, int number, List<string> stationNames)
+        public HttpStatusCode UpdateDriveline(int id, int number, List<string> stationNames)
         {
             //TransactionOptions transactionoptions = new TransactionOptions();
             //transactionoptions.IsolationLevel = IsolationLevel.Snapshot;
@@ -207,19 +208,19 @@ namespace WebApp.Persistence.Repository
                         }
                         AppDbContext.SaveChanges();
                         //scope.Complete();
-                        return true;
+                        return HttpStatusCode.OK;
                     }
-                    return false;
+                    return HttpStatusCode.NotFound;
                 }
                 catch (TransactionAbortedException ex)
                 {
                     Trace.WriteLine("TransactionAbortedException Message: {0}", ex.Message);
-                    return false;
+                    return HttpStatusCode.Conflict;
                 }
                 catch (Exception ex)
                 {
                     Trace.WriteLine("TransactionAbortedException Message: {0}", ex.Message);
-                    return false;
+                    return HttpStatusCode.Conflict;
                 }
 
             //}

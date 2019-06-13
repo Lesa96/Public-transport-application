@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,9 @@ export class PricelistService {
         "Authorization": "Bearer " + localStorage.jwt
       }
     }
-    return this.http.get(this.pricelistUri + "/GetAll", httpOptions);
+    return this.http.get(this.pricelistUri + "/GetAll", httpOptions).pipe(
+      catchError(e => throwError(this.handleError(e,"Pricelists")))
+    );
   }
 
   getPricelist(input) : Observable<any>
@@ -33,7 +36,9 @@ export class PricelistService {
       },
       params: new HttpParams().set('id' , input.id)     
     }
-    return this.http.get(this.pricelistUri + "/GetPricelist", httpOptions);
+    return this.http.get(this.pricelistUri + "/GetPricelist", httpOptions).pipe(
+      catchError(e => throwError(this.handleError(e,"Pricelist")))
+    );
   }
 
   getPricelistItems(input) : Observable<any>
@@ -46,7 +51,9 @@ export class PricelistService {
       },
       params: new HttpParams().set('id' , input.id)     
     }
-    return this.http.get(this.pricelistUri + "/GetPricelistItems", httpOptions);
+    return this.http.get(this.pricelistUri + "/GetPricelistItems", httpOptions).pipe(
+      catchError(e => throwError(this.handleError(e,"PricelistItems")))
+    );
   }
 
   addPricelist(bindingModel) : Observable<any>
@@ -59,7 +66,9 @@ export class PricelistService {
         "Authorization": "Bearer " + localStorage.jwt
       }
     }
-    return this.http.post(addUri, bindingModel, httpOptions);
+    return this.http.post(addUri, bindingModel, httpOptions).pipe(
+      catchError(e => throwError(this.handleError(e,"Pricelist")))
+    );
   }
 
   deletePricelist(bindingModel) : Observable<any>
@@ -75,7 +84,9 @@ export class PricelistService {
         "Id" : bindingModel.id
       }
     }
-    return this.http.delete(addUri, httpOptions);
+    return this.http.delete(addUri, httpOptions).pipe(
+      catchError(e => throwError(this.handleError(e,"Pricelist")))
+    );
   }
 
   savePricelist(bindingModel) : Observable<any>
@@ -88,6 +99,23 @@ export class PricelistService {
         "Authorization": "Bearer " + localStorage.jwt
       }
     }
-    return this.http.put(addUri, bindingModel, httpOptions);
+    return this.http.put(addUri, bindingModel, httpOptions).pipe(
+      catchError(e => throwError(this.handleError(e,"Pricelist")))
+    );
+  }
+
+
+  private handleError(e: HttpErrorResponse , mess : string) {
+    if(e.status == 420)
+    {
+      alert(mess + " doesn't exist");
+    }
+    else if (e.status == 409)
+    {
+      alert("This object has been changed by someone (probably another admin), you should reaload and then try again!");
+    }
+    else 
+      alert(e.error.Message);
+    
   }
 }

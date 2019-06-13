@@ -11,6 +11,7 @@ import * as mapTypes from '@agm/core/services/google-maps-types';
 import { } from 'googlemaps';
 import { MapsAPILoader } from '@agm/core';
 
+
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',

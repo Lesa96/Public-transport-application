@@ -91,6 +91,10 @@ namespace WebApp.Controllers
         public IHttpActionResult GetDrivelineStationsNames(int id)
         {
             string[] stations = unitOfWork.Drivelines.GetDrivelineStationsNames(id);
+            if(stations.Count() == 0)
+            {
+                return NotFound();
+            }
 
             return Ok(stations);
         }
@@ -99,12 +103,12 @@ namespace WebApp.Controllers
         [HttpPatch, Route("UpdateDriveline")]
         public IHttpActionResult UpdateDriveline(ChangeDrivelineBindingModel bindingModel)
         {
-            if (unitOfWork.Drivelines.UpdateDriveline(bindingModel.DriveLineId, bindingModel.DriveLineNumber, bindingModel.StationNames))
+            if (unitOfWork.Drivelines.UpdateDriveline(bindingModel.DriveLineId, bindingModel.DriveLineNumber, bindingModel.StationNames) == HttpStatusCode.OK)
                 return Ok();
-            else
+            if (unitOfWork.Drivelines.UpdateDriveline(bindingModel.DriveLineId, bindingModel.DriveLineNumber, bindingModel.StationNames) == HttpStatusCode.Conflict)
                 return Conflict();
-            
 
+            return NotFound();
             
         }
 
@@ -119,7 +123,7 @@ namespace WebApp.Controllers
                 return Ok();
             }
             
-            return BadRequest("There is already a station with that number...Station numbers must be uniq");
+            return BadRequest("There is already a station with that number...Station numbers must be uniqe");
 
             
         }
@@ -129,9 +133,13 @@ namespace WebApp.Controllers
         public IHttpActionResult DeleteDriveline(int number)
         {
 
-            if (unitOfWork.Drivelines.DeleteDriveline(number))
+            if (unitOfWork.Drivelines.DeleteDriveline(number) == HttpStatusCode.OK)
             {
                 return Ok();
+            }
+            if (unitOfWork.Drivelines.DeleteDriveline(number) == HttpStatusCode.Conflict)
+            {
+                return Conflict();
             }
 
             return NotFound();

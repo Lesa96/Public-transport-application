@@ -31,7 +31,7 @@ namespace WebApp.Controllers
 
             if (regularPrice == 0 || coefficient == 0)
             {
-                return BadRequest();
+                return BadRequest("There is no price for this ticket");
             }
 
             return Ok(regularPrice * coefficient);
@@ -44,13 +44,13 @@ namespace WebApp.Controllers
             var pricelist = unitOfWork.Pricelists.Get(bindingModel.PricelistId);
             if (pricelist == null)
             {
-                return NotFound();
+                return BadRequest("There is no such pricelist");
             }
 
             var pricelistItem = unitOfWork.Pricelists.GetPricelistItemByIds(bindingModel.PricelistId, bindingModel.PricelistItemId);
             if (pricelistItem == null)
             {
-                return NotFound();
+                return BadRequest("There is no such priceliset item");
             }
 
             pricelistItem.Price = bindingModel.Price;
@@ -71,6 +71,10 @@ namespace WebApp.Controllers
             //Debug this... List as field problem?
             var result = new List<DisplayPricelistBindingModel>();
             var pricelists = unitOfWork.Pricelists.GetAll();
+            if(pricelists.Count() == 0)
+            {
+                return NotFound();
+            }
             foreach (var pricelist in pricelists)
             {
                 result.Add(new DisplayPricelistBindingModel()
@@ -88,6 +92,10 @@ namespace WebApp.Controllers
         public IHttpActionResult GetPricelist(int id)
         {
             var pricelist = unitOfWork.Pricelists.Get(id);
+            if (pricelist == null)
+            {
+                return NotFound();
+            }
             var resultPricelist = new DisplayPricelistBindingModel()
             {
                 PricelistId = pricelist.PricelistId,
@@ -112,11 +120,14 @@ namespace WebApp.Controllers
             unitOfWork.Pricelists.Add(pricelist);
             unitOfWork.Complete();
 
-            var pricelistId = unitOfWork.Pricelists.Find(pl => pl.ValidFrom == bindingModel.ValidFrom && pl.ValidUntil == bindingModel.ValidUntil).LastOrDefault().PricelistId;
-
+            var pr = unitOfWork.Pricelists.Find(pl => pl.ValidFrom == bindingModel.ValidFrom && pl.ValidUntil == bindingModel.ValidUntil).LastOrDefault();
+            if(pr == null)
+            {
+                return BadRequest("Pricelist Items where not added corectly");
+            }
             foreach (var item in bindingModel.PricelistItems)
             {
-                item.PricelistId = pricelistId;
+                item.PricelistId = pr.PricelistId;
                 unitOfWork.PricelistItems.Add(item);
             }
 
@@ -129,18 +140,13 @@ namespace WebApp.Controllers
         [Route("DeletePricelist")]
         [Authorize(Roles = "Admin")]
         public IHttpActionResult DeletePricelist(int id)
-        {
-            //var pricelist = unitOfWork.Pricelists.Get(id);
-            //if (pricelist == null)
-            //    return NotFound();
-
-            //unitOfWork.Pricelists.Remove(pricelist);
-            //unitOfWork.Complete();
-
-            if (unitOfWork.Pricelists.DeletePricelist(id))
+        {           
+            if (unitOfWork.Pricelists.DeletePricelist(id) == HttpStatusCode.OK)
                 return Ok();
-            else
-                return BadRequest();
+            if (unitOfWork.Pricelists.DeletePricelist(id) == HttpStatusCode.Conflict)
+                return Conflict();
+
+            return NotFound();
         }
 
         [HttpPut]
@@ -149,10 +155,12 @@ namespace WebApp.Controllers
         public IHttpActionResult UpdatePricelist(UpdatePricelistBindingModel bindingModel)
         {
             
-            if (unitOfWork.Pricelists.UpdatePricelist(bindingModel))
+            if (unitOfWork.Pricelists.UpdatePricelist(bindingModel) == HttpStatusCode.OK)
                 return Ok();
-            else
-                return BadRequest();
+            if (unitOfWork.Pricelists.UpdatePricelist(bindingModel) == HttpStatusCode.Conflict)
+                return Conflict();
+
+            return NotFound();
         }
 
         [HttpGet]
@@ -160,6 +168,10 @@ namespace WebApp.Controllers
         public IHttpActionResult GetPricelistItems(int id)
         {
             var items = unitOfWork.PricelistItems.Find(item => item.PricelistId == id);
+            if(items == null)
+            {
+                return BadRequest("There are no pricelist items");
+            }
             var resultList = new List<GetPricelistItemsBindingModel>();
             foreach (var item in items)
             {

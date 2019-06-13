@@ -25,6 +25,10 @@ namespace WebApp.Controllers
         public IHttpActionResult GetAll()
         {
             var drivingPlans = unitOfWork.DrivingPlans.GetAll();
+            if(drivingPlans == null)
+            {
+                return NotFound();
+            }
             List<DisplayDrivingPlanBindingModel> displayDrivingPlans =
                 new List<DisplayDrivingPlanBindingModel>();
             foreach (var drivingPlan in drivingPlans)
@@ -47,6 +51,10 @@ namespace WebApp.Controllers
         public IHttpActionResult GetPlan(int id)
         {
             var drivingPlan = unitOfWork.DrivingPlans.Get(id);
+            if (drivingPlan == null)
+            {
+                return NotFound();
+            }
             DisplayDrivingPlanBindingModel displayDPBM =
                 new DisplayDrivingPlanBindingModel()
                 {
@@ -86,6 +94,7 @@ namespace WebApp.Controllers
         public IHttpActionResult AddDrivingPlan(AddDrivingPlanBindingModel bindingModel)
         {
             var lineId = unitOfWork.Drivelines.GetLineByNumber(bindingModel.Number).Id;
+            
             string departures = "";
 
             foreach (var departure in bindingModel.Departures.OrderBy(d => d, StringComparer.Ordinal))
@@ -112,8 +121,10 @@ namespace WebApp.Controllers
         [Authorize(Roles = "Admin")]
         public IHttpActionResult DeleteDrivingPlan(int id)
         {
-            if(unitOfWork.DrivingPlans.DeleteDrivingPlan(id))
+            if(unitOfWork.DrivingPlans.DeleteDrivingPlan(id) == HttpStatusCode.OK)
                 return Ok();
+            if (unitOfWork.DrivingPlans.DeleteDrivingPlan(id) == HttpStatusCode.Conflict)
+                return Conflict();
 
             return NotFound();
         }
@@ -123,10 +134,12 @@ namespace WebApp.Controllers
         [Authorize(Roles = "Admin")]
         public IHttpActionResult UpdateDrivingPlan(UpdateDrivingPlanBindingModel bindingModel)
         {
-            if(unitOfWork.DrivingPlans.UpdateDrivingPlan(bindingModel.Id, bindingModel.Number , bindingModel.Type , bindingModel.Day , bindingModel.Departures))
+            if(unitOfWork.DrivingPlans.UpdateDrivingPlan(bindingModel.Id, bindingModel.Number , bindingModel.Type , bindingModel.Day , bindingModel.Departures) == HttpStatusCode.OK)
                 return Ok();
+            if (unitOfWork.DrivingPlans.UpdateDrivingPlan(bindingModel.Id, bindingModel.Number, bindingModel.Type, bindingModel.Day, bindingModel.Departures) == HttpStatusCode.Conflict)
+                return Conflict();
 
-            return BadRequest();
+            return NotFound();
         }
     }
 }

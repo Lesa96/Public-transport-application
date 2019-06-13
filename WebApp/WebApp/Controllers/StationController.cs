@@ -66,10 +66,10 @@ namespace WebApp.Controllers
         [Authorize(Roles = "Admin")]
         public IHttpActionResult AddStation(AddStationFullBindingModel bindingModel)
         {
-            if (unitOfWork.Stations.AddStation(bindingModel.StationName, bindingModel.StationAddress, bindingModel.X, bindingModel.Y))
+            if (unitOfWork.Stations.AddStation(bindingModel.StationName, bindingModel.StationAddress, bindingModel.X, bindingModel.Y) == HttpStatusCode.OK)
                 return Ok();
             else
-                return BadRequest();
+                return BadRequest("There is allready a station with that name, station names must be uniqe");
         }
 
         [HttpDelete]
@@ -77,14 +77,17 @@ namespace WebApp.Controllers
         [Authorize(Roles = "Admin")]
         public IHttpActionResult DeleteStation(string StationName)
         {
-            if (unitOfWork.Stations.DeleteStationByName(StationName))
+            if (unitOfWork.Stations.DeleteStationByName(StationName) == HttpStatusCode.OK)
             {
                 return Ok();
             }
-            else
+            if (unitOfWork.Stations.DeleteStationByName(StationName) == HttpStatusCode.Conflict)
             {
-                return NotFound();
+                return Conflict();
             }
+            
+            return NotFound();
+            
         }
 
         [HttpGet]
@@ -107,14 +110,21 @@ namespace WebApp.Controllers
         [Authorize(Roles = "Admin")]
         public IHttpActionResult UpdateStationInfo(UpdateStationInfoBindingModel bindingModel)
         {
-            if (unitOfWork.Stations.UpdateStationInfo(bindingModel))
+            if (unitOfWork.Stations.UpdateStationInfo(bindingModel) == HttpStatusCode.OK)
             {
                 return Ok();
             }
-            else
+            if (unitOfWork.Stations.UpdateStationInfo(bindingModel) == HttpStatusCode.BadRequest)
             {
-                return NotFound();
+                return BadRequest("There is allready a station with this name, station names must be uniqe");
             }
+            if (unitOfWork.Stations.UpdateStationInfo(bindingModel) == HttpStatusCode.Conflict)
+            {
+                return Conflict();
+            }
+            
+            return NotFound();
+            
             
         }
 

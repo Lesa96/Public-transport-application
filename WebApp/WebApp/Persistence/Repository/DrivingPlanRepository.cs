@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Transactions;
 using System.Web;
 using WebApp.Models;
@@ -28,7 +29,7 @@ namespace WebApp.Persistence.Repository
             return AppDbContext.DrivingPlans.Where(x => x.Type == driveType && x.Day == day && x.Driveline.Number == lineNumber).FirstOrDefault(); 
         }
 
-        public bool DeleteDrivingPlan(int id)
+        public HttpStatusCode DeleteDrivingPlan(int id)
         {
             TransactionOptions transactionoptions = new TransactionOptions();
             transactionoptions.IsolationLevel = IsolationLevel.Snapshot;
@@ -39,22 +40,22 @@ namespace WebApp.Persistence.Repository
                 {
                     var drivingPlan = AppDbContext.DrivingPlans.Where(x => x.Id == id).FirstOrDefault();
                     if (drivingPlan == null)
-                        return false;
+                        return HttpStatusCode.NotFound;
                     AppDbContext.DrivingPlans.Remove(drivingPlan);
                     AppDbContext.SaveChanges();
                     scope.Complete();
 
-                    return true;
+                    return HttpStatusCode.OK;
                 }
                 catch (TransactionAbortedException ex)
                 {
                     Trace.WriteLine("TransactionAbortedException Message: {0}", ex.Message);
-                    return false;
+                    return HttpStatusCode.Conflict;
                 }
                 catch (Exception ex)
                 {
                     Trace.WriteLine("TransactionAbortedException Message: {0}", ex.Message);
-                    return false;
+                    return HttpStatusCode.Conflict;
                 }
             }
 
@@ -63,7 +64,7 @@ namespace WebApp.Persistence.Repository
             
         }
 
-        public bool UpdateDrivingPlan(int id, int number, DriveType Type, WeekDays Day, ICollection<string> Departures)
+        public HttpStatusCode UpdateDrivingPlan(int id, int number, DriveType Type, WeekDays Day, ICollection<string> Departures)
         {
             TransactionOptions transactionoptions = new TransactionOptions();
             transactionoptions.IsolationLevel = IsolationLevel.Snapshot;
@@ -72,7 +73,11 @@ namespace WebApp.Persistence.Repository
             {
                 try
                 {
-                    var lineId = AppDbContext.DriveLines.Where(x => x.Number == number).FirstOrDefault().Id;
+                    var line = AppDbContext.DriveLines.Where(x => x.Number == number).FirstOrDefault();
+                    if(line == null)
+                    {
+                        return HttpStatusCode.NotFound;
+                    }
                     string departures = "";
 
                     foreach (var departure in Departures.OrderBy(d => d, StringComparer.Ordinal))
@@ -84,24 +89,24 @@ namespace WebApp.Persistence.Repository
 
                     drivingPlan.Type = Type;
                     drivingPlan.Day = Day;
-                    drivingPlan.DrivelineId = lineId;
+                    drivingPlan.DrivelineId = line.Id;
                     drivingPlan.Departures = departures;
 
                     AppDbContext.DrivingPlans.Add(drivingPlan);
                     AppDbContext.SaveChanges();
 
                     scope.Complete();
-                    return true;
+                    return HttpStatusCode.OK;
                 }
                 catch (TransactionAbortedException ex)
                 {
                     Trace.WriteLine("TransactionAbortedException Message: {0}", ex.Message);
-                    return false;
+                    return HttpStatusCode.Conflict;
                 }
                 catch (Exception ex)
                 {
                     Trace.WriteLine("TransactionAbortedException Message: {0}", ex.Message);
-                    return false;
+                    return HttpStatusCode.Conflict;
                 }
             }
                 

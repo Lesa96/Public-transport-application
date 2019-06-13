@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,9 @@ export class BuyTicketService {
         "Content-type": "application/json",
       }
     }
-    return this.http.post(this.buyUnregisteredUri, email, httpOptions);
+    return this.http.post(this.buyUnregisteredUri, email, httpOptions).pipe(
+      catchError(e => throwError(this.handleError(e,"Ticket")))
+    );
   }
 
   buyTicket(ticketType) : Observable<any> 
@@ -32,6 +35,22 @@ export class BuyTicketService {
         "Authorization": "Bearer " + localStorage.jwt
       }
     }
-    return this.http.post(this.buyTicketUri, ticketType, httpOptions);
+    return this.http.post(this.buyTicketUri, ticketType, httpOptions).pipe(
+      catchError(e => throwError(this.handleError(e,"Ticket")))
+    );
+  }
+
+  private handleError(e: HttpErrorResponse , mess : string) {
+    if(e.status == 420)
+    {
+      alert(mess + " doesn't exist");
+    }
+    else if (e.status == 409)
+    {
+      alert("This object has been changed by someone (probably another admin), you should reaload and then try again!");
+    }
+    else 
+      alert(e.error.Message);
+    
   }
 }

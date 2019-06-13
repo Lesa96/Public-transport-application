@@ -27,6 +27,10 @@ namespace WebApp.Controllers
         public IHttpActionResult BuyTicket(BuyTicketBindingModel bindingModel)
         {
             var user = unitOfWork.Users.Find(u => u.Email.Equals(bindingModel.Email)).FirstOrDefault();
+            if(user == null)
+            {
+                return BadRequest("User with that email doesn't exist");
+            }
 
             DateTime currentTime = DateTime.Now;
             var pricelistItem = unitOfWork.Pricelists.GetPricelistItemForSelectedTypes(bindingModel.TicketType, user.PassengerType, currentTime);
@@ -79,6 +83,10 @@ namespace WebApp.Controllers
         public IHttpActionResult GetAll()
         {
             var tickets = unitOfWork.Tickets.GetAll();
+            if(tickets == null)
+            {
+                return NotFound();
+            }
             var resultList = new List<DisplayTicketBindingModel>();
             foreach (var ticket in tickets)
             {
@@ -98,6 +106,10 @@ namespace WebApp.Controllers
         public IHttpActionResult ValidateTicket(TicketValidationBindingModel bindingModel)
         {
             var ticket = unitOfWork.Tickets.Get(bindingModel.TicketId);
+            if(ticket == null)
+            {
+                return BadRequest("There is no ticket with that id");
+            }
             var resultTicket = new DisplayTicketBindingModel()
             {
                 TicketId = ticket.TicketId,
@@ -108,6 +120,10 @@ namespace WebApp.Controllers
             if (!ticket.IsCanceled)
             {
                 var ticketInfo = unitOfWork.PricelistItems.Get(ticket.TicketInfoId);
+                if(ticket == null)
+                {
+                    return BadRequest("There is no pricelist item for that ticket");
+                }
 
                 if (ticketInfo.TicketType == TicketType.OneHourTicket)
                 {

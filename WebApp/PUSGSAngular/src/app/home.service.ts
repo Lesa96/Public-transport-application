@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { GetTicketPriceBindingModel } from './Models/GetTicketPriceBindingModel';
 import { Observable } from 'rxjs/internal/Observable';
+import { catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 
 const para = new HttpParams();
 para.set('TicketType' , "Daily");
@@ -32,7 +34,9 @@ export class HomeService {
 
   getDrivelineNumbers() : Observable<any>
   {
-    return this.http.get(this.drivelineNumbersUri);
+    return this.http.get(this.drivelineNumbersUri).pipe(
+      catchError(e => throwError(this.handleError(e,"Driveline numbers ")))
+    );
   }
 
   getDrivingPlanDepartures(selecetdItems : any) : Observable<any>
@@ -43,12 +47,30 @@ export class HomeService {
       
     }
 
-    return this.http.get(this.drivingPlanDeparturesUri,httpOptionsDepartures);
+    return this.http.get(this.drivingPlanDeparturesUri,httpOptionsDepartures).pipe(
+      catchError(e => throwError(this.handleError(e,"Departures")))
+    );
   }
 
   getTicketPrice() : Observable<any> 
   { 
-    return this.http.get(this.priceListUri, httpOptions);
+    return this.http.get(this.priceListUri, httpOptions).pipe(
+      catchError(e => throwError(this.handleError(e,"Tickets")))
+    );
+  }
+
+  private handleError(e: HttpErrorResponse , mess : string) {
+    if(e.status == 420)
+    {
+      alert(mess + " doesn't exist");
+    }
+    else if (e.status == 409)
+    {
+      alert("This object has been changed by someone (probably another admin), you should reaload and then try again!");
+    }
+    else 
+      alert(e.error.Message);
+    
   }
 
 

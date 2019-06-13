@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Transactions;
 using System.Web;
 using WebApp.Models;
@@ -43,7 +44,7 @@ namespace WebApp.Persistence.Repository
             return pricelist.PricelistItems.Where(pi => pi.PricelistItemId == pricelistItemId).FirstOrDefault();
         }
 
-        public bool UpdatePricelist(UpdatePricelistBindingModel bindingModel)
+        public HttpStatusCode UpdatePricelist(UpdatePricelistBindingModel bindingModel)
         {
             TransactionOptions transactionoptions = new TransactionOptions();
             transactionoptions.IsolationLevel = IsolationLevel.Snapshot;
@@ -66,25 +67,25 @@ namespace WebApp.Persistence.Repository
 
                         AppDbContext.SaveChanges();
                         scope.Complete();
-                        return true;
+                        return HttpStatusCode.OK;
                     }
-                    return false;
+                    return HttpStatusCode.NotFound;
                 }
                 catch (TransactionAbortedException ex)
                 {
                     Trace.WriteLine("TransactionAbortedException Message: {0}", ex.Message);
-                    return false;
+                    return HttpStatusCode.Conflict;
                 }
                 catch (Exception ex)
                 {
                     Trace.WriteLine("TransactionAbortedException Message: {0}", ex.Message);
-                    return false;
+                    return HttpStatusCode.Conflict;
                 }
 
             }
         }
 
-        public bool DeletePricelist(int id)
+        public HttpStatusCode DeletePricelist(int id)
         {
             TransactionOptions transactionoptions = new TransactionOptions();
             transactionoptions.IsolationLevel = IsolationLevel.Snapshot;
@@ -99,19 +100,19 @@ namespace WebApp.Persistence.Repository
                         AppDbContext.Pricelists.Remove(pricelist);
                         AppDbContext.SaveChanges();
                         scope.Complete();
-                        return true;
+                        return HttpStatusCode.OK;
                     }
-                    return false;
+                    return HttpStatusCode.NotFound;
                 }
                 catch (TransactionAbortedException ex)
                 {
                     Trace.WriteLine("TransactionAbortedException Message: {0}", ex.Message);
-                    return false;
+                    return HttpStatusCode.Conflict;
                 }
                 catch (Exception ex)
                 {
                     Trace.WriteLine("TransactionAbortedException Message: {0}", ex.Message);
-                    return false;
+                    return HttpStatusCode.Conflict;
                 }
 
             }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Transactions;
 using System.Web;
 using WebApp.Models;
@@ -36,7 +37,7 @@ namespace WebApp.Persistence.Repository
             return stationNames;
         }
 
-        public bool DeleteStationByName(string name)
+        public HttpStatusCode DeleteStationByName(string name)
         {
             TransactionOptions transactionoptions = new TransactionOptions();
             transactionoptions.IsolationLevel = IsolationLevel.Snapshot;
@@ -52,25 +53,25 @@ namespace WebApp.Persistence.Repository
 
                         AppDbContext.SaveChanges();
                         scope.Complete();
-                        return true;
+                        return HttpStatusCode.OK;
                     }
-                    return false;
+                    return HttpStatusCode.NotFound;
                 }
                 catch (TransactionAbortedException ex)
                 {
                     Trace.WriteLine("TransactionAbortedException Message: {0}", ex.Message);
-                    return false;
+                    return HttpStatusCode.Conflict;
                 }
                 catch (Exception ex)
                 {
                     Trace.WriteLine("TransactionAbortedException Message: {0}", ex.Message);
-                    return false;
+                    return HttpStatusCode.Conflict;
                 }
 
             }
         }
 
-        public bool AddStation(string name, string addr, float x, float y)
+        public HttpStatusCode AddStation(string name, string addr, float x, float y)
         {
             Station st = AppDbContext.Stations.Where(s => s.Name == name).FirstOrDefault();
             if (st == null)
@@ -84,10 +85,10 @@ namespace WebApp.Persistence.Repository
                 AppDbContext.Stations.Add(st);
                 AppDbContext.SaveChanges();
 
-                return true;
+                return HttpStatusCode.OK;
             }
 
-            return false;
+            return HttpStatusCode.BadRequest;
         }
 
         public List<string> GetStationsIdsAndNames()
@@ -145,7 +146,7 @@ namespace WebApp.Persistence.Repository
             return stations;
         }
 
-        public bool UpdateStationInfo(UpdateStationInfoBindingModel bindingModel)
+        public HttpStatusCode UpdateStationInfo(UpdateStationInfoBindingModel bindingModel)
         {
             TransactionOptions transactionoptions = new TransactionOptions();
             transactionoptions.IsolationLevel = IsolationLevel.Snapshot;
@@ -160,7 +161,7 @@ namespace WebApp.Persistence.Repository
                         Station s = AppDbContext.Stations.Where(x => x.Name == bindingModel.Name && x.Id != bindingModel.Id).FirstOrDefault();
                         if (s != null) //ako postoji stanica sa takvim imenom, vrati gresku
                         {
-                            return false;
+                            return HttpStatusCode.BadRequest;
                         }
 
                         station.Name = bindingModel.Name;
@@ -174,19 +175,19 @@ namespace WebApp.Persistence.Repository
 
                         AppDbContext.SaveChanges();
                         scope.Complete();
-                        return true;
+                        return HttpStatusCode.OK;
                     }
-                    return false;
+                    return HttpStatusCode.NotFound;
                 }
                 catch (TransactionAbortedException ex)
                 {
                     Trace.WriteLine("TransactionAbortedException Message: {0}", ex.Message);
-                    return false;
+                    return HttpStatusCode.Conflict;
                 }
                 catch (Exception ex)
                 {
                     Trace.WriteLine("TransactionAbortedException Message: {0}", ex.Message);
-                    return false;
+                    return HttpStatusCode.Conflict;
                 }
 
             }
