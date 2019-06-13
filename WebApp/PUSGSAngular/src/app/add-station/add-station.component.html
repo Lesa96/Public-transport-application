@@ -24,23 +24,23 @@
       </tr>
       <tr>
         <td>
-          <label>X coordinate: </label>
+          <label>Latitude coordinate: </label>
         </td>
         <td>
-          <input type="number" formControlName="X" >
+          <input type="number" formControlName="X" min="-180" max="180">
         </td>
       </tr>
       <tr>
         <td>
-          <label>Y coordinate: </label>
+          <label>Longatitude coordinate: </label>
         </td>
         <td>
-          <input type="number" formControlName="Y" >
+          <input type="number" formControlName="Y" min="-180" max="180">
         </td>
       </tr>
       <tr>
         <td colspan="2" align="right">
-            <button type="submit">Add Station</button>
+            <button type="submit" [disabled]="form.invalid">Add Station</button>
         </td>
       </tr>
     </table>

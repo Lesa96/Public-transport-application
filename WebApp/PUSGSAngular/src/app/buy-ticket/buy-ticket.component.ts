@@ -13,7 +13,9 @@ export class BuyTicketComponent {
   ticketType = ["OneHourTicket", "Daily", "Monthly", "Annual"];
 
   buyForm = this.fb.group({
-    email: ['', Validators.required],
+    email: ['', Validators.compose([Validators.required, 
+      Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')])
+     ],
   });
 
   get f() { return this.buyForm.controls; }
