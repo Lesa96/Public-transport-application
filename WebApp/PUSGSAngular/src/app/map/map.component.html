@@ -16,10 +16,10 @@
   </agm-marker>
 
   <div *ngIf="selectedLineNumber">
-    <agm-direction  *ngFor="let line of lines" [renderOptions]="options"  [origin]= "line.origin" [destination]="line.destination" >
+    <agm-direction  *ngFor="let line of lines" [renderOptions]="options"  [origin]= "line.origin" [destination]="line.destination" [panel]="myPanel" >
   
     </agm-direction>
   </div>
-
+  <div #myPanel></div>
 
 </agm-map>
