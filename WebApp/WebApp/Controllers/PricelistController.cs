@@ -38,6 +38,7 @@ namespace WebApp.Controllers
         }
 
         [Route("UpdateTicketPrice")]
+        [Authorize(Roles = "Admin")]
         public IHttpActionResult UpdateTicketPrice(UpdateTicketPriceBindingModel bindingModel)
         {
             var pricelist = unitOfWork.Pricelists.Get(bindingModel.PricelistId);
@@ -99,6 +100,7 @@ namespace WebApp.Controllers
 
         [HttpPost]
         [Route("AddPricelist")]
+        [Authorize(Roles = "Admin")]
         public IHttpActionResult AddPricelist(AddPricelistBindingModel bindingModel)
         {
             Pricelist pricelist = new Pricelist()
@@ -125,6 +127,7 @@ namespace WebApp.Controllers
 
         [HttpDelete]
         [Route("DeletePricelist")]
+        [Authorize(Roles = "Admin")]
         public IHttpActionResult DeletePricelist(int id)
         {
             //var pricelist = unitOfWork.Pricelists.Get(id);
@@ -142,24 +145,10 @@ namespace WebApp.Controllers
 
         [HttpPut]
         [Route("UpdatePricelist")]
+        [Authorize(Roles = "Admin")]
         public IHttpActionResult UpdatePricelist(UpdatePricelistBindingModel bindingModel)
         {
-            //Pricelist pricelist = unitOfWork.Pricelists.Get(bindingModel.Id);
-
-            //pricelist.ValidFrom = bindingModel.ValidFrom;
-            //pricelist.ValidUntil = bindingModel.ValidUntil;
-
-            //unitOfWork.Pricelists.Update(pricelist);
-            //unitOfWork.Complete();
-
-            //foreach (var item in bindingModel.PricelistItems)
-            //{
-            //    var pricelistItem = unitOfWork.PricelistItems.Get(item.PricelistItemId);
-            //    pricelistItem.Price = item.Price;
-            //    unitOfWork.PricelistItems.Update(pricelistItem);
-            //}
-
-            //unitOfWork.Complete();
+            
             if (unitOfWork.Pricelists.UpdatePricelist(bindingModel))
                 return Ok();
             else

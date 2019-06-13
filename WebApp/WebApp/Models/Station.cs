@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
@@ -17,6 +18,9 @@ namespace WebApp.Models
         public Coordinates Coordinates { get; set; }
 
         public virtual ICollection<Driveline> Drivelines { get; set; }
+
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
 
         public Station()
         {
