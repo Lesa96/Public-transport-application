@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
@@ -45,12 +46,7 @@ namespace WebApp.Persistence.Repository
         }
 
         public HttpStatusCode UpdatePricelist(UpdatePricelistBindingModel bindingModel)
-        {
-            TransactionOptions transactionoptions = new TransactionOptions();
-            transactionoptions.IsolationLevel = IsolationLevel.Snapshot;
-
-            using (TransactionScope scope = new TransactionScope(TransactionScopeOption.Required, transactionoptions))
-            {
+        {         
                 try
                 {
                     var pricelist = AppDbContext.Pricelists.Where(p => p.PricelistId == bindingModel.Id).FirstOrDefault();
@@ -66,32 +62,27 @@ namespace WebApp.Persistence.Repository
                         }
 
                         AppDbContext.SaveChanges();
-                        scope.Complete();
                         return HttpStatusCode.OK;
                     }
                     return HttpStatusCode.NotFound;
                 }
-                catch (TransactionAbortedException ex)
+                catch (DbUpdateConcurrencyException ex)
                 {
-                    Trace.WriteLine("TransactionAbortedException Message: {0}", ex.Message);
+                    Trace.WriteLine("DbUpdateConcurrencyException Message: {0}", ex.Message);
                     return HttpStatusCode.Conflict;
                 }
                 catch (Exception ex)
                 {
-                    Trace.WriteLine("TransactionAbortedException Message: {0}", ex.Message);
+                    Trace.WriteLine("NormalException Message: {0}", ex.Message);
                     return HttpStatusCode.Conflict;
                 }
 
-            }
+
         }
 
         public HttpStatusCode DeletePricelist(int id)
         {
-            TransactionOptions transactionoptions = new TransactionOptions();
-            transactionoptions.IsolationLevel = IsolationLevel.Snapshot;
-
-            using (TransactionScope scope = new TransactionScope(TransactionScopeOption.Required, transactionoptions))
-            {
+            
                 try
                 {
                     var pricelist = AppDbContext.Pricelists.Where(p => p.PricelistId == id).FirstOrDefault();
@@ -99,23 +90,23 @@ namespace WebApp.Persistence.Repository
                     {
                         AppDbContext.Pricelists.Remove(pricelist);
                         AppDbContext.SaveChanges();
-                        scope.Complete();
+
                         return HttpStatusCode.OK;
                     }
                     return HttpStatusCode.NotFound;
                 }
-                catch (TransactionAbortedException ex)
+                catch (DbUpdateConcurrencyException ex)
                 {
-                    Trace.WriteLine("TransactionAbortedException Message: {0}", ex.Message);
+                    Trace.WriteLine("DbUpdateConcurrencyException Message: {0}", ex.Message);
                     return HttpStatusCode.Conflict;
                 }
                 catch (Exception ex)
                 {
-                    Trace.WriteLine("TransactionAbortedException Message: {0}", ex.Message);
+                    Trace.WriteLine("NormalException Message: {0}", ex.Message);
                     return HttpStatusCode.Conflict;
                 }
 
-            }
+
         }
     }
 }

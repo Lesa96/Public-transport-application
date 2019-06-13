@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
@@ -38,12 +39,7 @@ namespace WebApp.Persistence.Repository
         }
 
         public HttpStatusCode DeleteStationByName(string name)
-        {
-            TransactionOptions transactionoptions = new TransactionOptions();
-            transactionoptions.IsolationLevel = IsolationLevel.Snapshot;
-
-            using (TransactionScope scope = new TransactionScope(TransactionScopeOption.Required, transactionoptions))
-            {
+        {          
                 try
                 {
                     Station st = AppDbContext.Stations.Where(x => x.Name == name).FirstOrDefault();
@@ -52,23 +48,23 @@ namespace WebApp.Persistence.Repository
                         AppDbContext.Stations.Remove(st);
 
                         AppDbContext.SaveChanges();
-                        scope.Complete();
+
                         return HttpStatusCode.OK;
                     }
                     return HttpStatusCode.NotFound;
                 }
-                catch (TransactionAbortedException ex)
+                catch (DbUpdateConcurrencyException ex)
                 {
-                    Trace.WriteLine("TransactionAbortedException Message: {0}", ex.Message);
+                    Trace.WriteLine("DbUpdateConcurrencyException Message: {0}", ex.Message);
                     return HttpStatusCode.Conflict;
                 }
                 catch (Exception ex)
                 {
-                    Trace.WriteLine("TransactionAbortedException Message: {0}", ex.Message);
+                    Trace.WriteLine("NormalException Message: {0}", ex.Message);
                     return HttpStatusCode.Conflict;
                 }
 
-            }
+
         }
 
         public HttpStatusCode AddStation(string name, string addr, float x, float y)
@@ -148,11 +144,6 @@ namespace WebApp.Persistence.Repository
 
         public HttpStatusCode UpdateStationInfo(UpdateStationInfoBindingModel bindingModel)
         {
-            TransactionOptions transactionoptions = new TransactionOptions();
-            transactionoptions.IsolationLevel = IsolationLevel.Snapshot;
-
-            using (TransactionScope scope = new TransactionScope(TransactionScopeOption.Required, transactionoptions))
-            {
                 try
                 {
                     Station station = AppDbContext.Stations.Where(x => x.Id == bindingModel.Id).FirstOrDefault();
@@ -174,23 +165,23 @@ namespace WebApp.Persistence.Repository
                         station.CoordinatesId = corId;
 
                         AppDbContext.SaveChanges();
-                        scope.Complete();
+
                         return HttpStatusCode.OK;
                     }
                     return HttpStatusCode.NotFound;
                 }
-                catch (TransactionAbortedException ex)
+                catch (DbUpdateConcurrencyException ex)
                 {
-                    Trace.WriteLine("TransactionAbortedException Message: {0}", ex.Message);
+                    Trace.WriteLine("DbUpdateConcurrencyException Message: {0}", ex.Message);
                     return HttpStatusCode.Conflict;
                 }
                 catch (Exception ex)
                 {
-                    Trace.WriteLine("TransactionAbortedException Message: {0}", ex.Message);
+                    Trace.WriteLine("NormalException Message: {0}", ex.Message);
                     return HttpStatusCode.Conflict;
                 }
 
-            }
+
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
@@ -31,11 +32,7 @@ namespace WebApp.Persistence.Repository
 
         public HttpStatusCode DeleteDrivingPlan(int id)
         {
-            TransactionOptions transactionoptions = new TransactionOptions();
-            transactionoptions.IsolationLevel = IsolationLevel.Snapshot;
 
-            using (TransactionScope scope = new TransactionScope(TransactionScopeOption.Required, transactionoptions))
-            {
                 try
                 {
                     var drivingPlan = AppDbContext.DrivingPlans.Where(x => x.Id == id).FirstOrDefault();
@@ -43,34 +40,29 @@ namespace WebApp.Persistence.Repository
                         return HttpStatusCode.NotFound;
                     AppDbContext.DrivingPlans.Remove(drivingPlan);
                     AppDbContext.SaveChanges();
-                    scope.Complete();
+                   
 
                     return HttpStatusCode.OK;
                 }
-                catch (TransactionAbortedException ex)
+                catch (DbUpdateConcurrencyException ex)
                 {
-                    Trace.WriteLine("TransactionAbortedException Message: {0}", ex.Message);
+                    Trace.WriteLine("DbUpdateConcurrencyException Message: {0}", ex.Message);
                     return HttpStatusCode.Conflict;
                 }
                 catch (Exception ex)
                 {
-                    Trace.WriteLine("TransactionAbortedException Message: {0}", ex.Message);
+                    Trace.WriteLine("NormalException Message: {0}", ex.Message);
                     return HttpStatusCode.Conflict;
                 }
-            }
 
-                
 
-            
+
+
+
         }
 
         public HttpStatusCode UpdateDrivingPlan(int id, int number, DriveType Type, WeekDays Day, ICollection<string> Departures)
-        {
-            TransactionOptions transactionoptions = new TransactionOptions();
-            transactionoptions.IsolationLevel = IsolationLevel.Snapshot;
-
-            using (TransactionScope scope = new TransactionScope(TransactionScopeOption.Required, transactionoptions))
-            {
+        {          
                 try
                 {
                     var line = AppDbContext.DriveLines.Where(x => x.Number == number).FirstOrDefault();
@@ -95,21 +87,20 @@ namespace WebApp.Persistence.Repository
                     AppDbContext.DrivingPlans.Add(drivingPlan);
                     AppDbContext.SaveChanges();
 
-                    scope.Complete();
                     return HttpStatusCode.OK;
                 }
-                catch (TransactionAbortedException ex)
+                catch (DbUpdateConcurrencyException ex)
                 {
-                    Trace.WriteLine("TransactionAbortedException Message: {0}", ex.Message);
+                    Trace.WriteLine("DbUpdateConcurrencyException Message: {0}", ex.Message);
                     return HttpStatusCode.Conflict;
                 }
                 catch (Exception ex)
                 {
-                    Trace.WriteLine("TransactionAbortedException Message: {0}", ex.Message);
+                    Trace.WriteLine("NormalException Message: {0}", ex.Message);
                     return HttpStatusCode.Conflict;
                 }
-            }
-                
+
+
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
@@ -114,11 +115,6 @@ namespace WebApp.Persistence.Repository
 
         public HttpStatusCode DeleteDriveline(int number)
         {
-            TransactionOptions transactionoptions = new TransactionOptions();
-            transactionoptions.IsolationLevel = IsolationLevel.Snapshot;
-
-            using (TransactionScope scope = new TransactionScope(TransactionScopeOption.Required, transactionoptions))
-            {
                 try
                 {
                     Driveline dr = AppDbContext.DriveLines.Where(x => x.Number == number).FirstOrDefault();
@@ -126,7 +122,7 @@ namespace WebApp.Persistence.Repository
                     {
                         AppDbContext.DriveLines.Remove(dr);
                         AppDbContext.SaveChanges();
-                        scope.Complete();
+                        
                         return HttpStatusCode.OK;
                     }
                     else
@@ -134,18 +130,18 @@ namespace WebApp.Persistence.Repository
                         return HttpStatusCode.NotFound;
                     }
                 }
-                catch (TransactionAbortedException ex)
+                catch (DbUpdateConcurrencyException ex)
                 {
-                    Trace.WriteLine("TransactionAbortedException Message: {0}", ex.Message);
+                    Trace.WriteLine("DbUpdateConcurrencyException Message: {0}", ex.Message);
                     return HttpStatusCode.Conflict;
                 }
                 catch (Exception ex)
                 {
-                    Trace.WriteLine("TransactionAbortedException Message: {0}", ex.Message);
+                    Trace.WriteLine("NormalException Message: {0}", ex.Message);
                     return HttpStatusCode.Conflict;
                 }
 
-            }
+            
         }
 
         public List<string> GetDrivelineNumbersAndIds()
@@ -186,11 +182,7 @@ namespace WebApp.Persistence.Repository
 
         public HttpStatusCode UpdateDriveline(int id, int number, List<string> stationNames)
         {
-            //TransactionOptions transactionoptions = new TransactionOptions();
-            //transactionoptions.IsolationLevel = IsolationLevel.Snapshot;
-
-            //using (TransactionScope scope = new TransactionScope(TransactionScopeOption.Required, transactionoptions))
-            //{
+            
                 try
                 {
                     Driveline dr = AppDbContext.DriveLines.Where(x => x.Id == id).FirstOrDefault();
@@ -207,25 +199,25 @@ namespace WebApp.Persistence.Repository
                             }
                         }
                         AppDbContext.SaveChanges();
-                        //scope.Complete();
+                        
                         return HttpStatusCode.OK;
                     }
                     return HttpStatusCode.NotFound;
                 }
-                catch (TransactionAbortedException ex)
+                catch (DbUpdateConcurrencyException ex)
                 {
-                    Trace.WriteLine("TransactionAbortedException Message: {0}", ex.Message);
+                    Trace.WriteLine("DbUpdateConcurrencyException Message: {0}", ex.Message);
                     return HttpStatusCode.Conflict;
                 }
                 catch (Exception ex)
                 {
-                    Trace.WriteLine("TransactionAbortedException Message: {0}", ex.Message);
+                    Trace.WriteLine("NormalException Message: {0}", ex.Message);
                     return HttpStatusCode.Conflict;
                 }
 
-            //}
 
-            
+
+
         }
     }
 }
