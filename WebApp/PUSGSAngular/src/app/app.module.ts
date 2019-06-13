@@ -38,7 +38,7 @@ import { ControllerAccountVerificationComponent } from './controller-account-ver
 import { ControllerTicketValidationComponent } from './controller-ticket-validation/controller-ticket-validation.component';
 import { MapComponent } from './map/map.component';
 
-import { AgmCoreModule } from '@agm/core';
+import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';
 import { AgmDirectionModule } from 'agm-direction'; 
 import { TokenInterceptor } from './token.interceptor';
 
@@ -78,6 +78,7 @@ import { TokenInterceptor } from './token.interceptor';
     ControllerAccountVerificationComponent,
     ControllerTicketValidationComponent,
     MapComponent,
+    
   ],
   imports: [
     BrowserModule,

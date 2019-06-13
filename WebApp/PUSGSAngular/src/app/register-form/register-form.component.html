@@ -28,6 +28,10 @@
       </td>
       <td>
         <input type="password" formControlName="confirmPassword" required>
+        <br />
+        <font *ngIf="invalidPass" color="red" size="2">
+        Passwords must be equal
+        </font>
       </td>
     </tr>
     <tr>

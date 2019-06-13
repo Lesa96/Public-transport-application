@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
 import {AddDrivelineBindingModel, DrivelineBindingModel} from '../app/Models/AddDrivelineBindingModel'
+import { throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -29,9 +31,13 @@ export class DrivelineService {
   {
     let httpOptions = 
     {
-      headers: { "Content-type": "application/json"}
+      headers: { "Content-type": "application/json",
+      "Authorization": "Bearer " + localStorage.jwt
+      }
     }
-    return this.http.post(this.AddDrivelineUri, bindingModel, httpOptions);
+    return this.http.post(this.AddDrivelineUri, bindingModel, httpOptions).pipe(
+      catchError(e => throwError(this.handleError(e)))
+    );
   }
 
   getDrivelineNumbers() : Observable<any>
@@ -116,5 +122,11 @@ export class DrivelineService {
       "Authorization": "Bearer " + localStorage.jwt }
     }
     return this.http.patch(this.UpdateDrivelineUri, bindingModel, httpOptions);
+  }
+
+
+  private handleError(e: HttpErrorResponse) {
+    alert(e.error.Message);
+    
   }
 }
