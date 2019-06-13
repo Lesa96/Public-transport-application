@@ -15,11 +15,16 @@
     </agm-info-window>
   </agm-marker>
 
-  <div *ngIf="selectedLineNumber">
-    <agm-direction  *ngFor="let line of lines" [renderOptions]="options"  [origin]= "line.origin" [destination]="line.destination" [panel]="myPanel" >
+  <!-- <div *ngIf="selectedLineNumber">
+    <agm-direction  *ngFor="let line of lines" [renderOptions]="options"  [origin]= "line.origin" [destination]="line.destination" [panel]="#myPanel" >
   
     </agm-direction>
-  </div>
-  <div #myPanel></div>
+  </div> -->
+  
+  <agm-direction *ngIf="busline" [renderOptions]="options" [origin]= "busline.origin" [destination]="busline.destination" [waypoints]="busline.waypoints" [panel]="myPanel" >
+  
+  </agm-direction>
 
 </agm-map>
+
+<div #myPanel >dir</div>

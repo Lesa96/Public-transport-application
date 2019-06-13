@@ -5,9 +5,11 @@ import { Polyline } from '../Models/Polyline';
 import { StationService } from '../station.service';
 import { Observable } from 'rxjs';
 import { UpdateStationBindingModel } from '../Models/AddStationBindingModel';
-import { AgmMarker } from '@agm/core';
 import { LineModel } from '../Models/LineModel';
 import { DrivelineService } from '../driveline.service';
+import * as mapTypes from '@agm/core/services/google-maps-types';
+import { } from 'googlemaps';
+import { MapsAPILoader } from '@agm/core';
 
 @Component({
   selector: 'app-map',
@@ -15,7 +17,7 @@ import { DrivelineService } from '../driveline.service';
   styleUrls: ['./map.component.css'],
   styles: ['agm-map {height: 500px; width: 700px;}'] //postavljamo sirinu i visinu mape
 })
-export class MapComponent implements OnInit {
+export class MapComponent implements OnInit{
 
   @Input() selectedLineNumber : number;
  
@@ -28,10 +30,16 @@ export class MapComponent implements OnInit {
   stationNumber : number;
   selectedStationCount : number;
   options : any;
-  
-  constructor(private stationService : StationService , private drivelineService : DrivelineService) { }
+  busline : LineModel;
+  line : any;
+  route : any[] = [];
+  //directionService = new google.maps.DirectionsService;
+
+
+  constructor(private stationService : StationService , private drivelineService : DrivelineService, private directionsService : google.maps.DirectionsService) { }
 
   ngOnInit() {
+
     this.options = {  
       suppressMarkers : true    //brisanje defaulth markera
     };
@@ -81,19 +89,61 @@ export class MapComponent implements OnInit {
 
   placeLines()
   {
-    this.lines = [];
-    for(var i = 0; i < this.selectedStationCount - 1; i++)
-    {
-        let lineModel = new LineModel();
-        lineModel.origin = { lat: this.selectedStations[i].X, lng: this.selectedStations[i].Y};
-        lineModel.destination = {lat: this.selectedStations[i + 1].X , lng: this.selectedStations[i+1].Y}
-        this.lines.push(lineModel);     
-    }
-        let lineModel = new LineModel();
-        lineModel.origin = { lat: this.selectedStations[this.selectedStationCount-1].X, lng: this.selectedStations[this.selectedStationCount-1].Y};
-        lineModel.destination = {lat: this.selectedStations[0].X , lng: this.selectedStations[0].Y}
-        this.lines.push(lineModel)
+    // this.lines = [];
+    // for(var i = 0; i < this.selectedStationCount - 1; i++)
+    // {
+    //     let lineModel = new LineModel();
+    //     lineModel.origin = { lat: this.selectedStations[i].X, lng: this.selectedStations[i].Y};
+    //     lineModel.destination = {lat: this.selectedStations[i + 1].X , lng: this.selectedStations[i+1].Y}
+    //     this.lines.push(lineModel);     
+    // }
+    //     let lineModel = new LineModel();
+    //     lineModel.origin = { lat: this.selectedStations[this.selectedStationCount-1].X, lng: this.selectedStations[this.selectedStationCount-1].Y};
+    //     lineModel.destination = {lat: this.selectedStations[0].X , lng: this.selectedStations[0].Y}
+    //     this.lines.push(lineModel)
 
+        this.busline = new LineModel();
+        this.busline.origin = { lat: this.selectedStations[0].X, lng: this.selectedStations[0].Y };
+        this.busline.destination = { lat: this.selectedStations[0].X, lng: this.selectedStations[0].Y };
+        this.busline.waypoints = [];
+        let index = 0;
+        this.selectedStations.forEach(station => {
+          if (index)
+          {
+            this.busline.waypoints.push( {location: {lat: station.X, lng: station.Y}, stopover: false} );
+          }
+          index++;
+        });
+
+        this.getRoute(this.busline.origin, this.busline.destination, this.busline.waypoints);
+        //console.log(this.testPanel);
+  }
+
+  getRoute(origin, destination, waypoints) {
+    let request = {
+      origin: origin,
+      destination: destination,
+      waypoints: waypoints,
+      travelMode: google.maps.TravelMode.DRIVING
+    };
+    
+    this.directionsService.route(request, function(result, status) {
+      if (status == google.maps.DirectionsStatus.OK) {
+        this.route = [];
+        result.routes.forEach(element => {
+          let location = new GeoLocation(element.legs[0].steps[0].start_location.lat(), element.legs[0].steps[0].start_location.lng());
+          this.route.push(location);
+          element.legs[0].steps.forEach(step => {
+            let location = new GeoLocation(step.end_location.lat(), step.end_location.lng());
+            this.route.push(location);
+          }); 
+        });
+      }
+
+      this.route.forEach(rt => {
+        console.log(rt);
+      });
+    });
   }
 
   // placeMarker($event){

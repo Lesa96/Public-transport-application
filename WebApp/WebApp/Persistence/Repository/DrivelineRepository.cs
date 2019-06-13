@@ -185,11 +185,11 @@ namespace WebApp.Persistence.Repository
 
         public bool UpdateDriveline(int id, int number, List<string> stationNames)
         {
-            TransactionOptions transactionoptions = new TransactionOptions();
-            transactionoptions.IsolationLevel = IsolationLevel.Snapshot;
+            //TransactionOptions transactionoptions = new TransactionOptions();
+            //transactionoptions.IsolationLevel = IsolationLevel.Snapshot;
 
-            using (TransactionScope scope = new TransactionScope(TransactionScopeOption.Required, transactionoptions))
-            {
+            //using (TransactionScope scope = new TransactionScope(TransactionScopeOption.Required, transactionoptions))
+            //{
                 try
                 {
                     Driveline dr = AppDbContext.DriveLines.Where(x => x.Id == id).FirstOrDefault();
@@ -206,7 +206,7 @@ namespace WebApp.Persistence.Repository
                             }
                         }
                         AppDbContext.SaveChanges();
-                        scope.Complete();
+                        //scope.Complete();
                         return true;
                     }
                     return false;
@@ -222,7 +222,7 @@ namespace WebApp.Persistence.Repository
                     return false;
                 }
 
-            }
+            //}
 
             
         }

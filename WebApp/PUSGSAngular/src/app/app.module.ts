@@ -87,7 +87,7 @@ import { TokenInterceptor } from './token.interceptor';
     AgmCoreModule.forRoot({apiKey: 'AIzaSyDnihJyw_34z5S1KZXp90pfTGAqhFszNJk'}),
     AgmDirectionModule
   ],
-  providers: [{provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true}],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true}, google.maps.DirectionsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
