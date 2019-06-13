@@ -15,7 +15,10 @@ namespace WebApp.Models
         public virtual ICollection<DrivingPlan> DrivingPlans { get; set; }
 
         public virtual ICollection<Station> Stations { get; set; }
-        
+
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
+
 
         public Driveline()
         {

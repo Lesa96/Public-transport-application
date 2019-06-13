@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
@@ -17,6 +18,9 @@ namespace WebApp.Models
         [ForeignKey("DrivelineId")]
         public Driveline Driveline { get; set; }
         public string Departures { get; set; }
+
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
 
         public DrivingPlan()
         {

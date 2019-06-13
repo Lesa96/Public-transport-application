@@ -63,6 +63,7 @@ namespace WebApp.Controllers
 
         [HttpPost]
         [Route("AddStation")]
+        [Authorize(Roles = "Admin")]
         public IHttpActionResult AddStation(AddStationFullBindingModel bindingModel)
         {
             if (unitOfWork.Stations.AddStation(bindingModel.StationName, bindingModel.StationAddress, bindingModel.X, bindingModel.Y))
@@ -73,6 +74,7 @@ namespace WebApp.Controllers
 
         [HttpDelete]
         [Route("DeleteStation")]
+        [Authorize(Roles = "Admin")]
         public IHttpActionResult DeleteStation(string StationName)
         {
             if (unitOfWork.Stations.DeleteStationByName(StationName))
@@ -102,6 +104,7 @@ namespace WebApp.Controllers
 
 
         [Route("UpdateStationInfo"), HttpPatch]
+        [Authorize(Roles = "Admin")]
         public IHttpActionResult UpdateStationInfo(UpdateStationInfoBindingModel bindingModel)
         {
             if (unitOfWork.Stations.UpdateStationInfo(bindingModel))
@@ -112,33 +115,11 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-            //var station = unitOfWork.Stations.Get(bindingModel.Id);
-            //if(station == null)
-            //{
-            //    return NotFound();
-            //}
-            //Station s = unitOfWork.Stations.Find(x => x.Name == bindingModel.Name && x.Id != bindingModel.Id).FirstOrDefault();
-            //if (s != null) //ako postoji stanica sa takvim imenom, vrati gresku
-            //{
-            //     return BadRequest();
-            //}
-
-            //station.Name = bindingModel.Name;
-            //station.Address = bindingModel.Address;
-
-            //Coordinates co = new Coordinates() { CoordX = bindingModel.X, CoordY = bindingModel.Y };
-            //unitOfWork.CoordinatesRepository.Add(co);
-            //unitOfWork.Complete();
-            //int corId = unitOfWork.CoordinatesRepository.Find(x => x.CoordX == co.CoordX && x.CoordY == co.CoordY).FirstOrDefault().CoordinatesId;
-            //station.CoordinatesId = corId;
-
-
-            //unitOfWork.Stations.Update(station);
-            //unitOfWork.Complete();
-            //return Ok();
+            
         }
 
         [Route("AddLine"), HttpPatch]
+        [Authorize(Roles = "Admin")]
         public IHttpActionResult AddLine(ManageLinesBindingModel bindingModel)
         {
             var station = unitOfWork.Stations.Get(bindingModel.Id);
@@ -162,6 +143,7 @@ namespace WebApp.Controllers
         }
 
         [Route("RemoveLine"), HttpPatch]
+        [Authorize(Roles = "Admin")]
         public IHttpActionResult RemoveLine(ManageLinesBindingModel bindingModel)
         {
             var station = unitOfWork.Stations.Get(bindingModel.Id);

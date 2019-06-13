@@ -95,6 +95,7 @@ namespace WebApp.Controllers
             return Ok(stations);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPatch, Route("UpdateDriveline")]
         public IHttpActionResult UpdateDriveline(ChangeDrivelineBindingModel bindingModel)
         {
@@ -102,32 +103,13 @@ namespace WebApp.Controllers
                 return Ok();
             else
                 return Conflict();
-            //Driveline dr = unitOfWork.Drivelines.Get(bindingModel.DriveLineId);
-            //if (dr != null)
-            //{
-            //    dr.Number = bindingModel.DriveLineNumber;
-            //    dr.Stations.Clear();
-
-            //    if (bindingModel.StationNames != null)
-            //    {
-            //        foreach (string name in bindingModel.StationNames)
-            //        {
-            //            dr.Stations.Add(unitOfWork.Stations.Find(s => s.Name == name).FirstOrDefault()); //dodaje stanice u liniju
-            //        }
-            //    }
-
-            //    unitOfWork.Drivelines.Update(dr);
-            //    unitOfWork.Complete();
-            //    return Ok();
-            //}
-
-            //return NotFound();
+            
 
             
         }
 
 
-        //[Authorize(Roles ="Admin")]
+        [Authorize(Roles ="Admin")]
         [HttpPost, Route("AddDriveline")]
         public IHttpActionResult AddDriveline(AddDrivelineBindingModel bindingModel)
         {
@@ -142,7 +124,7 @@ namespace WebApp.Controllers
             
         }
 
-        //[Authorize(Roles ="Admin")]
+        [Authorize(Roles ="Admin")]
         [HttpDelete, Route("DeleteDriveline")]
         public IHttpActionResult DeleteDriveline(int number)
         {
@@ -158,7 +140,7 @@ namespace WebApp.Controllers
         }
 
 
-        //[Authorize(Roles ="Admin")]
+        [Authorize(Roles ="Admin")]
         [HttpPatch, Route("AddStation")]
         public IHttpActionResult AddStation(AddStationBindingModel bindingModel)
         {
@@ -170,7 +152,7 @@ namespace WebApp.Controllers
             return Ok();
         }
 
-        //[Authorize(Roles ="Admin")]
+        [Authorize(Roles ="Admin")]
         [HttpPatch, Route("DeleteStation")]
         public IHttpActionResult DeleteStation(AddStationBindingModel bindingModel)
         {
@@ -182,7 +164,7 @@ namespace WebApp.Controllers
             return Ok();
         }
 
-        //[Authorize(Roles ="Admin")]
+        [Authorize(Roles ="Admin")]
         [HttpPatch, Route("ChangeNumber")]
         public IHttpActionResult ChangeNumber(ChangeNumberBindingModel bindingModel)
         {

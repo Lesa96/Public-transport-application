@@ -79,8 +79,10 @@ namespace WebApp.Controllers
 
         }
 
+
         [HttpPost]
         [Route("AddDrivingPlan")]
+        [Authorize(Roles = "Admin")]
         public IHttpActionResult AddDrivingPlan(AddDrivingPlanBindingModel bindingModel)
         {
             var lineId = unitOfWork.Drivelines.GetLineByNumber(bindingModel.Number).Id;
@@ -107,6 +109,7 @@ namespace WebApp.Controllers
 
         [HttpDelete]
         [Route("DeleteDrivingPlan")]
+        [Authorize(Roles = "Admin")]
         public IHttpActionResult DeleteDrivingPlan(int id)
         {
             if(unitOfWork.DrivingPlans.DeleteDrivingPlan(id))
@@ -117,6 +120,7 @@ namespace WebApp.Controllers
 
         [HttpPut]
         [Route("UpdateDrivingPlan")]
+        [Authorize(Roles = "Admin")]
         public IHttpActionResult UpdateDrivingPlan(UpdateDrivingPlanBindingModel bindingModel)
         {
             if(unitOfWork.DrivingPlans.UpdateDrivingPlan(bindingModel.Id, bindingModel.Number , bindingModel.Type , bindingModel.Day , bindingModel.Departures))

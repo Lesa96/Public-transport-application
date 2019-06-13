@@ -94,6 +94,7 @@ namespace WebApp.Controllers
 
         [HttpPatch]
         [Route("ValidateTicket")]
+        [Authorize(Roles = "Controller")]
         public IHttpActionResult ValidateTicket(TicketValidationBindingModel bindingModel)
         {
             var ticket = unitOfWork.Tickets.Get(bindingModel.TicketId);
