@@ -1046,3 +1046,4 @@ C:\Users\Stefan\Documents\GitHub\PUSGS_Project\WebApp\WebApp\obj\Debug\WebApp.dl
 C:\Users\Stefan\Documents\GitHub\PUSGS_Project\WebApp\WebApp\obj\Debug\WebApp.pdb
 C:\Users\Stefan\Documents\GitHub\PUSGS_Project\WebApp\WebApp\obj\Debug\WebApp.Migrations.newmigration.resources
 C:\Users\Sasa Dragomirovic\Desktop\WEB2_Projekat\PUSGS_Project\WebApp\WebApp\obj\Debug\WebApp.Migrations.newmigration.resources
+C:\Users\Sasa Dragomirovic\Desktop\WEB2_Projekat\PUSGS_Project\WebApp\WebApp\obj\Debug\WebApp.Migrations.LastVersion.resources

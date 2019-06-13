@@ -112,7 +112,8 @@ export class DrivelineService {
   {
     let httpOptions = 
     {
-      headers: { "Content-type": "application/json"}
+      headers: { "Content-type": "application/json",
+      "Authorization": "Bearer " + localStorage.jwt }
     }
     return this.http.patch(this.UpdateDrivelineUri, bindingModel, httpOptions);
   }
