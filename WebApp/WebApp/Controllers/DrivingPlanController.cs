@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Web.Http;
+using WebApp.Hubs;
 using WebApp.Models;
 using WebApp.Models.Enums;
 using WebApp.Persistence.UnitOfWork;
@@ -14,10 +16,13 @@ namespace WebApp.Controllers
     public class DrivingPlanController : ApiController
     {
         private readonly IUnitOfWork unitOfWork;
+        private static NotificationHub notificationHub;
+
 
         public DrivingPlanController(IUnitOfWork un)
         {
             unitOfWork = un;
+            notificationHub = new NotificationHub(unitOfWork);
         }
 
         [HttpGet]
@@ -73,12 +78,13 @@ namespace WebApp.Controllers
         [Route("GetDrivingPlanDepartures")]
         public IHttpActionResult GetDrivingPlanDepartures(int lineNumber , DriveType driveType , WeekDays drivePlanDay)
         {
+            //notificationHub.TimeServerUpdates();
             DrivingPlan drivingPlan = unitOfWork.DrivingPlans.GetSpecificDrivingPlan(driveType, drivePlanDay, lineNumber);
             if(drivingPlan == null)
             {
                 return NotFound();
             }
-
+            
             var departures = drivingPlan.Departures.Split(';');
 
             return Ok(departures);

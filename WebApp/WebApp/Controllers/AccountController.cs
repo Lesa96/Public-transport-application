@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Mail;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
@@ -276,7 +277,35 @@ namespace WebApp.Controllers
             unitOfWork.Users.Update(user);
             unitOfWork.Complete();
 
+            SendEmail("Account verified", user.Email);
+
             return Ok();
+        }
+
+        public void SendEmail(string message, string toEmail)
+        {
+            try
+            {
+                MailMessage mail = new MailMessage();
+                SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+
+                mail.From = new MailAddress("pusgs.testing@gmail.com");
+                mail.To.Add(toEmail);
+                mail.Subject = "Test Mail";
+                mail.Body = "This is for testing SMTP mail from GMAIL";
+
+                SmtpServer.DeliveryMethod = SmtpDeliveryMethod.Network;
+                SmtpServer.Port = 587;
+                SmtpServer.UseDefaultCredentials = false;
+                SmtpServer.Credentials = new System.Net.NetworkCredential("pusgs.testing@gmail.com ", "Pusgs123!t3sting.");
+                SmtpServer.EnableSsl = true;
+
+                SmtpServer.Send(mail);
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine(ex);
+            }
         }
 
         [HttpPatch]
@@ -288,6 +317,8 @@ namespace WebApp.Controllers
 
             unitOfWork.Users.Update(user);
             unitOfWork.Complete();
+
+            SendEmail("Account denied", user.Email);
 
             return Ok();
         }
