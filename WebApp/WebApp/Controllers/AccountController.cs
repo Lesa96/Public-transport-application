@@ -291,8 +291,8 @@ namespace WebApp.Controllers
 
                 mail.From = new MailAddress("pusgs.testing@gmail.com");
                 mail.To.Add(toEmail);
-                mail.Subject = "Test Mail";
-                mail.Body = "This is for testing SMTP mail from GMAIL";
+                mail.Subject = "Account update";
+                mail.Body = message;
 
                 SmtpServer.DeliveryMethod = SmtpDeliveryMethod.Network;
                 SmtpServer.Port = 587;

@@ -184,8 +184,8 @@ namespace WebApp.Controllers
 
                 mail.From = new MailAddress("pusgs.testing@gmail.com");
                 mail.To.Add(toEmail);
-                mail.Subject = "Test Mail";
-                mail.Body = "This is for testing SMTP mail from GMAIL";
+                mail.Subject = "Ticket: ";
+                mail.Body = "Your ticket: \n Price: " +ticket.TicketInfo.Price + ",\n Type: " + ticket.TicketInfo.PassengerType.ToString() + ",\n Time of purchase: " + ticket.TimeOfPurchase;
 
                 SmtpServer.DeliveryMethod = SmtpDeliveryMethod.Network;
                 SmtpServer.Port = 587;
