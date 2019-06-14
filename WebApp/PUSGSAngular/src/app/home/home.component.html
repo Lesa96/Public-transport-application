@@ -60,6 +60,18 @@
 <br />
 <br />
 
+
+
 <div align = "center">
   <app-map [selectedLineNumber] = "selectedNumber"></app-map>
 </div>
+
+<button (click) = "startTimer()">Start Timer</button>
+<button (click) = "Ispis()">Ispis</button>
+<div *ngIf="stationComing">
+  <h3>{{stationComing}}</h3>
+</div>
+
+<ul> 
+  <li *ngFor="let notif of notifications">{{notif}}</li>
+</ul>

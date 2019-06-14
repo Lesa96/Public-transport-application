@@ -49,24 +49,20 @@ export class NotificationService {
       });
   }
 
-  // public registerForClickEvents(): void {  
+  public registerForClickEvents(): void {  
       
-  //     this.proxy.on('userClicked', (data: string) => {  
-  //         console.log('received notification: ' + data);  
-  //         this.notificationReceived.emit(data);  
-  //     }); 
-  // }  
+      this.proxy.on('userClicked', (data: string) => {  
+           console.log('received notification: ' + data);  
+          this.notificationReceived.emit(data);  
+      }); 
+   }  
 
   public registerForTimerEvents() : Observable<string> {
       
     return Observable.create((observer) => {
-        // TODO: setVehiclePosition
-        // this.proxy.on('setVehiclePosition', (data: string) => {
-        //   observer.next(data);
-        // });
 
         this.proxy.on('setRealTime', (data: string) => {  
-            console.log('received time: ' + data);  
+            console.log('received LINES: ' + data);  
             observer.next(data);
         });  
     });      

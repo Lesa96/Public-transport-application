@@ -11,6 +11,7 @@ namespace WebApp.Persistence
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        private static ApplicationDbContext instance = null;
         //public DbSet<ApplicationUser> Users { get; set; }
         public DbSet<Coordinates> Coordinates { get; set; }
         public DbSet<Driveline> DriveLines { get; set; }
@@ -29,6 +30,18 @@ namespace WebApp.Persistence
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
+        }
+
+        public static ApplicationDbContext Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new ApplicationDbContext();
+                }
+                return instance;
+            }
         }
     }
 }
