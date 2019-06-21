@@ -38,6 +38,10 @@ export class DrivelineService {
       }
     }
     return this.http.post(this.AddDrivelineUri, bindingModel, httpOptions).pipe(
+      map(res =>{
+        alert("Succssefuly!");
+        window.location.reload();
+     }),
       catchError(e => throwError(this.handleError(e,"")))
     );
   }
@@ -60,6 +64,10 @@ export class DrivelineService {
       params: new HttpParams().set('number' , drivelineNumber.number)
     }
     return this.http.delete(this.DeleteDrivelineUri, httpOptions).pipe(
+      map(res =>{
+        alert("Succssefuly!");
+        window.location.reload();
+     }),
       catchError(e => throwError(this.handleError(e,"Driveline")))
     );
   }
@@ -136,13 +144,17 @@ export class DrivelineService {
       "Authorization": "Bearer " + localStorage.jwt }
     }
     return this.http.patch(this.UpdateDrivelineUri, bindingModel, httpOptions).pipe(
+      map(res =>{
+        alert("Succssefuly!");
+        window.location.reload();
+     }),
       catchError(e => throwError(this.handleError(e,"Driveline")))
     );
   }
 
 
   private handleError(e: HttpErrorResponse , mess : string) {
-    if(e.status == 420)
+    if(e.status == 404)
     {
       alert(mess + " doesn't exist");
     }

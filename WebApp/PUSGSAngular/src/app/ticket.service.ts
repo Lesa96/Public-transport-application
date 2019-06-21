@@ -39,7 +39,7 @@ export class TicketService {
   }
 
   private handleError(e: HttpErrorResponse , mess : string) {
-    if(e.status == 420)
+    if(e.status == 404)
     {
       alert(mess + " doesn't exist");
     }

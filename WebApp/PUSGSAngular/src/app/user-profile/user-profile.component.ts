@@ -3,6 +3,9 @@ import { Validators, FormBuilder } from '@angular/forms';
 import { ProfileService } from '../profile.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { UserService } from '../user.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-user-profile',
@@ -34,11 +37,23 @@ export class UserProfileComponent implements OnInit {
   constructor(private profileService : ProfileService, private fb: FormBuilder, private sanitizer: DomSanitizer, private userService: UserService) { }
 
   onSubmit() {
-    this.profileService.updateUserProfile(this.profileForm.value).subscribe();
+    this.profileService.updateUserProfile(this.profileForm.value).subscribe(res=>
+      {
+        alert("Succssefuly");
+        window.location.reload();
+      },
+      catchError(e => throwError(this.handleError(e,"Profile")))
+      );
   }
 
   onChangePassword() {
-    this.profileService.changePassword(this.passwordForm.value).subscribe();
+    this.profileService.changePassword(this.passwordForm.value).subscribe(res=>
+      {
+        alert("Succssefuly");
+        window.location.reload();
+      },
+      catchError(e => throwError(this.handleError(e,"Profile")))
+      );
   }
 
   ngOnInit()
@@ -91,5 +106,19 @@ export class UserProfileComponent implements OnInit {
     this.userService.uploadDocument(fd, localStorage.email).subscribe(() => {
 
     })
+  }
+
+  private handleError(e: HttpErrorResponse , mess : string) {
+    if(e.status == 404)
+    {
+      alert(mess + " doesn't exist");
+    }
+    else if (e.status == 409)
+    {
+      alert("This object has been changed by someone (probably another admin), you should reaload and then try again!");
+    }
+    else 
+      alert(e.error.Message);
+    
   }
 }

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -57,7 +58,12 @@ export class UserService {
           "Authorization": "Bearer " + localStorage.jwt
       },
   };
-    return this.http.patch(this.accountUri + "/VerifyUser", id, httpOptions);
+    return this.http.patch(this.accountUri + "/VerifyUser", id, httpOptions).pipe(
+      map(res =>{
+        alert("Succssefuly!");
+        window.location.reload();
+     }),
+    );
   }
 
   denyUser(id) : Observable<any> 
@@ -68,7 +74,12 @@ export class UserService {
           "Authorization": "Bearer " + localStorage.jwt
       },
   };
-    return this.http.patch(this.accountUri + "/DenyUser", id, httpOptions);
+    return this.http.patch(this.accountUri + "/DenyUser", id, httpOptions).pipe(
+      map(res =>{
+        alert("Succssefuly!");
+        window.location.reload();
+     }),
+    );
   }
 
   uploadDocument(document, mail) : Observable<any> 
@@ -76,7 +87,12 @@ export class UserService {
     let httpOptions = {
       params: new HttpParams().append("email", mail)
   };
-    return this.http.post(this.accountUri + "/UploadDocument", document, httpOptions);
+    return this.http.post(this.accountUri + "/UploadDocument", document, httpOptions).pipe(
+      map(res =>{
+        alert("Succssefuly!");
+        window.location.reload();
+     }),
+    );
   }
 
   deleteDocument(document) : Observable<any> 
@@ -88,6 +104,11 @@ export class UserService {
     },
       params: new HttpParams().append("path", document)
   };
-    return this.http.delete(this.accountUri + "/DeleteDocument", httpOptions);
+    return this.http.delete(this.accountUri + "/DeleteDocument", httpOptions).pipe(
+      map(res =>{
+        alert("Succssefuly!");
+        window.location.reload();
+     }),
+    );
   }
 }

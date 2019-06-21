@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { RegisterService } from '../register.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ProfileService } from '../profile.service';
+import { map, catchError } from 'rxjs/operators';
+import { HttpErrorResponse } from '@angular/common/http';
+import { throwError } from 'rxjs';
 
 @Component({
   selector: 'app-admin-profile',
@@ -29,11 +32,23 @@ export class AdminProfileComponent implements OnInit {
   constructor(private profileService : ProfileService, private fb: FormBuilder) { }
 
   onSubmit() {
-    this.profileService.updateAdminProfile(this.profileForm.value).subscribe();
+    this.profileService.updateAdminProfile(this.profileForm.value).subscribe(res=>
+      {
+        alert("Succssefuly");
+        window.location.reload();
+      },
+      catchError(e => throwError(this.handleError(e,"Profile")))
+    );
   }
 
   onChangePassword() {
-    this.profileService.changePassword(this.passwordForm.value).subscribe();
+    this.profileService.changePassword(this.passwordForm.value).subscribe(res=>
+      {
+        alert("Succssefuly");
+        window.location.reload();
+      },
+      catchError(e => throwError(this.handleError(e,"Profile")))
+      );
   }
 
   ngOnInit()
@@ -45,6 +60,20 @@ export class AdminProfileComponent implements OnInit {
       this.profileForm.controls['birthDate'].patchValue(profile.BirthDate.split("T")[0]);
       this.profileForm.controls['address'].patchValue(profile.Address);
     });
+  }
+
+  private handleError(e: HttpErrorResponse , mess : string) {
+    if(e.status == 404)
+    {
+      alert(mess + " doesn't exist");
+    }
+    else if (e.status == 409)
+    {
+      alert("This object has been changed by someone (probably another admin), you should reaload and then try again!");
+    }
+    else 
+      alert(e.error.Message);
+    
   }
 
 }

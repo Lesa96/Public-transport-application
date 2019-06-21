@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, retry, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +22,10 @@ export class BuyTicketService {
       }
     }
     return this.http.post(this.buyUnregisteredUri, email, httpOptions).pipe(
+      map(res =>{
+        alert("Succssefuly!");
+        window.location.reload();
+     }),      
       catchError(e => throwError(this.handleError(e,"Ticket")))
     );
   }
@@ -36,12 +40,17 @@ export class BuyTicketService {
       }
     }
     return this.http.post(this.buyTicketUri, ticketType, httpOptions).pipe(
+     map(res =>{
+        alert("Succssefuly!");
+        window.location.reload();
+     }),
       catchError(e => throwError(this.handleError(e,"Ticket")))
     );
+
   }
 
   private handleError(e: HttpErrorResponse , mess : string) {
-    if(e.status == 420)
+    if(e.status == 404)
     {
       alert(mess + " doesn't exist");
     }
@@ -53,4 +62,6 @@ export class BuyTicketService {
       alert(e.error.Message);
     
   }
+
+  
 }

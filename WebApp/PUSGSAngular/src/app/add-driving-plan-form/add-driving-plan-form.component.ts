@@ -50,6 +50,8 @@ export class AddDrivingPlanFormComponent implements OnInit {
     let bindingModel = this.addForm.value;
     bindingModel['departures'] = this.departures;
     this.drivingPlanService.addDrivingPlan(bindingModel).subscribe();
+
+    
   }
 
   getDrivelineNumbers()

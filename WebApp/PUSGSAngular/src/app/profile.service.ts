@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,12 @@ export class ProfileService {
           "Authorization": "Bearer " + localStorage.jwt
       },
   };
-    return this.http.put(this.accountUri + "/UpdateAdminProfile", profile, httpOptions);
+    return this.http.put(this.accountUri + "/UpdateAdminProfile", profile, httpOptions).pipe(
+      map(res =>{
+        alert("Succssefuly!");
+        window.location.reload();
+     }),
+    );
   }
 
   updateUserProfile(profile) : Observable<any> 

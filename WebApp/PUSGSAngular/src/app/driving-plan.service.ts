@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { HttpParams } from '@angular/common/http';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -45,6 +45,10 @@ export class DrivingPlanService {
       }
     }
     return this.http.post(addUri, bindingModel, httpOptions).pipe(
+      map(res =>{
+        alert("Succssefuly!");
+        window.location.reload();
+     }),
       catchError(e => throwError(this.handleError(e,"Driveline")))
     );
   }
@@ -63,6 +67,10 @@ export class DrivingPlanService {
       }
     }
     return this.http.delete(addUri, httpOptions).pipe(
+      map(res =>{
+        alert("Succssefuly!");
+        window.location.reload();
+     }),
       catchError(e => throwError(this.handleError(e,"DrivingPlan")))
     );
   }
@@ -78,12 +86,16 @@ export class DrivingPlanService {
       }
     }
     return this.http.put(addUri, bindingModel, httpOptions).pipe(
+      map(res =>{
+        alert("Succssefuly!");
+        window.location.reload();
+     }),
       catchError(e => throwError(this.handleError(e,"Driveline")))
     );
   }
 
   private handleError(e: HttpErrorResponse , mess : string) {
-    if(e.status == 420)
+    if(e.status == 404)
     {
       alert(mess + " doesn't exist");
     }

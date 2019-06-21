@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { AddStationBindingModel, UpdateStationBindingModel } from './Models/AddStationBindingModel';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 
 
 @Injectable({
@@ -77,6 +77,10 @@ export class StationService {
     }
 
     return this.http.patch(this.UpdateStationInfoUri , station , httpOptions).pipe(
+      map(res =>{
+        alert("Succssefuly!");
+        window.location.reload();
+     }),
       catchError(e => throwError(this.handleError(e,"Station")))
     );
   }
@@ -92,6 +96,10 @@ export class StationService {
     }
 
     return this.http.post(this.addStationUri , station , httpOptions).pipe(
+      map(res =>{
+        alert("Succssefuly!");
+        window.location.reload();
+     }),
       catchError(e => throwError(this.handleError(e,"Station")))
     );
   }
@@ -109,13 +117,17 @@ export class StationService {
       }
     }
     return this.http.delete(this.deleteStationUri, httpOptions).pipe(
+      map(res =>{
+        alert("Succssefuly!");
+        window.location.reload();
+     }),
       catchError(e => throwError(this.handleError(e,"Station")))
     );
   }
 
 
   private handleError(e: HttpErrorResponse , mess : string) {
-    if(e.status == 420)
+    if(e.status == 404)
     {
       alert(mess + " doesn't exist");
     }

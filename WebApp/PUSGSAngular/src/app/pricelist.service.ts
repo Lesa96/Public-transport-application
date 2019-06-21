@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -67,6 +67,10 @@ export class PricelistService {
       }
     }
     return this.http.post(addUri, bindingModel, httpOptions).pipe(
+      map(res =>{
+        alert("Succssefuly!");
+        window.location.reload();
+     }),
       catchError(e => throwError(this.handleError(e,"Pricelist")))
     );
   }
@@ -85,6 +89,10 @@ export class PricelistService {
       }
     }
     return this.http.delete(addUri, httpOptions).pipe(
+      map(res =>{
+        alert("Succssefuly!");
+        window.location.reload();
+     }),
       catchError(e => throwError(this.handleError(e,"Pricelist")))
     );
   }
@@ -100,13 +108,17 @@ export class PricelistService {
       }
     }
     return this.http.put(addUri, bindingModel, httpOptions).pipe(
+      map(res =>{
+        alert("Succssefuly!");
+        window.location.reload();
+     }),
       catchError(e => throwError(this.handleError(e,"Pricelist")))
     );
   }
 
 
   private handleError(e: HttpErrorResponse , mess : string) {
-    if(e.status == 420)
+    if(e.status == 404)
     {
       alert(mess + " doesn't exist");
     }

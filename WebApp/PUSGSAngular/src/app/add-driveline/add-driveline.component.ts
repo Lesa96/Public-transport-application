@@ -57,6 +57,7 @@ export class AddDrivelineComponent implements OnInit {
     this.drivelineService.addDriveline(this.response).subscribe();
 
     this.form.reset();
+    
   }
 
   ngOnInit() {
