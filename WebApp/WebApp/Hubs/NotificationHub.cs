@@ -44,18 +44,18 @@ namespace WebApp.Hubs
         public void GetTime()
         {
             string response = "";
-            int index = 0;
-            foreach (var item in lineStations) // za svaku liniju
-            {
-                response += item.Key.ToString() + ":"; //broj :
+            //int index = 0;
+            //foreach (var item in lineStations) // za svaku liniju
+            //{
+            //    response += item.Key.ToString() + ":"; //broj :
 
-                Coordinates cor = unitOfWork.CoordinatesRepository.Find(
-                    x => x.CoordinatesId == lineStations[item.Key][index].CoordinatesId).FirstOrDefault(); //koordinate trenutne stanice
+            //    Coordinates cor = unitOfWork.CoordinatesRepository.Find(
+            //        x => x.CoordinatesId == lineStations[item.Key][index].CoordinatesId).FirstOrDefault(); //koordinate trenutne stanice
 
-                response += cor.CoordX.ToString() + "," + cor.CoordX.ToString() + ";"; // trenutnaX,trenutnaY;
-                index++;
+            //    response += cor.CoordX.ToString() + "," + cor.CoordX.ToString() + ";"; // trenutnaX,trenutnaY;
+            //    index++;
 
-            }
+            //}
             ////krajnji response:
             ////  4:45.12,19.154; 7:46.12,19.7754;
             ////  
@@ -68,15 +68,15 @@ namespace WebApp.Hubs
         public void TimeServerUpdates()
         {
            // ApplicationDbContext dbContext = ApplicationDbContext.Create();
-            List<Driveline> lines = unitOfWork.Drivelines.GetAllDriveLines();
-            foreach (var line in lines)
-            {
-                lineStations.Add(line.Number, new List<Station>());
-                foreach (var station in line.Stations)
-                {
-                    lineStations[line.Number].Add(station);
-                }
-            }
+            //List<Driveline> lines = unitOfWork.Drivelines.GetAllDriveLines();
+            //foreach (var line in lines)
+            //{
+            //    lineStations.Add(line.Number, new List<Station>());
+            //    foreach (var station in line.Stations)
+            //    {
+            //        lineStations[line.Number].Add(station);
+            //    }
+            //}
 
             timer.Interval = 3000;
             timer.Start();

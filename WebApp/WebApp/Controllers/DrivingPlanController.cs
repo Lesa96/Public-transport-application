@@ -127,9 +127,10 @@ namespace WebApp.Controllers
         [Authorize(Roles = "Admin")]
         public IHttpActionResult DeleteDrivingPlan(int id)
         {
-            if(unitOfWork.DrivingPlans.DeleteDrivingPlan(id) == HttpStatusCode.OK)
+            HttpStatusCode response = unitOfWork.DrivingPlans.DeleteDrivingPlan(id);
+            if (response == HttpStatusCode.OK)
                 return Ok();
-            if (unitOfWork.DrivingPlans.DeleteDrivingPlan(id) == HttpStatusCode.Conflict)
+            if (response == HttpStatusCode.Conflict)
                 return Conflict();
 
             return NotFound();
@@ -140,9 +141,10 @@ namespace WebApp.Controllers
         [Authorize(Roles = "Admin")]
         public IHttpActionResult UpdateDrivingPlan(UpdateDrivingPlanBindingModel bindingModel)
         {
-            if(unitOfWork.DrivingPlans.UpdateDrivingPlan(bindingModel.Id, bindingModel.Number , bindingModel.Type , bindingModel.Day , bindingModel.Departures) == HttpStatusCode.OK)
+            HttpStatusCode response = unitOfWork.DrivingPlans.UpdateDrivingPlan(bindingModel.Id, bindingModel.Number, bindingModel.Type, bindingModel.Day, bindingModel.Departures);
+            if (response == HttpStatusCode.OK)
                 return Ok();
-            if (unitOfWork.DrivingPlans.UpdateDrivingPlan(bindingModel.Id, bindingModel.Number, bindingModel.Type, bindingModel.Day, bindingModel.Departures) == HttpStatusCode.Conflict)
+            if (response == HttpStatusCode.Conflict)
                 return Conflict();
 
             return NotFound();

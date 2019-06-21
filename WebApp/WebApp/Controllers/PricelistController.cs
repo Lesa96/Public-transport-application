@@ -140,10 +140,11 @@ namespace WebApp.Controllers
         [Route("DeletePricelist")]
         [Authorize(Roles = "Admin")]
         public IHttpActionResult DeletePricelist(int id)
-        {           
-            if (unitOfWork.Pricelists.DeletePricelist(id) == HttpStatusCode.OK)
+        {
+            HttpStatusCode response = unitOfWork.Pricelists.DeletePricelist(id);
+            if (response == HttpStatusCode.OK)
                 return Ok();
-            if (unitOfWork.Pricelists.DeletePricelist(id) == HttpStatusCode.Conflict)
+            if (response == HttpStatusCode.Conflict)
                 return Conflict();
 
             return NotFound();
@@ -154,10 +155,10 @@ namespace WebApp.Controllers
         [Authorize(Roles = "Admin")]
         public IHttpActionResult UpdatePricelist(UpdatePricelistBindingModel bindingModel)
         {
-            
-            if (unitOfWork.Pricelists.UpdatePricelist(bindingModel) == HttpStatusCode.OK)
+            HttpStatusCode response = unitOfWork.Pricelists.UpdatePricelist(bindingModel);
+            if (response == HttpStatusCode.OK)
                 return Ok();
-            if (unitOfWork.Pricelists.UpdatePricelist(bindingModel) == HttpStatusCode.Conflict)
+            if (response == HttpStatusCode.Conflict)
                 return Conflict();
 
             return NotFound();

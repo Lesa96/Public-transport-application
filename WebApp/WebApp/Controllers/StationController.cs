@@ -77,11 +77,12 @@ namespace WebApp.Controllers
         [Authorize(Roles = "Admin")]
         public IHttpActionResult DeleteStation(string StationName)
         {
-            if (unitOfWork.Stations.DeleteStationByName(StationName) == HttpStatusCode.OK)
+            HttpStatusCode response = unitOfWork.Stations.DeleteStationByName(StationName);
+            if (response == HttpStatusCode.OK)
             {
                 return Ok();
             }
-            if (unitOfWork.Stations.DeleteStationByName(StationName) == HttpStatusCode.Conflict)
+            if (response == HttpStatusCode.Conflict)
             {
                 return Conflict();
             }
@@ -110,15 +111,16 @@ namespace WebApp.Controllers
         [Authorize(Roles = "Admin")]
         public IHttpActionResult UpdateStationInfo(UpdateStationInfoBindingModel bindingModel)
         {
-            if (unitOfWork.Stations.UpdateStationInfo(bindingModel) == HttpStatusCode.OK)
+            HttpStatusCode response = unitOfWork.Stations.UpdateStationInfo(bindingModel);
+            if (response == HttpStatusCode.OK)
             {
                 return Ok();
             }
-            if (unitOfWork.Stations.UpdateStationInfo(bindingModel) == HttpStatusCode.BadRequest)
+            if (response == HttpStatusCode.BadRequest)
             {
                 return BadRequest("There is allready a station with this name, station names must be uniqe");
             }
-            if (unitOfWork.Stations.UpdateStationInfo(bindingModel) == HttpStatusCode.Conflict)
+            if (response == HttpStatusCode.Conflict)
             {
                 return Conflict();
             }

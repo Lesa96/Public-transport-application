@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
 using System.Web.Http;
 using WebApp.Models;
 using WebApp.Persistence.UnitOfWork;
@@ -13,6 +16,7 @@ namespace WebApp.Controllers
     public class DrivelineController : ApiController
     {
         private readonly IUnitOfWork unitOfWork;
+
 
         public DrivelineController(IUnitOfWork unitOfWork)
         {
@@ -68,6 +72,7 @@ namespace WebApp.Controllers
         public IHttpActionResult GetDrivelineNumberById(int id)
         {
             Driveline dr = unitOfWork.Drivelines.GetLineById(id);
+  
             if (dr == null)
                 return NotFound();
 
@@ -103,13 +108,53 @@ namespace WebApp.Controllers
         [HttpPatch, Route("UpdateDriveline")]
         public IHttpActionResult UpdateDriveline(ChangeDrivelineBindingModel bindingModel)
         {
-            if (unitOfWork.Drivelines.UpdateDriveline(bindingModel.DriveLineId, bindingModel.DriveLineNumber, bindingModel.StationNames) == HttpStatusCode.OK)
-                return Ok();
-            if (unitOfWork.Drivelines.UpdateDriveline(bindingModel.DriveLineId, bindingModel.DriveLineNumber, bindingModel.StationNames) == HttpStatusCode.Conflict)
-                return Conflict();
+            //HttpStatusCode response = unitOfWork.Drivelines.UpdateDriveline(bindingModel.DriveLineId, bindingModel.DriveLineNumber, bindingModel.StationNames);
+            //if (response == HttpStatusCode.OK)
+            //    return Ok();
+            //if (response == HttpStatusCode.Conflict)
+            //    return Conflict();
 
-            return NotFound();
+            //return NotFound();
             
+            
+                Driveline dr = unitOfWork.Drivelines.Find(x => x.Id == bindingModel.DriveLineId).FirstOrDefault();
+                
+                if (dr != null)
+                {
+                    dr.Number = bindingModel.DriveLineNumber;
+                    dr.Stations.Clear();
+
+                    if (bindingModel.StationNames != null)
+                    {
+                        foreach (string name in bindingModel.StationNames)
+                        {
+                            dr.Stations.Add(unitOfWork.Stations.Find(s => s.Name == name).FirstOrDefault()); //dodaje stanice u liniju
+                        }
+                    }
+                    unitOfWork.Drivelines.Update(dr);
+
+                    try
+                    {
+                        unitOfWork.Complete();
+
+                        return Ok();
+                    }
+                    catch (DbUpdateConcurrencyException ex)
+                    {
+                        Trace.WriteLine("DbUpdateConcurrencyException Message: {0}", ex.Message);
+                        return Conflict();
+                    }
+                    catch (Exception ex)
+                    {
+                        Trace.WriteLine("NormalException Message: {0}", ex.Message);
+                        return Conflict();
+                    }
+
+                }
+                return NotFound();
+            
+            
+
         }
 
 
@@ -132,12 +177,12 @@ namespace WebApp.Controllers
         [HttpDelete, Route("DeleteDriveline")]
         public IHttpActionResult DeleteDriveline(int number)
         {
-
-            if (unitOfWork.Drivelines.DeleteDriveline(number) == HttpStatusCode.OK)
+            HttpStatusCode response = unitOfWork.Drivelines.DeleteDriveline(number);
+            if (response == HttpStatusCode.OK)
             {
                 return Ok();
             }
-            if (unitOfWork.Drivelines.DeleteDriveline(number) == HttpStatusCode.Conflict)
+            if (response == HttpStatusCode.Conflict)
             {
                 return Conflict();
             }
