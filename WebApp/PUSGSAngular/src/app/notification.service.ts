@@ -62,7 +62,7 @@ export class NotificationService {
     return Observable.create((observer) => {
 
         this.proxy.on('setRealTime', (data: string) => {  
-            console.log('received LINES: ' + data);  
+           // console.log('received LINES: ' + data);  //data je to sto dobijamo sa back-a
             observer.next(data);
         });  
     });      

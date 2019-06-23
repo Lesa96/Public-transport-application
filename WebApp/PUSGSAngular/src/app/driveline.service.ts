@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import {AddDrivelineBindingModel, DrivelineBindingModel} from '../app/Models/AddDrivelineBindingModel'
 import { throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { RoutesBindingModel } from './Models/RoutesBindingModel';
 
 @Injectable({
   providedIn: 'root'
@@ -22,10 +23,25 @@ export class DrivelineService {
   private UpdateDrivelineUri = "http://localhost:8080/api/Driveline/UpdateDriveline";
   private GetStationsByNumberUri = "http://localhost:8080/api/Driveline/GetStationsByDrivelineNumber";
 
+  private SendLineNumberAndRoutesUri = "http://localhost:8080/api/Driveline/AddBussRoutes";
+
   getStationNames() : Observable<any>
   {
     return this.http.get(this.stationNamesUri).pipe(
       catchError(e => throwError(this.handleError(e,"stations")))
+    );
+  }
+
+  SendLineNumberAndRoutes(routesBindingModel : RoutesBindingModel)
+  {
+    let httpOptions = 
+    {
+      headers: { "Content-type": "application/json",
+      "Authorization": "Bearer " + localStorage.jwt
+      }
+    }
+    return this.http.post(this.SendLineNumberAndRoutesUri, routesBindingModel, httpOptions).pipe(      
+      catchError(e => throwError(this.handleError(e,"Route")))
     );
   }
 

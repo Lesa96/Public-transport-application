@@ -32,7 +32,7 @@ export class HomeComponent implements OnInit {
   private departures : Observable<string>;
   isConnected: Boolean;
   notifications: string[];
-  time: string;
+  locationFromBack: string;
 
   constructor(private notifService: NotificationService,private ngZone: NgZone, private homeService : HomeService , private fb: FormBuilder) 
   {
@@ -48,7 +48,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.getDrivelineNumbers();
-    //-----------------------------
+    //--------------------------------------------------------------
     this.checkConnection();
     this.subscribeForNotifications();
     this.subscribeForTime();
@@ -65,7 +65,7 @@ export class HomeComponent implements OnInit {
     this.homeService.getDrivelineNumbers().subscribe(numbers => this.drivelineNumber = numbers);
   }
 
-  //-----------------
+  //---------------------------------------------------------------------------------------
   private checkConnection(){
     this.notifService.startConnection().subscribe(e => {this.isConnected = e; 
         if (e) {
@@ -90,11 +90,11 @@ export class HomeComponent implements OnInit {
   this.notifService.registerForTimerEvents().subscribe(e => this.onTimeEvent(e));
 }
 
-public onTimeEvent(time: string){
+public onTimeEvent(location: string){
   this.ngZone.run(() => { 
-     this.time = time; 
+     this.locationFromBack = location; 
   });  
-  console.warn(this.time);
+  console.warn(this.locationFromBack); //ono sto smo dobili sa back-a
 }
 
 public startTimer() {
@@ -103,12 +103,12 @@ public startTimer() {
 
 public stopTimer() {
   this.notifService.StopTimer();
-  this.time = "";
+  this.locationFromBack = "";
 }
 
 Ispis()
 {
-  console.warn(this.time);
+  console.warn(this.locationFromBack);
 }
 
 

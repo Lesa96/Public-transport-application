@@ -10,6 +10,7 @@ import { DrivelineService } from '../driveline.service';
 import * as mapTypes from '@agm/core/services/google-maps-types';
 import { } from 'googlemaps';
 import { MapsAPILoader } from '@agm/core';
+import { RoutesBindingModel } from '../Models/RoutesBindingModel';
 
 
 @Component({
@@ -21,6 +22,7 @@ import { MapsAPILoader } from '@agm/core';
 export class MapComponent implements OnInit{
 
   @Input() selectedLineNumber : number;
+  @Input() bussGeolocation : GeoLocation;
  
   markerInfos : any[] = [];
   public polyline: Polyline;
@@ -35,6 +37,7 @@ export class MapComponent implements OnInit{
   line : any;
   route : any[] = [];
   //directionService = new google.maps.DirectionsService;
+  sendRoutes = new RoutesBindingModel();
 
 
   constructor(private stationService : StationService , private drivelineService : DrivelineService, private directionsService : google.maps.DirectionsService) { }
@@ -121,7 +124,7 @@ export class MapComponent implements OnInit{
   }
 
   getRoute(origin, destination, waypoints) {
-    let request = {
+     let request = {
       origin: origin,
       destination: destination,
       waypoints: waypoints,
@@ -130,21 +133,43 @@ export class MapComponent implements OnInit{
     
     this.directionsService.route(request, function(result, status) {
       if (status == google.maps.DirectionsStatus.OK) {
-        this.route = [];
+        this.route= [];
         result.routes.forEach(element => {
           let location = new GeoLocation(element.legs[0].steps[0].start_location.lat(), element.legs[0].steps[0].start_location.lng());
           this.route.push(location);
           element.legs[0].steps.forEach(step => {
             let location = new GeoLocation(step.end_location.lat(), step.end_location.lng());
             this.route.push(location);
+            
           }); 
-        });
-      }
+        }
+        );
 
+      }
+      
+     // this.sendRoutes = new RoutesBindingModel();
+     console.warn(this.selectedLineNumber);
+      //this.sendRoutes.LineNumber = this.selectedLineNumber;
       this.route.forEach(rt => {
-        console.log(rt);
+        console.log(rt); //tacke skretanja verovatno
+        
+       // this.sendRoutes.RouteCoordinates.push(rt);
       });
-    });
+
+      
+    }.bind(this)   
+    );
+  }
+
+  sendRoutesToBack()
+  {    
+    this.route.forEach(rt =>
+      {
+        this.sendRoutes.RouteCoordinates.push(rt);
+      //  console.warn(rt);
+      })
+    this.sendRoutes.LineNumber = this.selectedLineNumber;
+    this.drivelineService.SendLineNumberAndRoutes(this.sendRoutes).subscribe();
   }
 
   // placeMarker($event){

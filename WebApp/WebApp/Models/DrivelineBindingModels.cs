@@ -53,4 +53,23 @@ namespace WebApp.Models
         [Display(Name = "Station names")]
         public List<string> StationNames { get; set; }
     }
+
+    public class RoutesBindingModel
+    {
+        [Required]
+        [Display(Name = "Driveline number")]
+        public int LineNumber { get; set; }
+
+        [Required]
+        [Display(Name = "Route coordinates")]
+        public Geolocation[] RouteCoordinates { get; set; }
+    }
+
+    public class Geolocation
+    {
+        [Required]
+        public float lat { get; set; }
+        [Required]
+        public float lng { get; set; }
+    }
 }

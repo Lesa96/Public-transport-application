@@ -15,6 +15,7 @@ namespace WebApp.Controllers
     [RoutePrefix("api/Driveline")]
     public class DrivelineController : ApiController
     {
+        private static BussLocationHelper bussLocation = new BussLocationHelper();
         private readonly IUnitOfWork unitOfWork;
 
 
@@ -22,6 +23,15 @@ namespace WebApp.Controllers
         {
             this.unitOfWork = unitOfWork;
         }
+
+        [HttpPost, Route("AddBussRoutes")]
+        public IHttpActionResult AddBussRoutes(RoutesBindingModel routesBindingModel)
+        {
+            bussLocation.AddRoutes(routesBindingModel);
+
+            return Ok();
+        }
+
 
         [HttpGet, Route("GetDrivelineNumbers")]
         public IHttpActionResult GetDrivelineNumbers()

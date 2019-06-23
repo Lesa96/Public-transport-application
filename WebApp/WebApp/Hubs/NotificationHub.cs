@@ -29,8 +29,14 @@ namespace WebApp.Hubs
         private IUnitOfWork unitOfWork;
         private Dictionary<int, List<Station>> lineStations = new Dictionary<int, List<Station>>();
 
+        private static Dictionary<string, List<Geolocation>> routes;
+        
+        
+
         public NotificationHub()
         {
+            
+            routes = new Dictionary<string, List<Geolocation>>();
             unitOfWork = new DemoUnitOfWork(ApplicationDbContext.Create());
         }
 
@@ -43,7 +49,17 @@ namespace WebApp.Hubs
 
         public void GetTime()
         {
+            routes = BussLocationHelper.Instance.GetRoutes(); // pokupi sve rute
+            
+
             string response = "";
+            if (routes.Count != 0)
+            {
+                if (routes["10"].Count - idx == 0)
+                    idx = 0;
+                response = routes["10"][idx].lat.ToString() + ";" + routes["10"][idx].lng.ToString();
+                idx++; 
+            }
             //int index = 0;
             //foreach (var item in lineStations) // za svaku liniju
             //{
@@ -67,6 +83,7 @@ namespace WebApp.Hubs
 
         public void TimeServerUpdates()
         {
+           
            // ApplicationDbContext dbContext = ApplicationDbContext.Create();
             //List<Driveline> lines = unitOfWork.Drivelines.GetAllDriveLines();
             //foreach (var line in lines)
@@ -82,9 +99,11 @@ namespace WebApp.Hubs
             timer.Start();
             timer.Elapsed += OnTimedEvent;
         }
+        private static int idx = 0;
 
-        private void OnTimedEvent(object source, ElapsedEventArgs e)
+        private void OnTimedEvent(object source, ElapsedEventArgs e) //stalno ulazi ovde
         {
+            
             //TODO GetVehiclePosition()
             GetTime();
         }
