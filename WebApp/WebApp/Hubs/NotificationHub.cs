@@ -30,13 +30,15 @@ namespace WebApp.Hubs
         private Dictionary<int, List<Station>> lineStations = new Dictionary<int, List<Station>>();
 
         private static Dictionary<string, List<Geolocation>> routes;
-        
-        
+        private static Dictionary<string, int> lineIndexes;
+
+
 
         public NotificationHub()
         {
             
             routes = new Dictionary<string, List<Geolocation>>();
+            lineIndexes = new Dictionary<string, int>();
             unitOfWork = new DemoUnitOfWork(ApplicationDbContext.Create());
         }
 
@@ -55,10 +57,21 @@ namespace WebApp.Hubs
             string response = "";
             if (routes.Count != 0)
             {
-                if (routes["10"].Count - idx == 0)
-                    idx = 0;
-                response = routes["10"][idx].lat.ToString() + ";" + routes["10"][idx].lng.ToString();
-                idx++; 
+                foreach (var rt in routes)
+                {
+                    if(!lineIndexes.Keys.Contains(rt.Key)) // ako ne postoji brojac za tu liniju
+                    {
+                        lineIndexes.Add(rt.Key, 0);
+                    }
+
+                    if (routes[rt.Key].Count - lineIndexes[rt.Key] == 0) //ako je stigao do pocetne lokacije vrati brojac na 0
+                        lineIndexes[rt.Key] = 0;
+
+                    response += routes[rt.Key][lineIndexes[rt.Key]].lat.ToString() + "," + routes[rt.Key][lineIndexes[rt.Key]].lng.ToString() + ";";
+                    lineIndexes[rt.Key]++;
+
+                }
+
             }
             //int index = 0;
             //foreach (var item in lineStations) // za svaku liniju
@@ -83,8 +96,9 @@ namespace WebApp.Hubs
 
         public void TimeServerUpdates()
         {
-           
-           // ApplicationDbContext dbContext = ApplicationDbContext.Create();
+            
+
+            // ApplicationDbContext dbContext = ApplicationDbContext.Create();
             //List<Driveline> lines = unitOfWork.Drivelines.GetAllDriveLines();
             //foreach (var line in lines)
             //{
@@ -99,7 +113,7 @@ namespace WebApp.Hubs
             timer.Start();
             timer.Elapsed += OnTimedEvent;
         }
-        private static int idx = 0;
+        
 
         private void OnTimedEvent(object source, ElapsedEventArgs e) //stalno ulazi ovde
         {

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, SimpleChanges, SimpleChange } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges, SimpleChange, NgZone } from '@angular/core';
 import { MarkerInfo } from '../Models/MarkerInfo';
 import { GeoLocation } from '../Models/Geolocation';
 import { Polyline } from '../Models/Polyline';
@@ -11,6 +11,7 @@ import * as mapTypes from '@agm/core/services/google-maps-types';
 import { } from 'googlemaps';
 import { MapsAPILoader } from '@agm/core';
 import { RoutesBindingModel } from '../Models/RoutesBindingModel';
+import { NotificationService } from '../notification.service';
 
 
 @Component({
@@ -25,6 +26,7 @@ export class MapComponent implements OnInit{
   @Input() bussGeolocation : GeoLocation;
  
   markerInfos : any[] = [];
+  bussMarkers : any[] = [];
   public polyline: Polyline;
   public zoom: number;
   stations = new Observable<UpdateStationBindingModel>();
@@ -38,9 +40,13 @@ export class MapComponent implements OnInit{
   route : any[] = [];
   //directionService = new google.maps.DirectionsService;
   sendRoutes = new RoutesBindingModel();
+  isConnected: Boolean;
+  notifications: string[];
+  locationFromBack: string;
+  showBusses = false;
 
 
-  constructor(private stationService : StationService , private drivelineService : DrivelineService, private directionsService : google.maps.DirectionsService) { }
+  constructor(private notifService: NotificationService,private ngZone: NgZone, private stationService : StationService , private drivelineService : DrivelineService, private directionsService : google.maps.DirectionsService) { }
 
   ngOnInit() {
 
@@ -66,6 +72,12 @@ export class MapComponent implements OnInit{
 
       
     });
+
+    //--------------------------------------------------------------
+    this.checkConnection();
+    this.subscribeForNotifications();
+    this.subscribeForTime();
+    this.notifService.registerForClickEvents();
 
   
   }
@@ -162,19 +174,90 @@ export class MapComponent implements OnInit{
   }
 
   sendRoutesToBack()
-  {    
-    this.route.forEach(rt =>
-      {
-        this.sendRoutes.RouteCoordinates.push(rt);
-      //  console.warn(rt);
-      })
-    this.sendRoutes.LineNumber = this.selectedLineNumber;
-    this.drivelineService.SendLineNumberAndRoutes(this.sendRoutes).subscribe();
+  { 
+    if(this.route.length != 0)
+    {
+      this.route.forEach(rt =>
+        {
+          this.sendRoutes.RouteCoordinates.push(rt);
+        //  console.warn(rt);
+        })
+      this.sendRoutes.LineNumber = this.selectedLineNumber;
+      this.drivelineService.SendLineNumberAndRoutes(this.sendRoutes).subscribe();
+    }   
+    
+    this.showBusses = true;
   }
 
   // placeMarker($event){
   //   this.polyline.addLocation(new GeoLocation($event.coords.lat, $event.coords.lng))
   //   console.log(this.polyline)
   // }
+
+  //---------------------------------------------------------------------------------------
+  private checkConnection(){
+    this.notifService.startConnection().subscribe(e => {this.isConnected = e; 
+        if (e) {
+          this.notifService.StartTimer()
+        }
+    });
+  }
+
+  private subscribeForNotifications () {
+    this.notifService.notificationReceived.subscribe(e => this.onNotification(e));
+  }
+
+  public onNotification(notif: string) {
+
+    this.ngZone.run(() => { 
+      this.notifications.push(notif);  
+      console.log(this.notifications);
+   });  
+ }
+
+ subscribeForTime() {
+  this.notifService.registerForTimerEvents().subscribe(e => this.onTimeEvent(e));
+}
+
+public onTimeEvent(location: string){
+  this.ngZone.run(() => { 
+     this.locationFromBack = location; 
+  });  
+  console.warn(this.locationFromBack); //ono sto smo dobili sa back-a
+
+  if(this.locationFromBack != "")
+  {
+    this.bussMarkers = [];
+    let coors = this.locationFromBack.split(';');
+    coors.forEach(location =>
+      {
+        let coor = location.split(',');
+        if(coor[0] != "" && coor[1] != "")
+        {
+          let lat = +coor[0]; // + pretvara u broj, ako ne uspe vrati 0
+          let lng = +coor[1];
+          
+  
+          let newMarker = new MarkerInfo(new GeoLocation(lat,lng),
+                "assets/busicon.png","Buss.Name" ,"Line.Number"
+                )
+          this.bussMarkers.push(newMarker);
+        }
+        
+      })
+    
+  }
+  
+
+}
+
+public startTimer() {
+  this.notifService.StartTimer();
+}
+
+public stopTimer() {
+  this.notifService.StopTimer();
+  this.locationFromBack = "";
+}
 
 }

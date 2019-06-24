@@ -49,10 +49,7 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.getDrivelineNumbers();
     //--------------------------------------------------------------
-    this.checkConnection();
-    this.subscribeForNotifications();
-    this.subscribeForTime();
-    this.notifService.registerForClickEvents();
+    
   }
 
   getDrivingPlanDepartures()
@@ -66,50 +63,7 @@ export class HomeComponent implements OnInit {
   }
 
   //---------------------------------------------------------------------------------------
-  private checkConnection(){
-    this.notifService.startConnection().subscribe(e => {this.isConnected = e; 
-        if (e) {
-          this.notifService.StartTimer()
-        }
-    });
-  }
-
-  private subscribeForNotifications () {
-    this.notifService.notificationReceived.subscribe(e => this.onNotification(e));
-  }
-
-  public onNotification(notif: string) {
-
-    this.ngZone.run(() => { 
-      this.notifications.push(notif);  
-      console.log(this.notifications);
-   });  
- }
-
- subscribeForTime() {
-  this.notifService.registerForTimerEvents().subscribe(e => this.onTimeEvent(e));
-}
-
-public onTimeEvent(location: string){
-  this.ngZone.run(() => { 
-     this.locationFromBack = location; 
-  });  
-  console.warn(this.locationFromBack); //ono sto smo dobili sa back-a
-}
-
-public startTimer() {
-  this.notifService.StartTimer();
-}
-
-public stopTimer() {
-  this.notifService.StopTimer();
-  this.locationFromBack = "";
-}
-
-Ispis()
-{
-  console.warn(this.locationFromBack);
-}
+  
 
 
 }

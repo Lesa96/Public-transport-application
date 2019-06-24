@@ -25,7 +25,14 @@
   
   </agm-direction>
 
+  <div *ngIf = "showBusses">
+    <agm-marker *ngFor="let bussMarker of bussMarkers" [latitude]="bussMarker.location.lat" [longitude]="bussMarker.location.lng" [title]="bussMarker.title"
+    [label]="bussMarker.label" [iconUrl]="bussMarker.iconUrl">
+    
+    </agm-marker>
+  </div>
+
 </agm-map>
 
-<button (click) = "sendRoutesToBack()">Start Shit</button>
+<button (click) = "sendRoutesToBack()">Show Busess</button>
 
