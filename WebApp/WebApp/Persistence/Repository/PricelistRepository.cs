@@ -47,35 +47,41 @@ namespace WebApp.Persistence.Repository
 
         public HttpStatusCode UpdatePricelist(UpdatePricelistBindingModel bindingModel)
         {         
-                try
+            try
+            {
+                var pricelist = AppDbContext.Pricelists.Where(p => p.PricelistId == bindingModel.Id).FirstOrDefault();
+                if (pricelist != null)
                 {
-                    var pricelist = AppDbContext.Pricelists.Where(p => p.PricelistId == bindingModel.Id).FirstOrDefault();
-                    if (pricelist != null)
+                    for (int i = 0; i < pricelist.RowVersion.Count(); i++)
                     {
-                        pricelist.ValidFrom = bindingModel.ValidFrom;
-                        pricelist.ValidUntil = bindingModel.ValidUntil;
-                        
-                        foreach (var item in bindingModel.PricelistItems)
-                        {
-                            var pricelistItem = AppDbContext.PricelistItems.Where(pi => pi.PricelistItemId == item.PricelistItemId).FirstOrDefault();
-                            pricelistItem.Price = item.Price;
-                        }
-
-                        AppDbContext.SaveChanges();
-                        return HttpStatusCode.OK;
+                        if (pricelist.RowVersion[i] != bindingModel.RowVersion[i])
+                            return HttpStatusCode.Conflict;
                     }
-                    return HttpStatusCode.NotFound;
+
+                    pricelist.ValidFrom = bindingModel.ValidFrom;
+                    pricelist.ValidUntil = bindingModel.ValidUntil;
+                        
+                    foreach (var item in bindingModel.PricelistItems)
+                    {
+                        var pricelistItem = AppDbContext.PricelistItems.Where(pi => pi.PricelistItemId == item.PricelistItemId).FirstOrDefault();
+                        pricelistItem.Price = item.Price;
+                    }
+
+                    AppDbContext.SaveChanges();
+                    return HttpStatusCode.OK;
                 }
-                catch (DbUpdateConcurrencyException ex)
-                {
-                    Trace.WriteLine("DbUpdateConcurrencyException Message: {0}", ex.Message);
-                    return HttpStatusCode.Conflict;
-                }
-                catch (Exception ex)
-                {
-                    Trace.WriteLine("NormalException Message: {0}", ex.Message);
-                    return HttpStatusCode.Conflict;
-                }
+                return HttpStatusCode.NotFound;
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                Trace.WriteLine("DbUpdateConcurrencyException Message: {0}", ex.Message);
+                return HttpStatusCode.Conflict;
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine("NormalException Message: {0}", ex.Message);
+                return HttpStatusCode.Conflict;
+            }
 
 
         }

@@ -59,6 +59,9 @@ namespace WebApp.Models
         public DateTime ValidUntil { get; set; }
         [Display(Name = "PricelistItems")]
         public virtual ICollection<PricelistItem> PricelistItems { get; set; }
+
+        [Display(Name = "RowVersion")]
+        public byte[] RowVersion { get; set; }
     }
 
     public class DisplayPricelistBindingModel
@@ -73,5 +76,8 @@ namespace WebApp.Models
         [Required]
         [Display(Name = "ValidUntil")]
         public DateTime ValidUntil { get; set; }
+
+        [Display(Name = "RowVersion")]
+        public byte[] RowVersion { get; set; }
     }
 }

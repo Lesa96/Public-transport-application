@@ -45,6 +45,7 @@ export class ChangeStationComponent implements OnInit {
         this.selectedStation.StationAddress = station.Address;
         this.selectedStation.X = station.X;
         this.selectedStation.Y = station.Y;
+        this.selectedStation.RowVersion = station.RowVersion;
 
         this.stationForm = this.fb.group(
           {
@@ -68,6 +69,7 @@ export class ChangeStationComponent implements OnInit {
     this.response.Address = this.stationForm.value.sAddress;
     this.response.X = this.stationForm.value.X;
     this.response.Y = this.stationForm.value.Y;
+    this.response.RowVersion = this.selectedStation.RowVersion;
 
     this.stationService.UpdateStationInfo(this.response).subscribe(()=>{
 

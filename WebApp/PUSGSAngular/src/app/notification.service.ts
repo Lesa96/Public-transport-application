@@ -12,6 +12,7 @@ export class NotificationService {
   private proxyName: string = 'notifications';  
   private connection: any;  
   public connectionExists: Boolean; 
+  public ConnectionID : string;
 
   public notificationReceived: EventEmitter < string >;  
 
@@ -35,6 +36,7 @@ export class NotificationService {
         .done((data: any) => {  
             console.log('Now connected ' + data.transport.name + ', connection ID= ' + data.id)
             this.connectionExists = true;
+            this.ConnectionID = data.id;
 
             observer.next(true);
             observer.complete();
@@ -74,5 +76,10 @@ export class NotificationService {
 
   public StartTimer() {
       this.proxy.invoke("TimeServerUpdates");
+  }
+
+  public AddToGroupe()
+  {
+      this.proxy.invoke("AddToGroupe");
   }
 }

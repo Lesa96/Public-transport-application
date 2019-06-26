@@ -61,44 +61,49 @@ namespace WebApp.Persistence.Repository
 
         }
 
-        public HttpStatusCode UpdateDrivingPlan(int id, int number, DriveType Type, WeekDays Day, ICollection<string> Departures)
+        public HttpStatusCode UpdateDrivingPlan(int id, int number, DriveType Type, WeekDays Day, ICollection<string> Departures, byte[] rowVersion)
         {          
-                try
+            try
+            {
+                var line = AppDbContext.DriveLines.Where(x => x.Number == number).FirstOrDefault();
+                if(line == null)
                 {
-                    var line = AppDbContext.DriveLines.Where(x => x.Number == number).FirstOrDefault();
-                    if(line == null)
-                    {
-                        return HttpStatusCode.NotFound;
-                    }
-                    string departures = "";
-
-                    foreach (var departure in Departures.OrderBy(d => d, StringComparer.Ordinal))
-                    {
-                        departures += departure + ";";
-                    }
-
-                    DrivingPlan drivingPlan = AppDbContext.DrivingPlans.Where(x => x.Id == id).FirstOrDefault();
-
-                    drivingPlan.Type = Type;
-                    drivingPlan.Day = Day;
-                    drivingPlan.DrivelineId = line.Id;
-                    drivingPlan.Departures = departures;
-
-                    AppDbContext.DrivingPlans.Add(drivingPlan);
-                    AppDbContext.SaveChanges();
-
-                    return HttpStatusCode.OK;
+                    return HttpStatusCode.NotFound;
                 }
-                catch (DbUpdateConcurrencyException ex)
+                string departures = "";
+
+                foreach (var departure in Departures.OrderBy(d => d, StringComparer.Ordinal))
                 {
-                    Trace.WriteLine("DbUpdateConcurrencyException Message: {0}", ex.Message);
-                    return HttpStatusCode.Conflict;
+                    departures += departure + ";";
                 }
-                catch (Exception ex)
+
+                DrivingPlan drivingPlan = AppDbContext.DrivingPlans.Where(x => x.Id == id).FirstOrDefault();
+                for (int i = 0; i < rowVersion.Count(); i++)
                 {
-                    Trace.WriteLine("NormalException Message: {0}", ex.Message);
-                    return HttpStatusCode.Conflict;
+                    if (drivingPlan.RowVersion[i] != rowVersion[i])
+                        return HttpStatusCode.Conflict;
                 }
+
+                drivingPlan.Type = Type;
+                drivingPlan.Day = Day;
+                drivingPlan.DrivelineId = line.Id;
+                drivingPlan.Departures = departures;
+
+                //AppDbContext.DrivingPlans.Add(drivingPlan);
+                AppDbContext.SaveChanges();
+
+                return HttpStatusCode.OK;
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                Trace.WriteLine("DbUpdateConcurrencyException Message: {0}", ex.Message);
+                return HttpStatusCode.Conflict;
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine("NormalException Message: {0}", ex.Message);
+                return HttpStatusCode.Conflict;
+            }
 
 
         }

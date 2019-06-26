@@ -19,10 +19,10 @@ namespace WebApp.Controllers
         private static NotificationHub notificationHub;
 
 
-        public DrivingPlanController(IUnitOfWork un)
+        public DrivingPlanController(IUnitOfWork un , NotificationHub hub)
         {
             unitOfWork = un;
-            notificationHub = new NotificationHub(unitOfWork);
+            notificationHub = hub;
         }
 
         [HttpGet]
@@ -68,7 +68,8 @@ namespace WebApp.Controllers
                     Type = drivingPlan.Type,
                     Departures = drivingPlan.Departures,
                     Line = unitOfWork.Drivelines.Get(drivingPlan.DrivelineId).Number,
-                    DrivelineId = drivingPlan.DrivelineId
+                    DrivelineId = drivingPlan.DrivelineId,
+                    RowVersion = drivingPlan.RowVersion
                 };
             return Ok(displayDPBM);
         }
@@ -86,6 +87,8 @@ namespace WebApp.Controllers
             }
             
             var departures = drivingPlan.Departures.Split(';');
+
+            
 
             return Ok(departures);
 
@@ -141,7 +144,7 @@ namespace WebApp.Controllers
         [Authorize(Roles = "Admin")]
         public IHttpActionResult UpdateDrivingPlan(UpdateDrivingPlanBindingModel bindingModel)
         {
-            HttpStatusCode response = unitOfWork.DrivingPlans.UpdateDrivingPlan(bindingModel.Id, bindingModel.Number, bindingModel.Type, bindingModel.Day, bindingModel.Departures);
+            HttpStatusCode response = unitOfWork.DrivingPlans.UpdateDrivingPlan(bindingModel.Id, bindingModel.Number, bindingModel.Type, bindingModel.Day, bindingModel.Departures,bindingModel.RowVersion);
             if (response == HttpStatusCode.OK)
                 return Ok();
             if (response == HttpStatusCode.Conflict)

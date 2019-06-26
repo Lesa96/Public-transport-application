@@ -3,6 +3,7 @@ export class AddStationBindingModel{
     StationAddress : string;
     X : number;
     Y : number;
+    RowVersion : any[];
 }
 
 export class UpdateStationBindingModel{
@@ -11,4 +12,5 @@ export class UpdateStationBindingModel{
     Address : string;
     X : number;
     Y : number;
+    RowVersion : any[];
 }

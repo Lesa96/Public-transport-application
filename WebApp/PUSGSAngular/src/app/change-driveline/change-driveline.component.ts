@@ -34,9 +34,10 @@ export class ChangeDrivelineComponent implements OnInit {
 
   onSelectSubmit()
   {
-    this.drivelineService.GetDrivelineNumberById(this.selectForm.value).subscribe(number=> 
+    this.drivelineService.GetDrivelineNumberById(this.selectForm.value).subscribe(driveline=> 
       {
-        this.selectedLine.Number = number; //broj linije
+        this.selectedLine.Number = driveline.DriveLineNumber; //broj linije
+        this.response.RowVersion = driveline.RowVersion;
         this.GetDrivelineStationsNames(); 
       });
     

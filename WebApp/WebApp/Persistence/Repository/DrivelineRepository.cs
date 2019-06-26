@@ -180,40 +180,45 @@ namespace WebApp.Persistence.Repository
             return stations;
         }
 
-        public HttpStatusCode UpdateDriveline(int id, int number, List<string> stationNames)
+        public HttpStatusCode UpdateDriveline(int id, int number, List<string> stationNames, byte[] rowVersion)
         {
             
-                try
+            try
+            {
+                Driveline dr = AppDbContext.DriveLines.Where(x => x.Id == id).FirstOrDefault();
+                if (dr != null)
                 {
-                    Driveline dr = AppDbContext.DriveLines.Where(x => x.Id == id).FirstOrDefault();
-                    if (dr != null)
+                    for (int i = 0; i < dr.RowVersion.Count(); i++)
                     {
-                        dr.Number = number;
-                        dr.Stations.Clear();
-
-                        if (stationNames != null)
-                        {
-                            foreach (string name in stationNames)
-                            {
-                                dr.Stations.Add(AppDbContext.Stations.Where(s => s.Name == name).FirstOrDefault()); //dodaje stanice u liniju
-                            }
-                        }
-                        AppDbContext.SaveChanges();
-                        
-                        return HttpStatusCode.OK;
+                        if (dr.RowVersion[i] != rowVersion[i])
+                            return HttpStatusCode.Conflict;
                     }
-                    return HttpStatusCode.NotFound;
+                    dr.Number = number;
+                    dr.Stations.Clear();
+
+                    if (stationNames != null)
+                    {
+                        foreach (string name in stationNames)
+                        {
+                            dr.Stations.Add(AppDbContext.Stations.Where(s => s.Name == name).FirstOrDefault()); //dodaje stanice u liniju
+                        }
+                    }
+                    AppDbContext.SaveChanges();
+                        
+                    return HttpStatusCode.OK;
                 }
-                catch (DbUpdateConcurrencyException ex)
-                {
-                    Trace.WriteLine("DbUpdateConcurrencyException Message: {0}", ex.Message);
-                    return HttpStatusCode.Conflict;
-                }
-                catch (Exception ex)
-                {
-                    Trace.WriteLine("NormalException Message: {0}", ex.Message);
-                    return HttpStatusCode.Conflict;
-                }
+                return HttpStatusCode.NotFound;
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                Trace.WriteLine("DbUpdateConcurrencyException Message: {0}", ex.Message);
+                return HttpStatusCode.Conflict;
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine("NormalException Message: {0}", ex.Message);
+                return HttpStatusCode.Conflict;
+            }
 
 
 

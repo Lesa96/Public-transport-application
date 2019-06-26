@@ -13,7 +13,7 @@ namespace WebApp.Persistence.Repository
         Driveline GetLineByNumber(int number);
         Driveline GetLineById(int id);
         bool AddDriveline(int number, List<string> stationNames);
-        HttpStatusCode UpdateDriveline(int id, int number, List<string> stationNames);
+        HttpStatusCode UpdateDriveline(int id, int number, List<string> stationNames, byte[] rowVersion);
         HttpStatusCode DeleteDriveline(int number);
         bool AddStationInLine(int drivelineId, int stationID);
         bool DeleteStationInLine(int drivelineId, int stationID);

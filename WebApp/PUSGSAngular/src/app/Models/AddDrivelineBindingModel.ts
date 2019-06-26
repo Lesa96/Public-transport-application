@@ -9,4 +9,5 @@ export class DrivelineBindingModel{
     DriveLineId : number;
     DriveLineNumber : number;
     StationNames : Array<any>;
+    RowVersion : any[];
 }

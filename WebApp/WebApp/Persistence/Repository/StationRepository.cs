@@ -111,6 +111,7 @@ namespace WebApp.Persistence.Repository
                 Coordinates co = AppDbContext.Coordinates.Where(c => c.CoordinatesId == station.CoordinatesId).FirstOrDefault();
                 res.X = co.CoordX;
                 res.Y = co.CoordY;
+                res.RowVersion = station.RowVersion;
 
                 return res;
             }
@@ -144,42 +145,48 @@ namespace WebApp.Persistence.Repository
 
         public HttpStatusCode UpdateStationInfo(UpdateStationInfoBindingModel bindingModel)
         {
-                try
+            try
+            {
+                Station station = AppDbContext.Stations.Where(x => x.Id == bindingModel.Id).FirstOrDefault();
+                if (station != null)
                 {
-                    Station station = AppDbContext.Stations.Where(x => x.Id == bindingModel.Id).FirstOrDefault();
-                    if (station != null)
+                    Station s = AppDbContext.Stations.Where(x => x.Name == bindingModel.Name && x.Id != bindingModel.Id).FirstOrDefault();
+                    if (s != null) //ako postoji stanica sa takvim imenom, vrati gresku
                     {
-                        Station s = AppDbContext.Stations.Where(x => x.Name == bindingModel.Name && x.Id != bindingModel.Id).FirstOrDefault();
-                        if (s != null) //ako postoji stanica sa takvim imenom, vrati gresku
-                        {
-                            return HttpStatusCode.BadRequest;
-                        }
-
-                        station.Name = bindingModel.Name;
-                        station.Address = bindingModel.Address;
-
-                        Coordinates co = new Coordinates() { CoordX = bindingModel.X, CoordY = bindingModel.Y };
-                        AppDbContext.Coordinates.Add(co);
-
-                        int corId = AppDbContext.Coordinates.Where(x => x.CoordX == co.CoordX && x.CoordY == co.CoordY).FirstOrDefault().CoordinatesId;
-                        station.CoordinatesId = corId;
-
-                        AppDbContext.SaveChanges();
-
-                        return HttpStatusCode.OK;
+                        return HttpStatusCode.BadRequest;
                     }
-                    return HttpStatusCode.NotFound;
+                    
+                    for (int i = 0; i < bindingModel.RowVersion.Count(); i++)
+                    {
+                        if (bindingModel.RowVersion[i] != station.RowVersion[i])
+                            return HttpStatusCode.Conflict;
+                    }
+
+                    station.Name = bindingModel.Name;
+                    station.Address = bindingModel.Address;
+
+                    Coordinates co = new Coordinates() { CoordX = bindingModel.X, CoordY = bindingModel.Y };
+                    AppDbContext.Coordinates.Add(co);
+
+                    int corId = AppDbContext.Coordinates.Where(x => x.CoordX == co.CoordX && x.CoordY == co.CoordY).FirstOrDefault().CoordinatesId;
+                    station.CoordinatesId = corId;
+
+                    AppDbContext.SaveChanges();
+
+                    return HttpStatusCode.OK;
                 }
-                catch (DbUpdateConcurrencyException ex)
-                {
-                    Trace.WriteLine("DbUpdateConcurrencyException Message: {0}", ex.Message);
-                    return HttpStatusCode.Conflict;
-                }
-                catch (Exception ex)
-                {
-                    Trace.WriteLine("NormalException Message: {0}", ex.Message);
-                    return HttpStatusCode.Conflict;
-                }
+                return HttpStatusCode.NotFound;
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                Trace.WriteLine("DbUpdateConcurrencyException Message: {0}", ex.Message);
+                return HttpStatusCode.Conflict;
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine("NormalException Message: {0}", ex.Message);
+                return HttpStatusCode.Conflict;
+            }
 
 
         }

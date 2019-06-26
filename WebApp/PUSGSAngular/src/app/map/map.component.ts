@@ -74,10 +74,12 @@ export class MapComponent implements OnInit{
     });
 
     //--------------------------------------------------------------
+    
     this.checkConnection();
     this.subscribeForNotifications();
     this.subscribeForTime();
     this.notifService.registerForClickEvents();
+    
 
   
   }
@@ -105,18 +107,7 @@ export class MapComponent implements OnInit{
 
   placeLines()
   {
-    // this.lines = [];
-    // for(var i = 0; i < this.selectedStationCount - 1; i++)
-    // {
-    //     let lineModel = new LineModel();
-    //     lineModel.origin = { lat: this.selectedStations[i].X, lng: this.selectedStations[i].Y};
-    //     lineModel.destination = {lat: this.selectedStations[i + 1].X , lng: this.selectedStations[i+1].Y}
-    //     this.lines.push(lineModel);     
-    // }
-    //     let lineModel = new LineModel();
-    //     lineModel.origin = { lat: this.selectedStations[this.selectedStationCount-1].X, lng: this.selectedStations[this.selectedStationCount-1].Y};
-    //     lineModel.destination = {lat: this.selectedStations[0].X , lng: this.selectedStations[0].Y}
-    //     this.lines.push(lineModel)
+    
 
         this.busline = new LineModel();
         this.busline.origin = { lat: this.selectedStations[0].X, lng: this.selectedStations[0].Y };
@@ -175,14 +166,21 @@ export class MapComponent implements OnInit{
 
   sendRoutesToBack()
   { 
+    
+
+    console.warn(this.notifService.ConnectionID);
+
     if(this.route.length != 0)
     {
+      this.sendRoutes.RouteCoordinates = [];
       this.route.forEach(rt =>
         {
           this.sendRoutes.RouteCoordinates.push(rt);
         //  console.warn(rt);
         })
       this.sendRoutes.LineNumber = this.selectedLineNumber;
+      this.sendRoutes.ConId = this.notifService.ConnectionID;
+      console.warn("CON ID JE:  "+this.sendRoutes.ConId);
       this.drivelineService.SendLineNumberAndRoutes(this.sendRoutes).subscribe();
     }   
     

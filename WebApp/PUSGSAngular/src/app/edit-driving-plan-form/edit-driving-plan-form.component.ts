@@ -18,6 +18,7 @@ export class EditDrivingPlanFormComponent implements OnInit {
   drivelineNumbers = [];
   driveline = { type : this.driveType[0], day : this.days[0] , drivelineNumber : this.drivelineNumbers[0]};
   departures : any[] = [];
+  rowVersion : any[];
   
     selectForm = this.fb.group(
       {
@@ -84,6 +85,7 @@ export class EditDrivingPlanFormComponent implements OnInit {
     {
       let bindingModel = this.editForm.value;
       bindingModel['departures'] = this.departures;
+      bindingModel['RowVersion'] = this.selectedPlan.RowVersion;
       this.drivingPlanService.saveDrivingPlan(bindingModel).subscribe();
     }
 

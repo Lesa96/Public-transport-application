@@ -13,6 +13,6 @@ namespace WebApp.Persistence.Repository
     {
         DrivingPlan GetSpecificDrivingPlan(DriveType driveType, WeekDays day, int lineNumber);
         HttpStatusCode DeleteDrivingPlan(int id);
-        HttpStatusCode UpdateDrivingPlan(int id,int number, DriveType Type, WeekDays Day , ICollection<string> Departures);
+        HttpStatusCode UpdateDrivingPlan(int id,int number, DriveType Type, WeekDays Day , ICollection<string> Departures,byte[] rowVersion);
     }
 }

@@ -23,6 +23,9 @@ namespace WebApp.Models
 
         [Display(Name = "Y")]
         public float Y { get; set; }
+
+        [Display(Name = "RowVersion")]
+        public byte[] RowVersion { get; set; }
     }
 
     public class ManageLinesBindingModel

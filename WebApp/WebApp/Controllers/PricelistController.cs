@@ -100,7 +100,8 @@ namespace WebApp.Controllers
             {
                 PricelistId = pricelist.PricelistId,
                 ValidFrom = pricelist.ValidFrom,
-                ValidUntil = pricelist.ValidUntil
+                ValidUntil = pricelist.ValidUntil,
+                RowVersion = pricelist.RowVersion
             };
 
             return Ok(resultPricelist);

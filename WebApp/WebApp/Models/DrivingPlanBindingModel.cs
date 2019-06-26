@@ -66,6 +66,9 @@ namespace WebApp.Models
         [Display(Name = "Departures")]
         public ICollection<string> Departures { get; set; }
 
+        [Display(Name = "RowVersion")]
+        public byte[] RowVersion { get; set; }
+
         public UpdateDrivingPlanBindingModel()
         {
             Departures = new HashSet<string>();
@@ -87,5 +90,8 @@ namespace WebApp.Models
         public DriveType Type { get; set; }
         public string Departures { get; set; }
         public int DrivelineId { get; set; }
+
+        [Display(Name = "RowVersion")]
+        public byte[] RowVersion { get; set; }
     }
 }

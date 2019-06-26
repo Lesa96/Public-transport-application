@@ -52,6 +52,10 @@ namespace WebApp.Models
         [Required]
         [Display(Name = "Station names")]
         public List<string> StationNames { get; set; }
+
+        [Required]
+        [Display(Name = "RowVersion")]
+        public byte[] RowVersion { get; set; }
     }
 
     public class RoutesBindingModel
@@ -63,6 +67,10 @@ namespace WebApp.Models
         [Required]
         [Display(Name = "Route coordinates")]
         public Geolocation[] RouteCoordinates { get; set; }
+
+        [Required]
+        [Display(Name = "Route coordinates")]
+        public string ConId { get; set; }
     }
 
     public class Geolocation

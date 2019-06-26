@@ -22,7 +22,8 @@ export class HomeComponent implements OnInit {
     {
       type : [this.driveline.type],
       day : [this.driveline.day],
-      number : [this.driveline.drivelineNumber , Validators.required]
+      number : [this.driveline.drivelineNumber , Validators.required],
+      
 
     }
   )

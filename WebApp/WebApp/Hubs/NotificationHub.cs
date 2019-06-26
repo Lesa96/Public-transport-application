@@ -34,6 +34,7 @@ namespace WebApp.Hubs
 
 
 
+
         public NotificationHub()
         {
             
@@ -54,7 +55,7 @@ namespace WebApp.Hubs
             routes = BussLocationHelper.Instance.GetRoutes(); // pokupi sve rute
             
 
-            string response = "";
+            Dictionary<string,string> response =new Dictionary<string, string>();
             if (routes.Count != 0)
             {
                 foreach (var rt in routes)
@@ -67,47 +68,27 @@ namespace WebApp.Hubs
                     if (routes[rt.Key].Count - lineIndexes[rt.Key] == 0) //ako je stigao do pocetne lokacije vrati brojac na 0
                         lineIndexes[rt.Key] = 0;
 
-                    response += routes[rt.Key][lineIndexes[rt.Key]].lat.ToString() + "," + routes[rt.Key][lineIndexes[rt.Key]].lng.ToString() + ";";
+                    response[rt.Key] = routes[rt.Key][lineIndexes[rt.Key]].lat.ToString() + "," + routes[rt.Key][lineIndexes[rt.Key]].lng.ToString() + ";";
                     lineIndexes[rt.Key]++;
+                    
 
                 }
 
             }
-            //int index = 0;
-            //foreach (var item in lineStations) // za svaku liniju
-            //{
-            //    response += item.Key.ToString() + ":"; //broj :
 
-            //    Coordinates cor = unitOfWork.CoordinatesRepository.Find(
-            //        x => x.CoordinatesId == lineStations[item.Key][index].CoordinatesId).FirstOrDefault(); //koordinate trenutne stanice
+            if (response.Count != 0)
+            {
+                foreach (var item in response)
+                {
+                    hubContext.Clients.Group(item.Key).setRealTime(item.Value);
+                }
 
-            //    response += cor.CoordX.ToString() + "," + cor.CoordX.ToString() + ";"; // trenutnaX,trenutnaY;
-            //    index++;
-
-            //}
-            ////krajnji response:
-            ////  4:45.12,19.154; 7:46.12,19.7754;
-            ////  
-
-            //Svim klijentima se salje setRealTime poruka
-            Clients.All.setRealTime(response);
-            //Clients.All.setNewPosition();
+            }
         }
 
         public void TimeServerUpdates()
         {
             
-
-            // ApplicationDbContext dbContext = ApplicationDbContext.Create();
-            //List<Driveline> lines = unitOfWork.Drivelines.GetAllDriveLines();
-            //foreach (var line in lines)
-            //{
-            //    lineStations.Add(line.Number, new List<Station>());
-            //    foreach (var station in line.Stations)
-            //    {
-            //        lineStations[line.Number].Add(station);
-            //    }
-            //}
 
             timer.Interval = 3000;
             timer.Start();
@@ -120,6 +101,27 @@ namespace WebApp.Hubs
             
             //TODO GetVehiclePosition()
             GetTime();
+        }
+
+        public void AddToGroupe(string groupe , string conId)
+        {
+            try
+            {
+                if(routes.Count != 0)
+                    foreach (var line in routes.Keys)
+                    {
+                        hubContext.Groups.Remove(conId, line);
+                    }
+            }
+            catch (Exception)
+            {
+
+                
+            }
+            
+            
+           // Groups.Add(conId, groupe);
+            hubContext.Groups.Add(conId, groupe);
         }
 
         public void StopTimeServerUpdates()

@@ -106,6 +106,7 @@ export class EditPricelistFormComponent implements OnInit {
   savePricelist() {
     let bindingModel = this.editForm.value;
       bindingModel['pricelistItems'] = this.pricelistItems;
+      bindingModel['RowVersion'] = this.pricelist.RowVersion;
     this.pricelistService.savePricelist(bindingModel).subscribe();
   }
 
