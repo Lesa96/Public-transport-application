@@ -31,6 +31,7 @@ namespace WebApp.Controllers
         public IHttpActionResult AddBussRoutes(RoutesBindingModel routesBindingModel)
         {
             bussLocation.AddRoutes(routesBindingModel);
+
             notificationHub.AddToGroupe(routesBindingModel.LineNumber.ToString(), routesBindingModel.ConId);
             return Ok();
         }
@@ -245,5 +246,7 @@ namespace WebApp.Controllers
 
             return Ok();
         }
+
+        
     }
 }

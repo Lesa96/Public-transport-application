@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { BuyTicketService } from '../buy-ticket.service';
+import * as paypal from 'src/assets/paypal.js'
+
+declare var initPaypalButton: any;
 
 @Component({
   selector: 'app-buy-ticket',
@@ -11,6 +14,8 @@ import { BuyTicketService } from '../buy-ticket.service';
 export class BuyTicketComponent {
 
   ticketType = ["OneHourTicket", "Daily", "Monthly", "Annual"];
+  price : any;
+  showPrices  = false;
 
   buyForm = this.fb.group({
     email: ['', Validators.compose([Validators.required, 
@@ -20,11 +25,22 @@ export class BuyTicketComponent {
 
   get f() { return this.buyForm.controls; }
 
-  constructor(private buyTicketService : BuyTicketService, private fb: FormBuilder) { }
+  constructor(private buyTicketService : BuyTicketService, private fb: FormBuilder)
+   {
+      this.buyTicketService.getTicketPrices("").subscribe(resposne=>
+        {
+          this.price = resposne;
+          this.showPrices = true;
+          console.warn(resposne);
+
+          initPaypalButton("0",false,"pusgs.testing@gmail.com",this.price,"OneHourTicket");
+        });
+   }
 
   onSubmit()
   {
-    this.buyTicketService.buyUnregistered(this.buyForm.value).subscribe();
+    //zbog paypal-a je ovo trenutno nepotrebno
+    // this.buyTicketService.buyUnregistered(this.buyForm.value).subscribe();
   }
 
 }

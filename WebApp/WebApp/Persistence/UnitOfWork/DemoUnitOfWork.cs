@@ -35,6 +35,8 @@ namespace WebApp.Persistence.UnitOfWork
         public IApplicationUserRepository Users { get; set; }
         [Dependency]
         public ICoordinatesRepository CoordinatesRepository { get; set; }
+        [Dependency]
+        public ITransactionRepository Transactions { get; set; }
 
 
         public int Complete()

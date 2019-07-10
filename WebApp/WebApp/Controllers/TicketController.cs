@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
+using PayPal;
+using PayPalCheckoutSdk.Orders;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -11,6 +13,7 @@ using System.Web.Http;
 using WebApp.Models;
 using WebApp.Models.Enums;
 using WebApp.Persistence.UnitOfWork;
+using System.Threading.Tasks;
 
 namespace WebApp.Controllers
 {
@@ -24,8 +27,36 @@ namespace WebApp.Controllers
             this.unitOfWork = unitOfWork;
         }
 
+        [HttpGet, Route("GetTicketPrices")]
+        public IHttpActionResult GetTicketPrices(string email)
+        {
+            DateTime currentTime = DateTime.Now;
+            if (email == "" || email == null) // za neregistrovane
+            {
+               
+                var pricelistItem = unitOfWork.Pricelists.GetPricelistItemForSelectedTypes(TicketType.OneHourTicket, PassengerType.Regular, currentTime);
+                if (pricelistItem == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(pricelistItem.Price);
+
+            }
+
+            var user = unitOfWork.Users.Find(u => u.Email.Equals(email)).FirstOrDefault();
+            var oneHourPrice = unitOfWork.Pricelists.GetPricelistItemForSelectedTypes(TicketType.OneHourTicket, user.PassengerType, currentTime).Price;
+            var dailyPrice = unitOfWork.Pricelists.GetPricelistItemForSelectedTypes(TicketType.Daily, user.PassengerType, currentTime).Price;
+            var monthPrice = unitOfWork.Pricelists.GetPricelistItemForSelectedTypes(TicketType.Monthly, user.PassengerType, currentTime).Price;
+            var annualPrice = unitOfWork.Pricelists.GetPricelistItemForSelectedTypes(TicketType.Annual, user.PassengerType, currentTime).Price;
+
+            GetPricesBindingModel prices = new GetPricesBindingModel() { OneHour = oneHourPrice, Daily = dailyPrice, Monthly = monthPrice, Annual = annualPrice };
+
+            return Ok(prices);
+        }
+
         [HttpPost, Route("BuyTicket")]
-        public IHttpActionResult BuyTicket(BuyTicketBindingModel bindingModel)
+        public async Task<IHttpActionResult> BuyTicket(BuyTicketBindingModel bindingModel)
         {
             var user = unitOfWork.Users.Find(u => u.Email.Equals(bindingModel.Email)).FirstOrDefault();
             if(user == null)
@@ -40,12 +71,39 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
+            OrdersGetRequest request = new OrdersGetRequest(bindingModel.OrderId);
+            var response = await PayPalClient.client().Execute(request);
+            var result = response.Result<Order>();
+            Transaction transaction;
+
+            if (result.Status == "COMPLETED")
+            {
+                 transaction = new Transaction()
+                {
+                    OrderId = result.Id,
+                    CreateTime = result.CreateTime,
+                    PayerEmail = result.Payer.Email,
+                    Status = result.Status,
+                    UserId = user.Id
+
+                };
+
+                unitOfWork.Transactions.Add(transaction);
+                unitOfWork.Complete();
+
+            }
+            else
+            {
+                return BadRequest("Transaction was not validated.");
+            }
+
             Ticket ticket = new Ticket() {
                 TimeOfPurchase = currentTime,
                 TicketInfo = pricelistItem,
                 IsCanceled = false,
                 PassengerId = user.Id
             };
+            SendTicketToEmail(ticket, transaction.PayerEmail);
 
             unitOfWork.Tickets.Add(ticket);
             unitOfWork.Complete();
@@ -55,13 +113,38 @@ namespace WebApp.Controllers
 
         //BuyUnregistered
         [HttpPost, Route("BuyUnregistered")]
-        public IHttpActionResult BuyUnregistered(BuyUnregisteredBindingModel bindingModel)
+        public async Task<IHttpActionResult> BuyUnregistered(BuyUnregisteredBindingModel bindingModel)
         {
             DateTime currentTime = DateTime.Now;
             var pricelistItem = unitOfWork.Pricelists.GetPricelistItemForSelectedTypes(TicketType.OneHourTicket, PassengerType.Regular, currentTime);
             if (pricelistItem == null)
             {
                 return NotFound();
+            }
+
+            OrdersGetRequest request = new OrdersGetRequest(bindingModel.OrderId);
+            var response = await PayPalClient.client().Execute(request);
+            var result = response.Result<Order>();
+            Transaction transaction;
+
+            if (result.Status == "COMPLETED")
+            {
+                transaction = new Transaction()
+                {
+                    OrderId = result.Id,
+                    CreateTime = result.CreateTime,
+                    PayerEmail = result.Payer.Email,
+                    Status = result.Status,
+                   // UserId = unitOfWork.Users.Find(x => x.Email == bindingModel.email).FirstOrDefault().Id
+                };
+
+                unitOfWork.Transactions.Add(transaction);
+                unitOfWork.Complete();
+
+            }
+            else
+            {
+                return BadRequest("Transaction was not validated.");
             }
 
             Ticket ticket = new Ticket()
@@ -71,7 +154,7 @@ namespace WebApp.Controllers
                 IsCanceled = false
             };
 
-            SendTicketToEmail(ticket, bindingModel.email);
+            SendTicketToEmail(ticket, transaction.PayerEmail);
 
             unitOfWork.Tickets.Add(ticket);
             unitOfWork.Complete();

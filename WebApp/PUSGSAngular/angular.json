@@ -25,7 +25,7 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": ["src/assets/paypal.js"]
           },
           "configurations": {
             "production": {
@@ -85,7 +85,7 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": ["src/assets/paypal.js"]
           }
         },
         "lint": {

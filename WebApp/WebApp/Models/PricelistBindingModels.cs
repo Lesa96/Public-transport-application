@@ -80,4 +80,21 @@ namespace WebApp.Models
         [Display(Name = "RowVersion")]
         public byte[] RowVersion { get; set; }
     }
+
+    public class GetPricesBindingModel
+    {
+        [Required]
+        [Display(Name = "OneHour")]
+        public float OneHour { get; set; }
+
+        [Required]
+        [Display(Name = "Daily")]
+        public float Daily { get; set; }
+        [Required]
+        [Display(Name = "Monthly")]
+        public float Monthly { get; set; }
+
+        [Display(Name = "Annual")]
+        public float Annual { get; set; }
+    }
 }

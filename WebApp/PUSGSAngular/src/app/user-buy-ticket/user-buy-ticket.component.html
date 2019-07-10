@@ -1,13 +1,46 @@
 <app-user-navigation></app-user-navigation>
 <br><br><br>
-<form [formGroup]="buyForm" (ngSubmit)="onSubmit()">
+<form *ngIf ="status != 0 && status != 2" [formGroup]="buyForm" (ngSubmit)="onSubmit()">
   <table>
     <tr>
-      <td colspan="2" align="center">
+      <td colspan="3" align="center">
         <h2>Buy ticket</h2>
       </td>
     </tr>
     <tr>
+      <td *ngIf="showPrices" colspan="2" align="center">
+        <i>One hour price: {{prices.OneHour}}</i>
+      </td>
+        <td colspan="1" align="center">
+          <div id="paypal-button-container-1"></div>
+        </td>
+    </tr>
+    <tr>
+      <td *ngIf="showPrices" colspan="2" align="center">
+        <i>Daily price: {{prices.Daily}}</i>
+      </td>
+      <td colspan="1" align="center">
+        <div id="paypal-button-container-2"></div>
+      </td>
+    </tr>
+    <tr>
+      <td *ngIf="showPrices" colspan="2" align="center">
+        <i>Monthly price: {{prices.Monthly}}</i>
+      </td>
+      <td colspan="1" align="center">
+        <div id="paypal-button-container-3"></div>
+      </td>
+    </tr>
+    <tr>
+      <td *ngIf="showPrices" colspan="2" align="center">
+        <i>Annual price: {{prices.Annual}}</i>
+      </td>
+      <td colspan="1" align="center">
+        <div id="paypal-button-container-4"></div>
+      </td>
+    </tr>
+
+    <!-- <tr>
       <td colspan="2" align="center">
         <i>Please choose ticket type</i>
       </td>
@@ -26,9 +59,11 @@
       <td colspan="2" align="right">
         <button type="submit" class="btn btn-default" [disabled]="buyForm.invalid">Buy ticket</button>
       </td>
-    </tr>
+    </tr> -->
+    
   </table>
 </form>
+
 
 <h2 *ngIf="status==0" align="center">You can't buy tickets before account verification</h2>
 <h2 *ngIf="status==2" align="center">You can't buy tickets because your account has been denied</h2>

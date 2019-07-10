@@ -45,6 +45,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BraintreeHttp-Dotnet, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\BraintreeHttp-Dotnet.0.3.0\lib\netstandard2.0\BraintreeHttp-Dotnet.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.4.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.4.1\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
     </Reference>
@@ -75,6 +78,9 @@
     </Reference>
     <Reference Include="Microsoft.Owin.Security.OAuth, Version=4.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.Security.OAuth.4.0.1\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="PayPalCheckoutSdk, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\PayPalCheckoutSdk.1.0.2\lib\netstandard2.0\PayPalCheckoutSdk.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -278,6 +284,10 @@
     <Compile Include="Migrations\201906131147475_LastVersion.Designer.cs">
       <DependentUpon>201906131147475_LastVersion.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201906301429276_TransactionMigration.cs" />
+    <Compile Include="Migrations\201906301429276_TransactionMigration.Designer.cs">
+      <DependentUpon>201906301429276_TransactionMigration.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -302,6 +312,8 @@
     <Compile Include="Models\StationBindingModels.cs" />
     <Compile Include="Models\Ticket.cs" />
     <Compile Include="Models\TicketBindingModels.cs" />
+    <Compile Include="Models\Transaction.cs" />
+    <Compile Include="PayPal\PayPalClient.cs" />
     <Compile Include="Persistence\ApplicationDbContext.cs" />
     <Compile Include="Persistence\Repository\ApplicationUserRepository.cs" />
     <Compile Include="Persistence\Repository\CoordinatesRepository.cs" />
@@ -318,12 +330,14 @@
     <Compile Include="Persistence\Repository\IRepository.cs" />
     <Compile Include="Persistence\Repository\IStationRepository.cs" />
     <Compile Include="Persistence\Repository\ITicketRepository.cs" />
+    <Compile Include="Persistence\Repository\ITransactionRepository.cs" />
     <Compile Include="Persistence\Repository\PassengerTypeCoefficientRepository.cs" />
     <Compile Include="Persistence\Repository\PricelistItemRepository.cs" />
     <Compile Include="Persistence\Repository\PricelistRepository.cs" />
     <Compile Include="Persistence\Repository\Repository.cs" />
     <Compile Include="Persistence\Repository\StationRepository.cs" />
     <Compile Include="Persistence\Repository\TicketRepository.cs" />
+    <Compile Include="Persistence\Repository\TransactionRepository.cs" />
     <Compile Include="Persistence\UnitOfWork\DemoUnitOfWork.cs" />
     <Compile Include="Persistence\UnitOfWork\IUnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -436,6 +450,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906131147475_LastVersion.resx">
       <DependentUpon>201906131147475_LastVersion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906301429276_TransactionMigration.resx">
+      <DependentUpon>201906301429276_TransactionMigration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

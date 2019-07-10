@@ -7,12 +7,22 @@
         <h2>Buy ticket</h2>
       </td>
     </tr>
+    <tr *ngIf="showPrices">
+      <td colspan="2" align="center">
+        <i>Regular ticket price: {{price}}</i>
+      </td>
+    </tr>
     <tr>
       <td colspan="2" align="center">
         <i>Ticket will be sent to your email</i>
       </td>
     </tr>
     <tr>
+      <td colspan="2" align="center">
+        <div id="paypal-button-container-0"></div>
+      </td>
+    </tr>
+    <!-- <tr>
       <td>
         Email:
       </td>
@@ -22,8 +32,9 @@
     </tr>
     <tr>
       <td colspan="2" align="right">
-        <button type="submit" class="btn btn-default" [disabled]="buyForm.invalid">Buy ticket</button>
+        <button  type="submit" class="btn btn-default" [disabled]="buyForm.invalid">Buy ticket</button>
       </td>
-    </tr>
+    </tr> -->
   </table>
+  
 </form>

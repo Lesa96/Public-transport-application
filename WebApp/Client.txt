@@ -1,0 +1,9 @@
+Client ID :
+AcL_IC6Ezb4musJXtokXFakf3D-vBorL94XRPhhIdS3j-C8GLs75EH7MBmaFTsxLKssFRWklwWzheClY
+
+Secret:
+EDuzXHPIBJ2hpSP3RSKC9YiVICCX9e3Lvim5QeYZbUMHPxQZoXizl_DoygHk_NHlF68gzcXrORBa6Fqb
+
+Testing Client:
+Email: pusgs.testing-buyer@gmail.com
+Pass: 12345678

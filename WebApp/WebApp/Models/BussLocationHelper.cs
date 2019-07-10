@@ -42,6 +42,7 @@ namespace WebApp.Models
                 for (int i = 0; i < routesBindingModel.RouteCoordinates.Count(); i++)
                 {
                     routes[routesBindingModel.LineNumber.ToString()].Add(routesBindingModel.RouteCoordinates[i]);
+                    routes[routesBindingModel.LineNumber.ToString()].Add(routesBindingModel.RouteCoordinates[i]); // iz nekog razloga preskace jednu
                 }
 
                 //salji ka hubu

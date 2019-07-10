@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry, map } from 'rxjs/operators';
 
@@ -10,6 +10,7 @@ export class BuyTicketService {
 
   private buyUnregisteredUri = "http://localhost:8080/api/Ticket/BuyUnregistered";
   private buyTicketUri = "http://localhost:8080/api/Ticket/BuyTicket"
+  private GetTicketPricesUri = "http://localhost:8080/api/Ticket/GetTicketPrices"
 
   constructor(private http: HttpClient) { }
 
@@ -47,6 +48,27 @@ export class BuyTicketService {
       catchError(e => throwError(this.handleError(e,"Ticket")))
     );
 
+  }
+
+  getTicketPrices(email : any) : any
+  {
+    let httpOptions = 
+    {
+      headers: {
+        "Content-type": "application/json",
+        "Authorization": "Bearer " + localStorage.jwt
+      },
+      params: new HttpParams().set('email' , email)
+    }
+    return this.http.get(this.GetTicketPricesUri, httpOptions);
+    // .pipe(
+    //  map(res =>{
+    //    console.warn(res);
+    //    // alert("Succssefuly!");
+    //     //window.location.reload();
+    //  }),
+    //   catchError(e => throwError(this.handleError(e,"Ticket prices")))
+    // );
   }
 
   private handleError(e: HttpErrorResponse , mess : string) {

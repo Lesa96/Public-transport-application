@@ -16,6 +16,9 @@ namespace WebApp.Models
         [Required]
         [Display(Name = "TicketType")]
         public TicketType TicketType { get; set; }
+
+        [Required]
+        public string OrderId { get; set; }
     }
 
     public class BuyUnregisteredBindingModel
@@ -23,6 +26,9 @@ namespace WebApp.Models
         [Required]
         [Display(Name = "Email")]
         public string email { get; set; }
+
+        [Required]
+        public string OrderId { get; set; }
     }
 
     public class TicketValidationBindingModel

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, SimpleChanges, SimpleChange, NgZone } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges, SimpleChange, NgZone, Output } from '@angular/core';
 import { MarkerInfo } from '../Models/MarkerInfo';
 import { GeoLocation } from '../Models/Geolocation';
 import { Polyline } from '../Models/Polyline';
@@ -12,6 +12,7 @@ import { } from 'googlemaps';
 import { MapsAPILoader } from '@agm/core';
 import { RoutesBindingModel } from '../Models/RoutesBindingModel';
 import { NotificationService } from '../notification.service';
+import { EventEmitter } from 'events';
 
 
 @Component({
@@ -24,6 +25,7 @@ export class MapComponent implements OnInit{
 
   @Input() selectedLineNumber : number;
   @Input() bussGeolocation : GeoLocation;
+  @Output() updateBussIcons = new EventEmitter();
  
   markerInfos : any[] = [];
   bussMarkers : any[] = [];
@@ -248,6 +250,7 @@ public onTimeEvent(location: string){
   
 
 }
+
 
 public startTimer() {
   this.notifService.StartTimer();

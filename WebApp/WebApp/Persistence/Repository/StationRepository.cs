@@ -167,6 +167,7 @@ namespace WebApp.Persistence.Repository
 
                     Coordinates co = new Coordinates() { CoordX = bindingModel.X, CoordY = bindingModel.Y };
                     AppDbContext.Coordinates.Add(co);
+                    AppDbContext.SaveChanges();
 
                     int corId = AppDbContext.Coordinates.Where(x => x.CoordX == co.CoordX && x.CoordY == co.CoordY).FirstOrDefault().CoordinatesId;
                     station.CoordinatesId = corId;
